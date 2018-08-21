@@ -1,0 +1,17 @@
+﻿@page
+@model LES_passagens_areas.Pages.passagensModel
+@{
+    ViewData["Title"] = "passagens";
+}
+@if (!string.IsNullOrEmpty(Model.message))
+{
+    <script>alert("@Model.message");</script>
+}
+<h2>passagens</h2>
+
+<form method="POST">
+    nome: @Html.TextBox("name", "color:green")<br />
+    destino: @Html.DropDownList("destino", new SelectList(Model.listItems, "Value", "Text"))<br/>
+    classe: @Html.TextBox("go", new SelectList(Model.listItems, "Value", "Text"))
+    <button type="submit" asp-route-data="foo" asp-page-handler="Way2">Way 2</button>
+</form>

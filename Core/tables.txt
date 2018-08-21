@@ -1,1 +1,18 @@
-﻿
+﻿drop table classe;
+CREATE TABLE classe(
+class_id SERIAL PRIMARY KEY,
+class_nome VARCHAR(50)
+);
+
+CREATE TABLE professores(
+prof_id SERIAL PRIMARY KEY,
+prof_nome VARCHAR(50)
+);
+
+CREATE TABLE prof_area(
+prof_id  SERIAL,
+area_id SERIAL ,
+CONSTRAINT FK_PROF FOREIGN KEY (prof_id) REFERENCES professores(prof_id),
+CONSTRAINT FK_AREA FOREIGN KEY (area_id) REFERENCES area_de_interesse(area_id),
+CONSTRAINT FK_PA PRIMARY KEY (prof_id, area_id)
+);
