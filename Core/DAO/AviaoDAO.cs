@@ -10,10 +10,10 @@ using System.Data;
 
 namespace Core.DAO
 {
-    public class ClasseDAO : AbstractDAO
+    public class AviaoDAO : AbstractDAO
     {
         
-        public  ClasseDAO() : base( "Classe", "class_id")
+        public AviaoDAO() : base( "aviao", "avi_id")
         {
 
         }
@@ -24,8 +24,8 @@ namespace Core.DAO
         {
             if (connection.State == ConnectionState.Closed)
                 connection.Open();
-            Classe Classe = (Classe)entidade;
-            pst.CommandText = "insert into Classe ( class_nome ) values (  :nome )";
+            Aviao Classe = (Aviao)entidade;
+            pst.CommandText = "insert into aviao ( avi_nome ) values (  :nome )";
             parameters = new NpgsqlParameter[]
                     {
                         new NpgsqlParameter("nome",Classe.Nome)
@@ -47,8 +47,8 @@ namespace Core.DAO
             {
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
-                Classe Classe = (Classe)entidade;
-                pst.CommandText = "UPDATE Classe SET class_nome=:nome WHERE class_id=:co";
+                Aviao Classe = (Aviao)entidade;
+                pst.CommandText = "UPDATE aviao SET avi_nome=:nome WHERE avi_id=:co";
                 parameters = new NpgsqlParameter[]
                     {
                         new NpgsqlParameter("nome",Classe.Nome),
@@ -77,7 +77,7 @@ namespace Core.DAO
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
                 pst.Dispose();
-                Classe Classe = (Classe)entidade;
+                Aviao Classe = (Aviao)entidade;
                 string sql = null;
 
                 if (Classe.Nome == null)
@@ -88,16 +88,16 @@ namespace Core.DAO
 
                 if (Classe.ID == 0)
                 {
-                    sql = "SELECT * FROM Classe ";
+                    sql = "SELECT * FROM aviao ";
                 }
                 else
                 {
-                    sql = "SELECT * FROM Classe WHERE class_id= :co";
+                    sql = "SELECT * FROM aviao WHERE avi_id= :co";
                 }
                 pst = new NpgsqlCommand();
 
                 pst.CommandText = sql;
-                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID.ToString()) };
+                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -105,12 +105,12 @@ namespace Core.DAO
                 //pst.ExecuteNonQuery();
                 vai = pst.ExecuteReader();
                 List<EntidadeDominio> Classes = new List<EntidadeDominio>();
-                Classe p;
+                Aviao p;
                 while (vai.Read())
                 {
-                    p = new Classe();
-                    p.ID = Convert.ToInt32(vai["class_id"]);
-                    p.Nome=(vai["class_nome"].ToString());
+                    p = new Aviao();
+                    p.ID = Convert.ToInt32(vai["avi_id"]);
+                    p.Nome=(vai["avi_nome"].ToString());
                     Classes.Add(p);
                 }
                 vai.Close();

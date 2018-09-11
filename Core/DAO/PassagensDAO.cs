@@ -10,10 +10,10 @@ using System.Data;
 
 namespace Core.DAO
 {
-    public class ClasseDAO : AbstractDAO
+    public class PassagensDAO : AbstractDAO
     {
         
-        public  ClasseDAO() : base( "Classe", "class_id")
+        public PassagensDAO() : base("passagens", "pass_id")
         {
 
         }
@@ -24,11 +24,19 @@ namespace Core.DAO
         {
             if (connection.State == ConnectionState.Closed)
                 connection.Open();
-            Classe Classe = (Classe)entidade;
-            pst.CommandText = "insert into Classe ( class_nome ) values (  :nome )";
+            Passagens Classe = (Passagens)entidade;
+            pst.Dispose();
+            pst = new NpgsqlCommand();
+            pst.CommandText = "insert into passagens ( class_id, avi_id,data_chegada,data_partida,pass_lo_chegada,pass_lo_partida,qtd ) values (  :nome,:nom,:no,:nod,:node,:nodei,:dev )";
             parameters = new NpgsqlParameter[]
                     {
-                        new NpgsqlParameter("nome",Classe.Nome)
+                        new NpgsqlParameter("nome",Classe.Tipo.ID),
+                        new NpgsqlParameter("nom",Classe.Aviao_v.ID),
+                        new NpgsqlParameter("no",Classe.DT_chegada),
+                        new NpgsqlParameter("nod",Classe.DT_partida),
+                        new NpgsqlParameter("node",Classe.LO_chegada),
+                        new NpgsqlParameter("nodei",Classe.LO_partida),
+                        new NpgsqlParameter("dev",Classe.QTD)
                     };
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);
@@ -47,11 +55,17 @@ namespace Core.DAO
             {
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
-                Classe Classe = (Classe)entidade;
-                pst.CommandText = "UPDATE Classe SET class_nome=:nome WHERE class_id=:co";
+                Passagens Classe = (Passagens)entidade;
+                pst.CommandText = "UPDATE passagens SET class_id=:nome, avi_id=:nom ,data_chegada=:no ,data_partida=:nod ,pass_lo_chegada=:node,pass_lo_partida=:nodei,qtd=:dev WHERE pass_id=:co";
                 parameters = new NpgsqlParameter[]
                     {
-                        new NpgsqlParameter("nome",Classe.Nome),
+                        new NpgsqlParameter("nome",Classe.Tipo.ID),
+                        new NpgsqlParameter("nom",Classe.Aviao_v.ID),
+                        new NpgsqlParameter("no",Classe.DT_chegada),
+                        new NpgsqlParameter("nod",Classe.DT_partida),
+                        new NpgsqlParameter("node",Classe.LO_chegada),
+                        new NpgsqlParameter("nodei",Classe.LO_partida),
+                        new NpgsqlParameter("dev",Classe.QTD),
                         new NpgsqlParameter("co",Classe.ID)
                     };
                 pst.Parameters.Clear();
@@ -77,27 +91,20 @@ namespace Core.DAO
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
                 pst.Dispose();
-                Classe Classe = (Classe)entidade;
+                Passagens Classe = (Passagens)entidade;
                 string sql = null;
-
-                if (Classe.Nome == null)
-                {
-                    Classe.Nome="";
-                }
-                
-
                 if (Classe.ID == 0)
                 {
-                    sql = "SELECT * FROM Classe ";
+                    sql = "SELECT * FROM passagens ";
                 }
                 else
                 {
-                    sql = "SELECT * FROM Classe WHERE class_id= :co";
+                    sql = "SELECT * FROM passagens WHERE pass_id= :co";
                 }
                 pst = new NpgsqlCommand();
 
                 pst.CommandText = sql;
-                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID.ToString()) };
+                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -105,12 +112,19 @@ namespace Core.DAO
                 //pst.ExecuteNonQuery();
                 vai = pst.ExecuteReader();
                 List<EntidadeDominio> Classes = new List<EntidadeDominio>();
-                Classe p;
+                Passagens p;
                 while (vai.Read())
                 {
-                    p = new Classe();
-                    p.ID = Convert.ToInt32(vai["class_id"]);
-                    p.Nome=(vai["class_nome"].ToString());
+                    p = new Passagens();
+                    p.ID = Convert.ToInt32(vai["pass_id"]);
+                    p.DT_chegada = Convert.ToDateTime(vai["data_chegada"]);
+                    p.DT_partida = Convert.ToDateTime(vai["data_partida"]);
+                    p.LO_chegada=(vai["pass_lo_chegada"].ToString());
+                    p.LO_partida = (vai["pass_lo_partida"].ToString());
+                    p.Tipo.ID = Convert.ToInt32(vai["class_id"]);
+                    p.Aviao_v.ID = Convert.ToInt32(vai["avi_id"]);
+                    if(vai["qtd"]!=  DBNull.Value)
+                    p.QTD = Convert.ToInt32(vai["qtd"]);
                     Classes.Add(p);
                 }
                 vai.Close();

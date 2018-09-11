@@ -1,18 +1,27 @@
-﻿drop table classe;
+﻿drop table passagens;
+drop table classe;
+drop table aviao;
+
 CREATE TABLE classe(
 class_id SERIAL PRIMARY KEY,
 class_nome VARCHAR(50)
 );
 
-CREATE TABLE professores(
-prof_id SERIAL PRIMARY KEY,
-prof_nome VARCHAR(50)
+create table aviao(
+avi_id SERIAL PRIMARY KEY,
+avi_nome VARCHAR(50)
 );
 
-CREATE TABLE prof_area(
-prof_id  SERIAL,
-area_id SERIAL ,
-CONSTRAINT FK_PROF FOREIGN KEY (prof_id) REFERENCES professores(prof_id),
-CONSTRAINT FK_AREA FOREIGN KEY (area_id) REFERENCES area_de_interesse(area_id),
-CONSTRAINT FK_PA PRIMARY KEY (prof_id, area_id)
+CREATE TABLE passagens(
+pass_id SERIAL PRIMARY KEY,
+pass_lo_chegada VARCHAR(50),
+pass_lo_partida VARCHAR(50),
+qtd int,
+avi_id int,
+class_id int,
+data_partida timestamp,
+data_chegada timestamp,
+CONSTRAINT FK_aviao FOREIGN KEY (avi_id) REFERENCES aviao(avi_id),
+CONSTRAINT FK_class FOREIGN KEY (class_id) REFERENCES classe(class_id)
 );
+

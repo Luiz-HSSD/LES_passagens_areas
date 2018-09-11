@@ -5,13 +5,58 @@
 }
 @if (!string.IsNullOrEmpty(Model.message))
 {
-    <script>alert("@Model.message");</script>
+    <p id="dii" style="display:none; visibility:hidden;" >@Html.Raw(Model.message)</p>
+    <script>alert(document.getElementById("dii").innerHTML);</script>
 }
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
 <h2>passagens</h2>
 
 <form method="POST">
-    nome: @Html.TextBox("name", "color:green")<br />
-    destino: @Html.DropDownList("destino", new SelectList(Model.listItems, "Value", "Text"))<br/>
-    classe: @Html.TextBox("go", new SelectList(Model.listItems, "Value", "Text"))
-    <button type="submit" asp-route-data="foo" asp-page-handler="Way2">Way 2</button>
+    ID: @Html.TextBox("id", (Model.id))<br />
+    Quantidade: @Html.TextBox("qtd", (Model.name))<br />
+    PARTIDA: @Html.TextBox("partida")<br />
+    destino: @Html.TextBox("destino")<br />
+    DT PARTIDA: @Html.TextBox("dt_partida")<br />
+    DT destino: @Html.TextBox("dt_destino")<br />
+    HR PARTIDA: @Html.TextBox("hr_partida")<br />
+    HR destino: @Html.TextBox("hr_destino")<br />
+    classe: @Html.DropDownList("go", new SelectList(Model.GetRoles(), "Value", "Text"))<br />
+    AVIAO: @Html.DropDownList("aviao", new SelectList(Model.GetRoles1(), "Value", "Text"))<br />
+    <button type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way2">cadastrar</button>
+    <button type="submit" class="btn btn-warning" asp-route-data="foo" asp-page-handler="Way3">alterar</button>
+    <button type="submit" class="btn btn-light" asp-route-data="foo" asp-page-handler="Way4">excluir</button>
 </form>
+<br />
+<br />
+<table id="tb_view">
+    <thead><tr><th></th><th>id</th><th>qtd</th><th>partida</th><th>chegada</th><th>data partida</th><th>data chegada</th><th>Classe</th><th>Aviao</th></tr></thead>
+    <tbody>
+        @foreach (Dominio.Passagens objUser in Model.GetRoles2())
+        {
+            <tr>
+                <td>
+                    <a class="btn btn-primary" href='passagens?cod=@objUser.ID.ToString()'>editar</a>
+                    <a class="btn btn-danger" href='passagens?del=@objUser.ID.ToString()'>apagar</a>
+                </td>
+                <td>@objUser.ID.ToString()</td>
+                <td>@objUser.QTD.ToString()</td>
+                <td>@objUser.LO_partida</td>
+                <td>@objUser.LO_chegada</td>
+                <td>@objUser.DT_chegada</td>
+                <td>@objUser.DT_partida</td>
+                <td>@objUser.Tipo.ID.ToString()</td>
+                <td>@objUser.Aviao_v.ID.ToString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tb_view').DataTable();
+    });
+</script>
+<div id="table">
+</div>

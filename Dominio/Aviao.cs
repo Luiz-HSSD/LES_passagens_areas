@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Dominio
 {
-    public class Classe:EntidadeDominio
+    public class Aviao:EntidadeDominio
     {
         private string nome;
 
@@ -12,7 +14,7 @@ namespace Dominio
             set { nome = value; }
         }
 
-        public Classe()
+        public Aviao()
         {
             nome = "";
         }

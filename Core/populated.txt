@@ -1,3 +1,7 @@
 ﻿INSERT INTO Classe(class_nome) VALUES ('economica'),
 			  ('execultiva'),
 			  ('primeira classe');
+
+INSERT INTO aviao(avi_nome) VALUES ('embraer'),
+			  ('bombardier'),
+			  ('boeing');

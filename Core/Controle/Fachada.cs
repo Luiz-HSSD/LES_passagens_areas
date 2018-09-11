@@ -59,8 +59,39 @@ namespace Core.Controle
             rnsClasse.Add("EXCLUIR", rnsExcluirClasse);
             rnsClasse.Add("CONSULTAR", rnsConsultarClasse);
             rns.Add(typeof(Classe).Name, rnsClasse);
+
+            Validar_passagens val_pass = new Validar_passagens();
+            PassagensDAO passDAO = new PassagensDAO();
+            daos.Add(typeof(Passagens).Name, passDAO);
+            List<IStrategy> rnsSalvarPassagens = new List<IStrategy>();
+            rnsSalvarPassagens.Add(val_pass);
+            List<IStrategy> rnsAlterarPassagens = new List<IStrategy>();
+            rnsAlterarPassagens.Add(val_pass);
+            List<IStrategy> rnsExcluirPassagens = new List<IStrategy>();
+            rnsExcluirPassagens.Add(para_ex);
+            List<IStrategy> rnsConsultarPassagens = new List<IStrategy>();
+            Dictionary<string, List<IStrategy>> rnsPassagens = new Dictionary<string, List<IStrategy>>();
+            rnsPassagens.Add("SALVAR", rnsSalvarPassagens);
+            rnsPassagens.Add("ALTERAR", rnsAlterarPassagens);
+            rnsPassagens.Add("EXCLUIR", rnsExcluirPassagens);
+            rnsPassagens.Add("CONSULTAR", rnsConsultarPassagens);
+            rns.Add(typeof(Passagens).Name, rnsPassagens);
+
+            AviaoDAO aviaoDAO = new AviaoDAO();
+            daos.Add(typeof(Aviao).Name, aviaoDAO);
+            List<IStrategy> rnsSalvaraviao = new List<IStrategy>();
+            List<IStrategy> rnsAlteraraviao = new List<IStrategy>();
+            List<IStrategy> rnsExcluiraviao = new List<IStrategy>();
+            rnsExcluiraviao.Add(para_ex);
+            List<IStrategy> rnsConsultaraviao = new List<IStrategy>();
+            Dictionary<string, List<IStrategy>> rnsaviao = new Dictionary<string, List<IStrategy>>();
+            rnsaviao.Add("SALVAR", rnsSalvaraviao);
+            rnsaviao.Add("ALTERAR", rnsAlteraraviao);
+            rnsaviao.Add("EXCLUIR", rnsExcluiraviao);
+            rnsaviao.Add("CONSULTAR", rnsConsultaraviao);
+            rns.Add(typeof(Aviao).Name, rnsaviao);
             //*/
-            
+
         }
         private static readonly Fachada Instance = new Fachada();
 
