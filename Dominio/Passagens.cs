@@ -6,13 +6,7 @@ namespace Dominio
 {
     public class Passagens : EntidadeDominio
     {
-        private Cliente _titular;
 
-        public Cliente Titular
-        {
-            get { return _titular; }
-            set { _titular = value; }
-        }
         private Classe tipo;
 
         public Classe Tipo
@@ -35,17 +29,17 @@ namespace Dominio
             set { dt_partida = value; }
         }
 
-        private string lo_partida;
+        private Aeroporto lo_partida;
 
-        public string LO_partida
+        public Aeroporto LO_partida
         {
             get { return lo_partida; }
             set { lo_partida = value; }
         }
 
-        private string lo_chegada;  
+        private Aeroporto lo_chegada;  
 
-        public string LO_chegada
+        public Aeroporto LO_chegada
         {
             get { return lo_chegada; }
             set { lo_chegada = value; }
@@ -71,14 +65,14 @@ namespace Dominio
 
         public Passagens():base()
         {
-            _titular = new Cliente();
+            
             aviao_v = new Aviao();
             tipo = new Classe();
             qtd = 0;
             dt_chegada = DateTime.Now;
             dt_partida = DateTime.Now;
-            LO_partida = "";
-            LO_chegada = "";
+            LO_partida = new Aeroporto();
+            LO_chegada = new Aeroporto();
         }
     }
 }

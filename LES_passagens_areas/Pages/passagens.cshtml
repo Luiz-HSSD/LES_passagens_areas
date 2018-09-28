@@ -5,7 +5,7 @@
 }
 @if (!string.IsNullOrEmpty(Model.message))
 {
-    <p id="dii" style="display:none; visibility:hidden;" >@Html.Raw(Model.message)</p>
+    <p id="dii" style="display:none; visibility:hidden;">@Html.Raw(Model.message)</p>
     <script>alert(document.getElementById("dii").innerHTML);</script>
 }
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -14,20 +14,33 @@
 <script src="~/js/jquery.mask.min.js"></script>
 <h2>passagens</h2>
 
+@{ 
+    if (Model.partida==null)
+    {
+        Model.partida = "0";
+        Model.chegada = "0";
+    }
+    if (Model.aviao==null|| Model.classe == null)
+    {
+        Model.aviao = new SelectList(Model.GetRoles(), "Value", "Text");
+        Model.classe = new SelectList(Model.GetRoles1(), "Value", "Text");
+    }
+}
 <form method="POST">
-    ID: @Html.TextBox("id", (Model.id))<br />
+    <input id="par" type="hidden" value="@{ WriteLiteral(Model.partida.ToString()); }" /><input id="che" type="hidden" value="@{ WriteLiteral(Model.chegada.ToString()); }" />
+    ID: @Html.TextBox("id", (Model.id), new { @readonly = "readonly" })<br />
     Quantidade: @Html.TextBox("qtd", (Model.name))<br />
-    PARTIDA: @Html.TextBox("partida")<br />
-    destino: @Html.TextBox("destino")<br />
-    DT PARTIDA: @Html.TextBox("dt_partida")<br />
-    DT destino: @Html.TextBox("dt_destino")<br />
-    HR PARTIDA: @Html.TextBox("hr_partida")<br />
-    HR destino: @Html.TextBox("hr_destino")<br />
-    classe: @Html.DropDownList("go", new SelectList(Model.GetRoles(), "Value", "Text"))<br />
-    AVIAO: @Html.DropDownList("aviao", new SelectList(Model.GetRoles1(), "Value", "Text"))<br />
+    PARTIDA: @Html.DropDownList("partida", (Model.GetRoles4()))<br />
+    destino: @Html.DropDownList("destino", (Model.GetRoles4()))<br />
+    DT PARTIDA: @Html.TextBox("dt_partida", (Model.dat_partida))<br />
+    DT destino: @Html.TextBox("dt_destino", (Model.dat_chegada))<br />
+    HR PARTIDA: @Html.TextBox("hr_partida", (Model.hor_partida))<br />
+    HR destino: @Html.TextBox("hr_destino", (Model.hor_chegada))<br />
+    classe: @Html.DropDownList("go", Model.aviao)<br />
+    AVIAO: @Html.DropDownList("aviao", Model.classe) (nome marca serie)<br />
     <button type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way2">cadastrar</button>
     <button type="submit" class="btn btn-warning" asp-route-data="foo" asp-page-handler="Way3">alterar</button>
-    <button type="submit" class="btn btn-light" asp-route-data="foo" asp-page-handler="Way4">excluir</button>
+    <button type="submit" class="btn btn-light" asp-route-data="foo" asp-page-handler="Way4">cancelar</button>
 </form>
 <br />
 <br />
@@ -43,10 +56,10 @@
                 </td>
                 <td>@objUser.ID.ToString()</td>
                 <td>@objUser.QTD.ToString()</td>
-                <td>@objUser.LO_partida</td>
-                <td>@objUser.LO_chegada</td>
-                <td>@objUser.DT_chegada</td>
+                <td>@objUser.LO_partida.ID</td>
+                <td>@objUser.LO_chegada.ID</td>
                 <td>@objUser.DT_partida</td>
+                <td>@objUser.DT_chegada</td>
                 <td>@objUser.Tipo.ID.ToString()</td>
                 <td>@objUser.Aviao_v.ID.ToString()</td>
             </tr>
@@ -59,7 +72,13 @@
         $('#dt_partida').mask('00/00/0000');
         $('#hr_partida').mask('00:00');
         $('#dt_destino').mask('00/00/0000');
-        $('#hr_destino').mask('00:00');
+        if ($("#destino").val()!=0) {
+            $("#destino").prop('selectedIndex', $("#che").val() - 1);
+            $("#partida").prop('selectedIndex', $("#par").val() - 1);
+
+        }
+
+
     });
 
 </script>

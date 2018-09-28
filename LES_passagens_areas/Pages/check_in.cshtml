@@ -1,0 +1,182 @@
+﻿@page
+@model LES_passagens_areas.Pages.check_inModel
+@{
+    ViewData["Title"] = "check_in";
+}
+
+@if (!string.IsNullOrEmpty(Model.message))
+{
+    <p id="dii" style="display:none; visibility:hidden;">@Html.Raw(Model.message)</p>
+    <script>alert(document.getElementById("dii").innerHTML);</script>
+}
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="~/js/jquery.mask.min.js"></script>
+<h2>check-in</h2>
+
+@{
+    //if (Model.bilhete == null || Model.classe == null)
+    {
+        Model.aeroporto = new SelectList(new List<SelectListItem>(), "Value", "Text");
+        Model.voo = new SelectList(new List<SelectListItem>(), "Value", "Text");
+        Model.bilhete = new SelectList(Model.GetRoles(), "Value", "Text");
+        Model.classe = new SelectList(Model.GetRoles1(), "Value", "Text");
+        Model.assento = new SelectList(new List<string>());
+
+    }
+}
+<form method="POST">
+    ID: @Html.TextBox("id", (Model.id), new { @readonly = "readonly" })<br />
+    aeroporto: @Html.DropDownList("aeroporto", Model.aeroporto) <br />
+    voo: @Html.DropDownList("voo", Model.voo) <br />
+    Bilhete: @Html.DropDownList("aviao", Model.bilhete) (nome rg)<br />
+    <table id="tb_vieww">
+        <thead>
+            <tr><th></th><th>id ou indice caso não cadastrado</th><th>dimensões</th><th>peso</th></tr>
+        </thead>
+        <tbody>
+            @foreach (Dominio.Bagagem objUser in Model.GetRoles3())
+            {
+                <tr>
+                    <td>
+                        <a class="btn btn-danger" href='passagens?dele=@objUser.ID.ToString()'>apagar</a>
+                    </td>
+                    <td>@objUser.ID.ToString()</td>
+                    <td>C @objUser.comprimento.ToString() X L @objUser.largura.ToString() X A @objUser.altura.ToString()</td>
+                    <td>@objUser.peso</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    Dimensões: @Html.TextBox("qtd", (Model.name))   Peso: @Html.TextBox("partida", (Model.name))      <button type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way5">Incluir</button> <br />
+    classe: @Html.DropDownList("go", Model.classe)<br />
+    asento: @Html.DropDownList("goo", Model.assento)<br />
+    <button type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way2">cadastrar</button>
+    <button type="submit" class="btn btn-warning" asp-route-data="foo" asp-page-handler="Way3">alterar</button>
+    <button type="submit" class="btn btn-light" asp-route-data="foo" asp-page-handler="Way4">cancelar</button>
+</form>
+<br />
+<br />
+<table id="tb_view">
+    <thead>
+    <tr><th></th><th>id</th><th>qtd</th><th>partida</th><th>chegada</th><th>data partida</th><th>data chegada</th><th>Classe</th><th>Aviao</th></tr>
+    </thead>
+    <tbody>
+        @foreach (Dominio.Passagens objUser in Model.GetRoles2())
+        {
+            <tr>
+                <td>
+                    <a class="btn btn-primary" href='passagens?cod=@objUser.ID.ToString()'>editar</a>
+                    <a class="btn btn-danger" href='passagens?del=@objUser.ID.ToString()'>apagar</a>
+                </td>
+                <td>@objUser.ID.ToString()</td>
+                <td>@objUser.QTD.ToString()</td>
+                <td>@objUser.LO_partida</td>
+                <td>@objUser.LO_chegada</td>
+                <td>@objUser.DT_partida</td>
+                <td>@objUser.DT_chegada</td>
+                <td>@objUser.Tipo.ID.ToString()</td>
+                <td>@objUser.Aviao_v.ID.ToString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script type="text/javascript">
+
+
+    function go() {
+        $('#voo').children('option:not(:first)').remove();
+                $.ajax({
+                type: "GET",
+                url: '/api/devil/aeroporto?cod=0',
+                timeout: 3000,
+                contentType: "application/json; charset=utf-8",
+                cache: false,
+                success: function (devil) {
+                    var ii = 1;
+                    $.each(JSON.parse(devil), function (i, cliente) {
+
+                        $("#voo").append(new Option(cliente.Nome, cliente.ID.toString()));
+                        var o = 10;
+                        var a = (Math.round(lat * o) / o);
+                        var b = (Math.round(cliente.lat * o) / o);
+                        if (a == b)
+                        {
+                            //alert(ii);
+                            //$("#aeroporto").selectedIndex = i;
+                            $("#voo").prop('selectedIndex', ii);
+                        }
+                        ii++;
+                    });
+                }
+            });
+        }
+    $("#aeroporto").append(new Option('Selecione aeroporto:', 0));
+    $("#voo").append(new Option('Selecione voo:', 0));
+    $("#aviao").append(new Option('Selecione bilhete:', 0));
+    var lat = 0.5;
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        }
+    }
+    function showPosition(position) {
+        var latlon = position.coords.latitude + "," + position.coords.longitude;
+         lat = position.coords.latitude;
+    }
+    function showError(error) {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                x.innerHTML = "User denied the request for Geolocation."
+                break;
+            case error.POSITION_UNAVAILABLE:
+                x.innerHTML = "Location information is unavailable."
+                break;
+            case error.TIMEOUT:
+                x.innerHTML = "The request to get user location timed out."
+                break;
+            case error.UNKNOWN_ERROR:
+                x.innerHTML = "An unknown error occurred."
+                break;
+        }
+    }
+    getLocation();
+    $.ajax({
+        type: "GET",
+        url: '/api/devil/aeroporto?cod=0',
+        timeout: 3000,
+        contentType: "application/json; charset=utf-8",
+        cache: false,
+        success: function (devil) {
+            var ii = 1;
+            $.each(JSON.parse(devil), function (i, cliente) {
+
+                $("#aeroporto").append(new Option(cliente.Nome, cliente.ID.toString()));
+                var o = 10;
+                var a = (Math.round(lat * o) / o);
+                var b = (Math.round(cliente.lat * o) / o);
+                if (a == b)
+                {
+                    //alert(ii);
+                    //$("#aeroporto").selectedIndex = i;
+                    $("#aeroporto").prop('selectedIndex', ii);
+                }
+                ii++;
+            });
+        }
+    });    
+    go();        
+
+    $(document).ready(function () {
+        $('#tb_vieww').DataTable({ searching: false, paging: false, info: false, ordering: false });
+        $('#tb_view').DataTable();
+        $('#hr_destino').mask('000.000.000-00');
+        $('#hr_partida').mask('00.000.000-0');
+        $("#aeroporto").change(function (e) {
+            return go();
+        });        
+    });
+</script>
+<div id="table">
+</div>

@@ -111,6 +111,9 @@ namespace Core.DAO
                     p = new Aviao();
                     p.ID = Convert.ToInt32(vai["avi_id"]);
                     p.Nome=(vai["avi_nome"].ToString());
+                    p.Serie = (vai["serie"].ToString());
+                    p.Marca= (vai["marca"].ToString());
+                    p.Lugares = Convert.ToInt32(vai["lugares"]);
                     Classes.Add(p);
                 }
                 vai.Close();

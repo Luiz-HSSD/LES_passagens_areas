@@ -34,8 +34,8 @@ namespace Core.DAO
                         new NpgsqlParameter("nom",Classe.Aviao_v.ID),
                         new NpgsqlParameter("no",Classe.DT_chegada),
                         new NpgsqlParameter("nod",Classe.DT_partida),
-                        new NpgsqlParameter("node",Classe.LO_chegada),
-                        new NpgsqlParameter("nodei",Classe.LO_partida),
+                        new NpgsqlParameter("node",Classe.LO_chegada.ID),
+                        new NpgsqlParameter("nodei",Classe.LO_partida.ID),
                         new NpgsqlParameter("dev",Classe.QTD)
                     };
             pst.Parameters.Clear();
@@ -63,8 +63,8 @@ namespace Core.DAO
                         new NpgsqlParameter("nom",Classe.Aviao_v.ID),
                         new NpgsqlParameter("no",Classe.DT_chegada),
                         new NpgsqlParameter("nod",Classe.DT_partida),
-                        new NpgsqlParameter("node",Classe.LO_chegada),
-                        new NpgsqlParameter("nodei",Classe.LO_partida),
+                        new NpgsqlParameter("node",Classe.LO_chegada.ID),
+                        new NpgsqlParameter("nodei",Classe.LO_partida.ID),
                         new NpgsqlParameter("dev",Classe.QTD),
                         new NpgsqlParameter("co",Classe.ID)
                     };
@@ -97,6 +97,10 @@ namespace Core.DAO
                 {
                     sql = "SELECT * FROM passagens ";
                 }
+                else if (Classe.LO_partida.ID != 0)
+                {
+                    sql = "SELECT * FROM passagens WHERE pass_lo_partida = :cod";
+                }
                 else
                 {
                     sql = "SELECT * FROM passagens WHERE pass_id= :co";
@@ -104,7 +108,7 @@ namespace Core.DAO
                 pst = new NpgsqlCommand();
 
                 pst.CommandText = sql;
-                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID) };
+                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID), new NpgsqlParameter("cod", Classe.LO_partida.ID) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -119,8 +123,8 @@ namespace Core.DAO
                     p.ID = Convert.ToInt32(vai["pass_id"]);
                     p.DT_chegada = Convert.ToDateTime(vai["data_chegada"]);
                     p.DT_partida = Convert.ToDateTime(vai["data_partida"]);
-                    p.LO_chegada=(vai["pass_lo_chegada"].ToString());
-                    p.LO_partida = (vai["pass_lo_partida"].ToString());
+                    p.LO_chegada.ID= Convert.ToInt32(vai["pass_lo_chegada"].ToString());
+                    p.LO_partida.ID = Convert.ToInt32(vai["pass_lo_partida"].ToString());
                     p.Tipo.ID = Convert.ToInt32(vai["class_id"]);
                     p.Aviao_v.ID = Convert.ToInt32(vai["avi_id"]);
                     if(vai["qtd"]!=  DBNull.Value)

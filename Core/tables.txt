@@ -1,6 +1,21 @@
-﻿drop table passagens;
+﻿drop table bilhete;
+drop table bagagem;
+drop table assento;
+drop table check_in;
+drop table viagem;
+drop table passagens;
 drop table classe;
 drop table aviao;
+drop table aeroporto;
+
+
+CREATE TABLE aeroporto(
+aero_id SERIAL PRIMARY KEY,
+sigla VARCHAR(50),
+nome VARCHAR(50),
+lat numeric(10,6),
+lng numeric(10,6)
+);
 
 CREATE TABLE classe(
 class_id SERIAL PRIMARY KEY,
@@ -9,19 +24,75 @@ class_nome VARCHAR(50)
 
 create table aviao(
 avi_id SERIAL PRIMARY KEY,
-avi_nome VARCHAR(50)
+avi_nome VARCHAR(50),
+marca VARCHAR(50),
+serie VARCHAR(50),
+lugares int
 );
 
 CREATE TABLE passagens(
 pass_id SERIAL PRIMARY KEY,
-pass_lo_chegada VARCHAR(50),
-pass_lo_partida VARCHAR(50),
+pass_lo_chegada int,
+pass_lo_partida int,
 qtd int,
 avi_id int,
 class_id int,
 data_partida timestamp,
 data_chegada timestamp,
 CONSTRAINT FK_aviao FOREIGN KEY (avi_id) REFERENCES aviao(avi_id),
-CONSTRAINT FK_class FOREIGN KEY (class_id) REFERENCES classe(class_id)
+CONSTRAINT FK_class FOREIGN KEY (class_id) REFERENCES classe(class_id),
+CONSTRAINT FK_aero_che FOREIGN KEY (pass_lo_chegada) REFERENCES aeroporto(aero_id),
+CONSTRAINT FK_aero_par FOREIGN KEY (pass_lo_partida) REFERENCES aeroporto(aero_id)
 );
 
+
+
+CREATE TABLE viagem
+(
+viagem_id SERIAL PRIMARY KEY,
+qtd int,
+preco_unit numeric(10,5),
+pass_id int,
+class_id int,
+CONSTRAINT FK_voo FOREIGN KEY (pass_id) REFERENCES passagens(pass_id),
+CONSTRAINT FK_class FOREIGN KEY (class_id) REFERENCES Classe(class_id)
+);
+
+CREATE TABLE check_in(
+chck_in_id SERIAL PRIMARY KEY,
+viagem_id int,
+CONSTRAINT FK_aviao FOREIGN KEY (viagem_id) REFERENCES viagem(viagem_id)
+);
+CREATE TABLE bagagem(
+bagagem_id SERIAL PRIMARY KEY,
+comprimento numeric(10,5),
+largura numeric(10,5),
+altura numeric(10,5),
+peso varchar(40),
+chck_in_id int,
+CONSTRAINT FK_dono FOREIGN KEY (chck_in_id) REFERENCES check_in(chck_in_id)
+);
+
+CREATE TABLE assento(
+assento_id SERIAL PRIMARY KEY,
+tag varchar(40),
+chck_in_id int,
+pass_id int,
+class_id int,
+CONSTRAINT FK_ocupante FOREIGN KEY (chck_in_id) REFERENCES check_in(chck_in_id),
+CONSTRAINT FK_classe FOREIGN KEY (class_id) REFERENCES classe(class_id),
+CONSTRAINT FK_voo FOREIGN KEY (pass_id) REFERENCES passagens(pass_id)
+);
+
+CREATE TABLE bilhete
+(
+bilhete_id SERIAL PRIMARY KEY,
+nome varchar(50),
+rg varchar(50),
+cpf varchar(50),
+email varchar(50),
+sexo boolean,
+passaporte varchar(50),
+viagem_id int,
+CONSTRAINT FK_class FOREIGN KEY (viagem_id) REFERENCES viagem(viagem_id)
+);

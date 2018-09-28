@@ -14,15 +14,15 @@ namespace Core.Negocio
             Passagens pass = (Passagens)entidade;
             if (pass.QTD <= 0)
                 resposta += "quantidade inválida\n";
-            if (string.IsNullOrEmpty(pass.LO_chegada))
+            if (pass.LO_chegada.ID==0)
                 resposta += "aeroporto de chegada inválido\n";
-            if (string.IsNullOrEmpty(pass.LO_partida))
+            if (pass.LO_partida.ID==0)
                 resposta += "aeroporto de partida inválido\n";
             if (pass.DT_partida <= DateTime.Now)
                 resposta += "partida não pode ser antes do cadastro\n";
             if (pass.DT_chegada <= DateTime.Now)
                 resposta += "chegada não pode ser antes do cadastro\n";
-            if ((pass.DT_chegada-pass.DT_partida).Hours <= 1)
+            if ((pass.DT_chegada-pass.DT_partida).TotalHours <= 1.0)
                 resposta += "a viagem não pode durar menos que uma hora\n";
             if (!string.IsNullOrEmpty(resposta))
                 return resposta;

@@ -90,6 +90,77 @@ namespace Core.Controle
             rnsaviao.Add("EXCLUIR", rnsExcluiraviao);
             rnsaviao.Add("CONSULTAR", rnsConsultaraviao);
             rns.Add(typeof(Aviao).Name, rnsaviao);
+
+            BagagemDAO bagDAO = new BagagemDAO();
+            daos.Add(typeof(Bagagem).Name, bagDAO);
+            List<IStrategy> rnsSalvarbagagem = new List<IStrategy>();
+            List<IStrategy> rnsAlterarbagagem = new List<IStrategy>();
+            List<IStrategy> rnsExcluirbagagem = new List<IStrategy>();
+            rnsExcluirbagagem.Add(para_ex);
+            List<IStrategy> rnsConsultarbagagem = new List<IStrategy>();
+            Dictionary<string, List<IStrategy>> rnsbagagem = new Dictionary<string, List<IStrategy>>();
+            rnsbagagem.Add("SALVAR", rnsSalvarbagagem);
+            rnsbagagem.Add("ALTERAR", rnsAlterarbagagem);
+            rnsbagagem.Add("EXCLUIR", rnsExcluirbagagem);
+            rnsbagagem.Add("CONSULTAR", rnsConsultarbagagem);
+            rns.Add(typeof(Bagagem).Name, rnsbagagem);
+
+            ViagemDAO ViageDAO = new ViagemDAO();
+            daos.Add(typeof(Viagem).Name, ViageDAO);
+            List<IStrategy> rnsSalvarViagem = new List<IStrategy>();
+            List<IStrategy> rnsAlterarViagem = new List<IStrategy>();
+            List<IStrategy> rnsExcluirViagem = new List<IStrategy>();
+            rnsExcluirViagem.Add(para_ex);
+            List<IStrategy> rnsConsultarViagem = new List<IStrategy>();
+            Dictionary<string, List<IStrategy>> rnsViagem = new Dictionary<string, List<IStrategy>>();
+            rnsViagem.Add("SALVAR", rnsSalvarViagem);
+            rnsViagem.Add("ALTERAR", rnsAlterarViagem);
+            rnsViagem.Add("EXCLUIR", rnsExcluirViagem);
+            rnsViagem.Add("CONSULTAR", rnsConsultarViagem);
+            rns.Add(typeof(Viagem).Name, rnsViagem);
+
+            BilheteDAO bilheDAO = new BilheteDAO();
+            daos.Add(typeof(Bilhete).Name, bilheDAO);
+            List<IStrategy> rnsSalvarBilhete = new List<IStrategy>();
+            List<IStrategy> rnsAlterarBilhete = new List<IStrategy>();
+            List<IStrategy> rnsExcluirBilhete = new List<IStrategy>();
+            rnsExcluirBilhete.Add(para_ex);
+            List<IStrategy> rnsConsultarBilhete = new List<IStrategy>();
+            Dictionary<string, List<IStrategy>> rnsBilhete = new Dictionary<string, List<IStrategy>>();
+            rnsBilhete.Add("SALVAR", rnsSalvarBilhete);
+            rnsBilhete.Add("ALTERAR", rnsAlterarBilhete);
+            rnsBilhete.Add("EXCLUIR", rnsExcluirBilhete);
+            rnsBilhete.Add("CONSULTAR", rnsConsultarBilhete);
+            rns.Add(typeof(Bilhete).Name, rnsBilhete);
+
+            AeroportoDAO AeroDAO = new AeroportoDAO();
+            daos.Add(typeof(Aeroporto).Name, AeroDAO);
+            List<IStrategy> rnsSalvarAeroporto = new List<IStrategy>();
+            List<IStrategy> rnsAlterarAeroporto = new List<IStrategy>();
+            List<IStrategy> rnsExcluirAeroporto = new List<IStrategy>();
+            rnsExcluirAeroporto.Add(para_ex);
+            List<IStrategy> rnsConsultarAeroporto = new List<IStrategy>();
+            Dictionary<string, List<IStrategy>> rnsAeroporto = new Dictionary<string, List<IStrategy>>();
+            rnsAeroporto.Add("SALVAR", rnsSalvarAeroporto);
+            rnsAeroporto.Add("ALTERAR", rnsAlterarAeroporto);
+            rnsAeroporto.Add("EXCLUIR", rnsExcluirAeroporto);
+            rnsAeroporto.Add("CONSULTAR", rnsConsultarAeroporto);
+            rns.Add(typeof(Aeroporto).Name, rnsAeroporto);
+
+            Check_inDAO CheckDAO = new Check_inDAO();
+            daos.Add(typeof(Check_in).Name, CheckDAO);
+            List<IStrategy> rnsSalvarCheck_in = new List<IStrategy>();
+            List<IStrategy> rnsAlterarCheck_in = new List<IStrategy>();
+            List<IStrategy> rnsExcluirCheck_in = new List<IStrategy>();
+            rnsExcluirCheck_in.Add(para_ex);
+            List<IStrategy> rnsConsultarCheck_in = new List<IStrategy>();
+            Dictionary<string, List<IStrategy>> rnsCheck_in = new Dictionary<string, List<IStrategy>>();
+            rnsCheck_in.Add("SALVAR", rnsSalvarCheck_in);
+            rnsCheck_in.Add("ALTERAR", rnsAlterarCheck_in);
+            rnsCheck_in.Add("EXCLUIR", rnsExcluirCheck_in);
+            rnsCheck_in.Add("CONSULTAR", rnsConsultarCheck_in);
+            rns.Add(typeof(Check_in).Name, rnsCheck_in);
+
             //*/
 
         }
