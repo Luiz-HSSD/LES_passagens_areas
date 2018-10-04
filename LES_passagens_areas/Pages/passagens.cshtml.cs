@@ -89,7 +89,7 @@ namespace LES_passagens_areas.Pages
         {
             classe= (SelectList)GetRoles();
             aviao =(SelectList) GetRoles1();
-            aviao = (SelectList)GetRoles1();
+            //aviao = (SelectList)GetRoles1();
             id = "";
             name = "";
             partida = "";

@@ -22,8 +22,8 @@
     }
     if (Model.aviao==null|| Model.classe == null)
     {
-        Model.aviao = new SelectList(Model.GetRoles(), "Value", "Text");
-        Model.classe = new SelectList(Model.GetRoles1(), "Value", "Text");
+        Model.classe = new SelectList(Model.GetRoles(), "Value", "Text");
+        Model.aviao = new SelectList(Model.GetRoles1(), "Value", "Text");
     }
 }
 <form method="POST">
@@ -36,8 +36,8 @@
     DT destino: @Html.TextBox("dt_destino", (Model.dat_chegada))<br />
     HR PARTIDA: @Html.TextBox("hr_partida", (Model.hor_partida))<br />
     HR destino: @Html.TextBox("hr_destino", (Model.hor_chegada))<br />
-    classe: @Html.DropDownList("go", Model.aviao)<br />
-    AVIAO: @Html.DropDownList("aviao", Model.classe) (nome marca serie)<br />
+    classe: @Html.DropDownList("go", Model.classe)<br />
+    AVIAO: @Html.DropDownList("aviao", Model.aviao) (nome marca serie)<br />
     <button type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way2">cadastrar</button>
     <button type="submit" class="btn btn-warning" asp-route-data="foo" asp-page-handler="Way3">alterar</button>
     <button type="submit" class="btn btn-light" asp-route-data="foo" asp-page-handler="Way4">cancelar</button>

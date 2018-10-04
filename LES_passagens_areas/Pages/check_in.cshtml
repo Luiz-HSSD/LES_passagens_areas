@@ -20,7 +20,7 @@
     {
         Model.aeroporto = new SelectList(new List<SelectListItem>(), "Value", "Text");
         Model.voo = new SelectList(new List<SelectListItem>(), "Value", "Text");
-        Model.bilhete = new SelectList(Model.GetRoles(), "Value", "Text");
+        Model.bilhete = new SelectList(new List<SelectListItem>(), "Value", "Text");
         Model.classe = new SelectList(Model.GetRoles1(), "Value", "Text");
         Model.assento = new SelectList(new List<string>());
 
@@ -30,7 +30,7 @@
     ID: @Html.TextBox("id", (Model.id), new { @readonly = "readonly" })<br />
     aeroporto: @Html.DropDownList("aeroporto", Model.aeroporto) <br />
     voo: @Html.DropDownList("voo", Model.voo) <br />
-    Bilhete: @Html.DropDownList("aviao", Model.bilhete) (nome rg)<br />
+    Bilhete: @Html.DropDownList("bilhete", Model.bilhete) (nome rg)<br />
     <table id="tb_vieww">
         <thead>
             <tr><th></th><th>id ou indice caso não cadastrado</th><th>dimensões</th><th>peso</th></tr>
@@ -60,7 +60,7 @@
 <br />
 <table id="tb_view">
     <thead>
-    <tr><th></th><th>id</th><th>qtd</th><th>partida</th><th>chegada</th><th>data partida</th><th>data chegada</th><th>Classe</th><th>Aviao</th></tr>
+    <tr><th></th><th>id</th><th>qtd</th><th>partida</th><th>chegada</th><th>data partida</th><th>data chegada</th><th>Classe</th><th>bilhete</th></tr>
     </thead>
     <tbody>
         @foreach (Dominio.Passagens objUser in Model.GetRoles2())
@@ -83,21 +83,28 @@
     </tbody>
 </table>
 <script type="text/javascript">
-
-
+    class bilhete {
+        constructor(id, class_id) {
+            this.id = id;
+            this.class_id = class_id;
+        }
+    }
+    var adidas = new Array();
+    var korn = 0;
+    var metallica = 0;
     function go() {
         $('#voo').children('option:not(:first)').remove();
                 $.ajax({
                 type: "GET",
-                url: '/api/devil/aeroporto?cod=0',
-                timeout: 3000,
+                url: '/api/devil/voo/'+korn,
+                timeout: 30000,
                 contentType: "application/json; charset=utf-8",
                 cache: false,
                 success: function (devil) {
                     var ii = 1;
                     $.each(JSON.parse(devil), function (i, cliente) {
 
-                        $("#voo").append(new Option(cliente.Nome, cliente.ID.toString()));
+                        $("#voo").append(new Option(cliente.LO_chegada.Nome + " " + cliente.DT_partida , cliente.ID.toString()));
                         var o = 10;
                         var a = (Math.round(lat * o) / o);
                         var b = (Math.round(cliente.lat * o) / o);
@@ -111,10 +118,61 @@
                     });
                 }
             });
-        }
+    }
+
+    function gohell() {
+        $('#bilhete').children('option:not(:first)').remove();
+        $.ajax({
+            type: "GET",
+            url: '/api/devil/bilhete/' + korn,
+            timeout: 30000,
+            contentType: "application/json; charset=utf-8",
+            cache: false,
+            error: function () {
+                console.log("erro");
+            },
+            success: function (devil) {
+                //var ii = 1;
+                console.log(" asdfasdfasdfasdf");
+                //alert('a');
+                adidas = [];
+                $.each(JSON.parse(devil), function (i, cliente) {
+
+                    $("#bilhete").append(new Option(cliente.Nome + " " + cliente.RG, cliente.ID.toString()));
+                    //alert(cliente.passagem.Tipo.ID);
+                    adidas.push(new bilhete(cliente.ID, cliente.passagem.Tipo.ID));    
+                });
+            }
+        });
+    }
+
+    function override() {
+        $('#goo').children('option:not(:first)').remove();
+        $.ajax({
+            type: "GET",
+            url: '/api/devil/assento/' + korn+'/'+metallica,
+            timeout: 30000,
+            contentType: "application/json; charset=utf-8",
+            cache: false,
+            error: function () {
+                console.log("erro");
+            },
+            success: function (devil) {
+                //var ii = 1;
+                console.log(" asdfasdfasdfasdf");
+                //alert('a')
+                $.each(JSON.parse(devil), function (i, cliente) {
+
+                    $("#goo").append(new Option(cliente.Tag, cliente.ID.toString()));
+                    
+                });
+            }
+        });
+    }
     $("#aeroporto").append(new Option('Selecione aeroporto:', 0));
     $("#voo").append(new Option('Selecione voo:', 0));
-    $("#aviao").append(new Option('Selecione bilhete:', 0));
+    $("#bilhete").append(new Option('Selecione bilhete:', 0));
+    $("#goo").append(new Option('Selecione assento:', 0));
     var lat = 0.5;
     function getLocation() {
         if (navigator.geolocation) {
@@ -161,12 +219,20 @@
                     //alert(ii);
                     //$("#aeroporto").selectedIndex = i;
                     $("#aeroporto").prop('selectedIndex', ii);
+                    korn = ii;
                 }
                 ii++;
             });
+            go();        
         }
     });    
-    go();        
+
+    function myFunction(item, index) {
+        if (item.id == korn) {
+            korn = item.class_id;
+            return;
+        }
+    }
 
     $(document).ready(function () {
         $('#tb_vieww').DataTable({ searching: false, paging: false, info: false, ordering: false });
@@ -174,8 +240,23 @@
         $('#hr_destino').mask('000.000.000-00');
         $('#hr_partida').mask('00.000.000-0');
         $("#aeroporto").change(function (e) {
+            korn = $("#aeroporto").find(":selected").val();
             return go();
-        });        
+        });
+        $("#voo").change(function (e) {
+            korn = $("#voo").find(":selected").val();
+            console.log("asdfasdf");
+            return gohell();
+        });
+
+        $("#bilhete").change(function (e) {
+            korn = $("#bilhete").find(":selected").val();
+            adidas.forEach(myFunction);
+            $("#go").prop('selectedIndex', korn-1);
+            $("#go").prop('disabled', true);
+            metallica = $("#voo").find(":selected").val();
+            return override();
+        });
     });
 </script>
 <div id="table">

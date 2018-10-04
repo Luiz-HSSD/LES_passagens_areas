@@ -20,7 +20,59 @@ namespace Core.DAO
 
         public override List<EntidadeDominio> consultar(EntidadeDominio entidade)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                pst.Dispose();
+                Assento  Classe = (Assento)entidade;
+                string sql = null;
+
+                if (Classe.Tag == null)
+                {
+                    Classe.Tag = "";
+                }
+
+
+                if (Classe.viagem.ID == 0)
+                {
+                    sql = "SELECT * FROM Assento ";
+                }
+                else
+                {
+                    sql = "SELECT * FROM Assento WHERE pass_id= :co and class_id= :cod";
+                }
+                pst = new NpgsqlCommand();
+
+                pst.CommandText = sql;
+                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.viagem.ID), new NpgsqlParameter("cod", Classe.tipo.ID) };
+                pst.Parameters.Clear();
+                pst.Parameters.AddRange(parameters);
+                pst.Connection = connection;
+                pst.CommandType = CommandType.Text;
+                //pst.ExecuteNonQuery();
+                vai = pst.ExecuteReader();
+                List<EntidadeDominio> Classes = new List<EntidadeDominio>();
+                Assento p;
+                while (vai.Read())
+                {
+                    p = new Assento(new Check_in());
+                    p.ID = Convert.ToInt32(vai["assento_id"]);
+                    p.Tag = (vai["tag"].ToString());
+                    p.viagem.ID = Convert.ToInt32(vai["pass_id"]);
+                    p.tipo.ID = Convert.ToInt32(vai["class_id"]);
+                    if(vai["chck_in_id"]!=DBNull.Value)
+                    p.ocupante.ID = Convert.ToInt32(vai["chck_in_id"]);
+                    Classes.Add(p);
+                }
+                vai.Close();
+                connection.Close();
+                return Classes;
+            }
+            catch (NpgsqlException ora)
+            {
+                throw ora;
+            }
         }
 
         public override void salvar(EntidadeDominio entidade)

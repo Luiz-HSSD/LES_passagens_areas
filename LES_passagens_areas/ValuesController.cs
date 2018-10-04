@@ -49,9 +49,26 @@ namespace LES_passagens_areas
         [HttpGet]
         public string voo(int codd)
         {
-            res = commands["CONSULTAR"].execute(new Dominio.Passagens() { ID = codd });
+            res = commands["CONSULTAR"].execute(new Dominio.Passagens() { LO_chegada = new Dominio.Aeroporto() { ID = codd } });
 
             return JsonConvert.SerializeObject(res.Entidades);
+        }
+
+        [Route("bilhete/{codd}")]
+        [HttpGet]
+        public string bilhete(int codd)
+        {
+            res = commands["CONSULTAR"].execute(new Dominio.Bilhete() { passagem=new Dominio.Viagem() { Voo= new Dominio.Passagens() { ID=codd } } });
+
+            return JsonConvert.SerializeObject(res.Entidades);
+        }
+        [Route("assento/{codd}/{cod}")]
+        [HttpGet]
+        public string assento(int codd,int cod)
+        {
+            res = commands["CONSULTAR"].execute(new Dominio.Assento(new Dominio.Check_in()) {viagem=new Dominio.Passagens() {ID=codd }, tipo=new Dominio.Classe() {ID=cod } });
+
+            return JsonConvert.SerializeObject(res.Entidades, Formatting.None, new JsonSerializerSettings(){ ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
         }
         // POST api/<controller>
         [HttpPost]

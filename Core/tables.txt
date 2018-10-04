@@ -1,7 +1,7 @@
-﻿drop table bilhete;
-drop table bagagem;
+﻿drop table bagagem;
 drop table assento;
 drop table check_in;
+drop table bilhete;
 drop table viagem;
 drop table passagens;
 drop table classe;
@@ -57,11 +57,26 @@ class_id int,
 CONSTRAINT FK_voo FOREIGN KEY (pass_id) REFERENCES passagens(pass_id),
 CONSTRAINT FK_class FOREIGN KEY (class_id) REFERENCES Classe(class_id)
 );
+CREATE TABLE bilhete
+(
+bilhete_id SERIAL PRIMARY KEY,
+nome varchar(50),
+rg varchar(50),
+cpf varchar(50),
+email varchar(50),
+sexo boolean,
+passaporte varchar(50),
+viagem_id int,
+CONSTRAINT FK_class FOREIGN KEY (viagem_id) REFERENCES viagem(viagem_id)
+);
+
 
 CREATE TABLE check_in(
 chck_in_id SERIAL PRIMARY KEY,
 viagem_id int,
-CONSTRAINT FK_aviao FOREIGN KEY (viagem_id) REFERENCES viagem(viagem_id)
+bilhete_id  int,
+CONSTRAINT FK_aviao FOREIGN KEY (viagem_id) REFERENCES viagem(viagem_id),
+CONSTRAINT FK_bilhete FOREIGN KEY (bilhete_id) REFERENCES bilhete(bilhete_id)
 );
 CREATE TABLE bagagem(
 bagagem_id SERIAL PRIMARY KEY,
@@ -84,15 +99,3 @@ CONSTRAINT FK_classe FOREIGN KEY (class_id) REFERENCES classe(class_id),
 CONSTRAINT FK_voo FOREIGN KEY (pass_id) REFERENCES passagens(pass_id)
 );
 
-CREATE TABLE bilhete
-(
-bilhete_id SERIAL PRIMARY KEY,
-nome varchar(50),
-rg varchar(50),
-cpf varchar(50),
-email varchar(50),
-sexo boolean,
-passaporte varchar(50),
-viagem_id int,
-CONSTRAINT FK_class FOREIGN KEY (viagem_id) REFERENCES viagem(viagem_id)
-);

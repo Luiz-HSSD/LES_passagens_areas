@@ -76,7 +76,7 @@ namespace LES_passagens_areas.Pages
         public void OnGet(string cod, string del, string dele)
         {
             classe = (SelectList)GetRoles1();
-            bilhete = (SelectList)GetRoles();
+            //bilhete = (SelectList)GetRoles();
             id = "";
             name = "";
             partida = "";
@@ -87,25 +87,26 @@ namespace LES_passagens_areas.Pages
             hor_chegada = "";
             if (!string.IsNullOrEmpty(cod))
             {
-                res = commands["CONSULTAR"].execute(new Dominio.Passagens() { ID = int.Parse(cod) });
-                var categoria = (Dominio.Passagens)res.Entidades.ElementAt(0);
+                res = commands["CONSULTAR"].execute(new Dominio.Check_in() { ID = int.Parse(cod) });
+                var categoria = (Dominio.Check_in)res.Entidades.ElementAt(0);
                 id = Convert.ToString(categoria.ID);
-                name = categoria.QTD.ToString();
-                partida = categoria.LO_partida.ID.ToString();
-                chegada = categoria.LO_chegada.ID.ToString();
-                dat_partida = categoria.DT_partida.ToString("dd/MM/yyyy");
-                dat_chegada = categoria.DT_chegada.ToString("dd/MM/yyyy");
-                hor_partida = categoria.DT_partida.ToString("HH:mm");
-                hor_chegada = categoria.DT_chegada.ToString("HH:mm");
-                var selected = aeroporto.Where(x => x.Value == categoria.Aviao_v.ID.ToString()).First();
+                var selected = aeroporto.Where(x => x.Value == categoria.Passagem.Voo.LO_partida.ID.ToString()).First();
                 selected.Selected = true;
-                var selected2 = classe.Where(x => x.Value == categoria.Tipo.ID.ToString()).First();
+                var selected2 = voo.Where(x => x.Value == categoria.Passagem.Voo.ID.ToString()).First();
                 selected2.Selected = true;
+                var selected3 = bilhete.Where(x => x.Value == categoria.Entrada.ID.ToString()).First();
+                selected3.Selected = true;
+                var selected4 = classe.Where(x => x.Value == categoria.Passagem.Tipo.ID.ToString()).First();
+                selected4.Selected = true;
+                var selected5 = assento.Where(x => x.Value == categoria.Ocupante.ID.ToString()).First();
+                selected5.Selected = true;
+                lb = categoria.Bagagem;
+                HttpContext.Session.SetObjectAsJson(devil, lb);
             }
             if (!string.IsNullOrEmpty(del))
             {
 
-                commands["EXCLUIR"].execute(new Dominio.Passagens() { ID = int.Parse(del) });
+                commands["EXCLUIR"].execute(new Dominio.Check_in() { ID = int.Parse(del) });
 
             }
             listItems = GetRoles();
@@ -119,32 +120,32 @@ namespace LES_passagens_areas.Pages
         public void OnPostWay2(string data)
         {
             int b = 0;
-            int.TryParse(Request.Form["qtd"].ToString(), out b);
+            int.TryParse(Request.Form["aeroporto"].ToString(), out b);
             int c = 0;
-            int.TryParse(Request.Form["go"].ToString(), out c);
+            int.TryParse(Request.Form["voo"].ToString(), out c);
             int d = 0;
-            int.TryParse(Request.Form["aviao"].ToString(), out d);
-            DateTime e = DateTime.Now;
-            DateTime.TryParseExact(Request.Form["dt_partida"].ToString() + " " + Request.Form["hr_partida"].ToString(), "dd/MM/yyyy HH:mm", new CultureInfo("pt-BR"), DateTimeStyles.None, out e);
-            DateTime f = DateTime.Now;
-            DateTime.TryParseExact(Request.Form["dt_destino"].ToString() + " " + Request.Form["hr_destino"].ToString(), "dd/MM/yyyy HH:mm", new CultureInfo("pt-BR"), DateTimeStyles.None, out f);
-            message = commands["SALVAR"].execute(new Dominio.Passagens() { QTD = b, DT_partida = e, DT_chegada = f, LO_partida = new Aeroporto() { ID = Convert.ToInt32(Request.Form["partida"]) }, LO_chegada = new Aeroporto() { ID = Convert.ToInt32(Request.Form["destino"]) }, Tipo = new Classe() { ID = c }, Aviao_v = new Aviao() { ID = d } }).Msg;
+            int.TryParse(Request.Form["bilhete"].ToString(), out d);
+            int e = 0;
+            int.TryParse(Request.Form["go"].ToString(), out e);
+            int f = 0;
+            int.TryParse(Request.Form["goo"].ToString(), out f);
+            message = commands["SALVAR"].execute(new Dominio.Check_in() { Bagagem = HttpContext.Session.GetObjectFromJson<List<Bagagem>>(devil), Entrada=new Bilhete() { ID=d},Ocupante=new Assento(new Check_in()) { ID=f} ,Passagem=new Viagem() {Tipo=new Classe() { ID=e}, Voo=new Passagens() {ID=c, Tipo = new Classe() { ID = e }, LO_partida =new Aeroporto() { ID=b} } } }).Msg;
         }
         public void OnPostWay3(string data)
         {
             int a = 0;
             int.TryParse(Request.Form["id"].ToString(), out a);
             int b = 0;
-            int.TryParse(Request.Form["qtd"].ToString(), out b);
+            int.TryParse(Request.Form["aeroporto"].ToString(), out b);
             int c = 0;
-            int.TryParse(Request.Form["go"].ToString(), out c);
+            int.TryParse(Request.Form["voo"].ToString(), out c);
             int d = 0;
-            int.TryParse(Request.Form["aviao"].ToString(), out d);
-            DateTime e = DateTime.Now;
-            DateTime.TryParseExact(Request.Form["dt_partida"].ToString() + " " + Request.Form["hr_partida"].ToString(), "dd/MM/yyyy HH:mm", new CultureInfo("pt-BR"), DateTimeStyles.None, out e);
-            DateTime f = DateTime.Now;
-            DateTime.TryParseExact(Request.Form["dt_destino"].ToString() + " " + Request.Form["hr_destino"].ToString(), "dd/MM/yyyy HH:mm", new CultureInfo("pt-BR"), DateTimeStyles.None, out f);
-            message = commands["ALTERAR"].execute(new Dominio.Passagens() { ID = a, DT_partida = e, DT_chegada = f, QTD = b, LO_partida = new Aeroporto() { ID = Convert.ToInt32(Request.Form["partida"]) }, LO_chegada = new Aeroporto() { ID = Convert.ToInt32(Request.Form["destino"]) }, Tipo = new Classe() { ID = c }, Aviao_v = new Aviao() { ID = d } }).Msg;
+            int.TryParse(Request.Form["bilhete"].ToString(), out d);
+            int e = 0;
+            int.TryParse(Request.Form["go"].ToString(), out e);
+            int f = 0;
+            int.TryParse(Request.Form["goo"].ToString(), out f);
+            message = commands["ALTERAR"].execute( new Dominio.Check_in() { ID = a,Bagagem= HttpContext.Session.GetObjectFromJson<List<Bagagem>>(devil),  Entrada = new Bilhete() { ID = d }, Ocupante = new Assento(new Check_in()) { ID = f }, Passagem = new Viagem() { Tipo = new Classe() { ID = e}, Voo = new Passagens() { ID = c, Tipo = new Classe() { ID = e }, LO_partida = new Aeroporto() { ID = b } } } }).Msg;
         }
         public void OnPostWay4(string data)
         {

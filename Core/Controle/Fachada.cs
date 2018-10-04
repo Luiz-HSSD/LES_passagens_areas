@@ -161,6 +161,20 @@ namespace Core.Controle
             rnsCheck_in.Add("CONSULTAR", rnsConsultarCheck_in);
             rns.Add(typeof(Check_in).Name, rnsCheck_in);
 
+            AssentoDAO AsseDAO = new AssentoDAO();
+            daos.Add(typeof(Assento).Name, AsseDAO);
+            List<IStrategy> rnsSalvarAssento = new List<IStrategy>();
+            List<IStrategy> rnsAlterarAssento = new List<IStrategy>();
+            List<IStrategy> rnsExcluirAssento = new List<IStrategy>();
+            rnsExcluirAssento.Add(para_ex);
+            List<IStrategy> rnsConsultarAssento = new List<IStrategy>();
+            Dictionary<string, List<IStrategy>> rnsAssento = new Dictionary<string, List<IStrategy>>();
+            rnsAssento.Add("SALVAR", rnsSalvarAssento);
+            rnsAssento.Add("ALTERAR", rnsAlterarAssento);
+            rnsAssento.Add("EXCLUIR", rnsExcluirAssento);
+            rnsAssento.Add("CONSULTAR", rnsConsultarAssento);
+            rns.Add(typeof(Assento).Name, rnsAssento);
+
             //*/
 
         }
@@ -288,29 +302,7 @@ namespace Core.Controle
             return resultado;
 
         }
-        public Resultado WebService(EntidadeDominio entidade)
-        {
-            resultado = new Resultado();
-            resultado.Msg = "";
-            string nmClasse = entidade.GetType().Name;
-            IStrategy Ws;
-            switch (nmClasse)
-            {
-                case "Endereco":
-                            //Ws = new WS_cep_json();
-                           // resultado.Msg = Ws.processar(entidade); 
-                            break;
-                default:
-                    resultado.Msg = "erro de solitação de serviço!";
-                    return resultado;
-            }
 
-            List<EntidadeDominio> entidades = new List<EntidadeDominio>();
-            entidades.Add(entidade);
-            resultado.Entidades = entidades;
-            resultado.Msg = "";
-            return resultado;
-        }
 
         private string executarRegras(EntidadeDominio entidade, string operacao)
         {

@@ -34,9 +34,13 @@ namespace Core.DAO
                 }
                 
 
-                if (Classe.ID == 0)
+                if (Classe.ID == 0 && Classe.passagem.Voo.ID==0) 
                 {
                     sql = "SELECT * FROM bilhete ";
+                }
+                else if (Classe.ID == 0)
+                {
+                    sql = "SELECT * FROM bilhete join viagem using(viagem_id ) join passagens using(pass_id) WHERE pass_id= :cod";
                 }
                 else
                 {
@@ -45,7 +49,7 @@ namespace Core.DAO
                 pst = new NpgsqlCommand();
 
                 pst.CommandText = sql;
-                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID.ToString()) };
+                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID), new NpgsqlParameter("cod", Classe.passagem.Voo.ID) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -62,7 +66,12 @@ namespace Core.DAO
                     p.cpf= (vai["cpf"].ToString());
                     p.RG = (vai["rg"].ToString());
                     p.Sexo =Convert.ToBoolean(vai["sexo"]);
-                    p.passagem.ID = Convert.ToInt32(vai["sexo"]);
+                    p.passagem.ID = Convert.ToInt32(vai["viagem_id"]);
+                    if (Classe.ID == 0 && Classe.passagem.Voo.ID != 0)
+                    {
+                        p.passagem.Tipo.ID= Convert.ToInt32(vai["class_id"]);
+                        p.passagem.Voo.Tipo.ID = Convert.ToInt32(vai["class_id"]);
+                    }
                     Classes.Add(p);
                 }
                 vai.Close();
@@ -71,6 +80,8 @@ namespace Core.DAO
             }
             catch(NpgsqlException ora)
             {
+                vai.Close();
+                connection.Close();
                 throw ora;
             }
             

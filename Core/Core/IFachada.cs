@@ -10,7 +10,6 @@ namespace Core.Core
          Resultado excluir(EntidadeDominio entidade);
          Resultado consultar(EntidadeDominio entidade);
          Resultado visualizar(EntidadeDominio entidade);
-         Resultado WebService(EntidadeDominio entidade);
 
 
     }

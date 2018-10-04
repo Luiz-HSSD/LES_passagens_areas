@@ -6,20 +6,7 @@ namespace Dominio
 {
     public class Check_in:EntidadeDominio
     {
-        private string _rg;
 
-        public string RG
-        {
-            get { return _rg; }
-            set { _rg = value; }
-        }
-        private string _cpf;
-
-        public string CPF
-        {
-            get { return _cpf; }
-            set { _cpf = value; }
-        }
 
         private List<Bagagem> _Bagagem;
 
@@ -36,13 +23,29 @@ namespace Dominio
             get { return _ocupante; }
             set { _ocupante = value; }
         }
+        private Viagem _passagem;
+
+        public Viagem Passagem
+        {
+            get { return _passagem; }
+            set { _passagem = value; }
+        }
+        private Bilhete _entrada;
+
+        public Bilhete Entrada
+        {
+            get { return _entrada; }
+            set { _entrada = value; }
+        }
+
 
         public Check_in() : base()
         {
-            _rg = "";
-            _cpf = "";
+
             _Bagagem = new List<Bagagem>();
             _ocupante = new Assento(this);
+            _passagem = new Viagem();
+            _entrada = new Bilhete();
 
         }
     }
