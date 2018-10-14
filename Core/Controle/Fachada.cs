@@ -175,6 +175,22 @@ namespace Core.Controle
             rnsAssento.Add("CONSULTAR", rnsConsultarAssento);
             rns.Add(typeof(Assento).Name, rnsAssento);
 
+            Passagem_VendaDAO Pas_VenDAO = new Passagem_VendaDAO();
+            calculo_preco calculo_Precob = new calculo_preco();
+            daos.Add(typeof(Passagem_Venda).Name, Pas_VenDAO);
+            List<IStrategy> rnsSalvarPassagem_Venda = new List<IStrategy>();
+            List<IStrategy> rnsAlterarPassagem_Venda = new List<IStrategy>();
+            List<IStrategy> rnsExcluirPassagem_Venda = new List<IStrategy>();
+            rnsExcluirPassagem_Venda.Add(para_ex);
+            List<IStrategy> rnsConsultarPassagem_Venda = new List<IStrategy>();
+            rnsConsultarPassagem_Venda.Add(calculo_Precob);
+            Dictionary<string, List<IStrategy>> rnsPassagem_Venda = new Dictionary<string, List<IStrategy>>();
+            rnsPassagem_Venda.Add("SALVAR", rnsSalvarPassagem_Venda);
+            rnsPassagem_Venda.Add("ALTERAR", rnsAlterarPassagem_Venda);
+            rnsPassagem_Venda.Add("EXCLUIR", rnsExcluirPassagem_Venda);
+            rnsPassagem_Venda.Add("CONSULTAR", rnsConsultarPassagem_Venda);
+            rns.Add(typeof(Passagem_Venda).Name, rnsPassagem_Venda);
+
             //*/
 
         }

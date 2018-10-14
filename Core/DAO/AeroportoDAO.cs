@@ -45,7 +45,7 @@ namespace Core.DAO
                 pst = new NpgsqlCommand();
 
                 pst.CommandText = sql;
-                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID.ToString()) };
+                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -60,8 +60,8 @@ namespace Core.DAO
                     p.ID = Convert.ToInt32(vai["aero_id"]);
                     p.Nome = (vai["nome"].ToString());
                     p.sigla = (vai["sigla"].ToString());
-                    p.lat =(float)Convert.ToDouble(vai["lat"]);
-                    p.lng = (float)Convert.ToDouble(vai["lng"]);
+                    p.lat =Convert.ToDouble(vai["lat"]);
+                    p.lng = Convert.ToDouble(vai["lng"]);
                     Classes.Add(p);
                 }
                 vai.Close();

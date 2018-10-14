@@ -1,0 +1,43 @@
+﻿@page
+@model LES_passagens_areas.Pages.vooModel
+@{
+    ViewData["Title"] = "voo";
+}
+
+<h2>voo</h2>
+<table id="tb_view">
+    <thead><tr><th></th><th>partida</th><th>chegada</th><th>data partida</th><th>data chegada</th><th>Classe</th><th>preco unitario</th></tr></thead>
+    <tbody>
+        @foreach (Dominio.Passagens objUser in Model.GetRoles)
+        {
+            <tr>
+                <td>
+                    <a class="btn btn-success" href='cart?cod=@objUser.ID.ToString()'>Comprar</a>
+
+                </td>
+                <td>@objUser.LO_partida.Nome</td>
+                <td>@objUser.LO_chegada.Nome</td>
+                <td>@objUser.DT_partida</td>
+                <td>@objUser.DT_chegada</td>
+                <td>@objUser.Tipo.Nome</td>
+                <td>@objUser.Preco_uni</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<!--
+<label>
+    Model.dist
+</label>
+    -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="~/js/jquery.mask.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tb_view').DataTable({ searching: false, paging: false, info: false, ordering: false });
+
+
+    });
+</script>

@@ -6,6 +6,24 @@ namespace Dominio
 {
     public class Viagem : EntidadeDominio
     {
+        private double valor;
+        private double valor_unidade;
+
+        public double Valor_Unidade
+        {
+            get { return valor_unidade; }
+            set { valor_unidade = value; }
+        }
+
+
+       
+        public double Valor
+        {
+            get { return valor; }
+            set { valor = value; }
+        }
+
+       
         private Cliente _titular;
 
         public Cliente Titular
@@ -13,13 +31,7 @@ namespace Dominio
             get { return _titular; }
             set { _titular = value; }
         }
-        private double _preco_unitario;
-
-        public double Preco_unitario
-        {
-            get { return _preco_unitario; }
-            set { _preco_unitario = value; }
-        }
+        
 
         private int _qtd;
 
@@ -46,12 +58,22 @@ namespace Dominio
             set { _tipo = value; }
         }
 
+        private List<Bilhete> _passageiros;
+
+        public List<Bilhete> Passageiros
+        {
+            get { return _passageiros; }
+            set { _passageiros = value; }
+        }
+
 
         public Viagem():base()
         {
             _titular = new Cliente();
-            _preco_unitario = 0.0;
+            _passageiros = new List<Bilhete>();
             _qtd = 0;
+            valor = 0.0;
+            valor_unidade = 0.0;
             _voo = new Passagens();
             _tipo = new Classe();
         }

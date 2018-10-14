@@ -13,17 +13,17 @@ namespace Dominio
             get { return _nome; }
             set { _nome = value; }
         }
-        private float _lat;
+        private double _lat;
 
-        public float lat
+        public double lat
         {
             get { return _lat; }
             set { _lat = value; }
         }
 
-        private float _lng;
+        private double _lng;
 
-        public float lng
+        public double lng
         {
             get { return _lng; }
             set { _lng = value; }

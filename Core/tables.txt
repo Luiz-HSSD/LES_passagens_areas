@@ -19,6 +19,7 @@ lng numeric(10,6)
 
 CREATE TABLE classe(
 class_id SERIAL PRIMARY KEY,
+peso numeric(10,5),
 class_nome VARCHAR(50)
 );
 

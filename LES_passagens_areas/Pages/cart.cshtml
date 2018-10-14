@@ -1,0 +1,34 @@
+﻿@page
+@model LES_passagens_areas.Pages.cartModel
+@{
+    ViewData["Title"] = "carrinho";
+    //Layout = null;
+}
+<h2>carrinho</h2>
+<table id="tb_view">
+    <thead><tr><tr><th>Código</th><th>Nome</th><th>preço unitario</th><th>qtd</th><th>preço</th><th>comfimar bilhetes</th></tr></thead>
+    <tbody>
+        @foreach (Dominio.Viagem objUser in Model.ven.Viagems)
+        {
+        <tr>
+            <td>@objUser.ID</td>
+            <td>@objUser.Voo.LO_partida.Nome to @objUser.Voo.LO_chegada.Nome</td>
+            <td>@objUser.Valor_Unidade</td>
+            <td><a href='cart?code=@objUser.Voo.ID'>-</a>@objUser.qtd<a href='cart?cod=@objUser.Voo.ID'>+</a></td>
+            <td>@objUser.Valor</td>
+            <td><a href='bilhetes?cod=@objUser.Voo.ID'>comfirmar bilhetes</a></td>
+        </tr>
+        }
+    </tbody>
+</table>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="~/js/jquery.mask.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tb_view').DataTable({ searching: false, paging: false, info: false, ordering: false });
+
+
+    });
+</script>

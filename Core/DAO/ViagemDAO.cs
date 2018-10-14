@@ -53,7 +53,7 @@ namespace Core.DAO
                     p = new Viagem();
                     p.ID = Convert.ToInt32(vai["viagem_id"]);
                     p.qtd = Convert.ToInt32(vai["qtd"]);
-                    p.Preco_unitario = Convert.ToDouble(vai["preco_unit"]);
+                    p.Valor_Unidade = Convert.ToDouble(vai["preco_unit"]);
                     p.Voo.ID = Convert.ToInt32(vai["pass_id"]);
                     p.Tipo.ID = Convert.ToInt32(vai["class_id"]); 
                     Classes.Add(p);
@@ -79,7 +79,7 @@ namespace Core.DAO
             parameters = new NpgsqlParameter[]
                     {
                         new NpgsqlParameter("no",Classe.qtd),
-                        new NpgsqlParameter("nomm",Classe.Preco_unitario),
+                        new NpgsqlParameter("nomm",Classe.Valor_Unidade),
                         new NpgsqlParameter("nome",Classe.Voo.ID),
                         new NpgsqlParameter("noo",Classe.Tipo.ID)
                     };

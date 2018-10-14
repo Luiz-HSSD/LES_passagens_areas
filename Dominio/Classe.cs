@@ -12,8 +12,18 @@ namespace Dominio
             set { nome = value; }
         }
 
+        private double _peso;
+
+        public double Peso
+        {
+            get { return _peso; }
+            set { _peso = value; }
+        }
+
         public Classe()
         {
+
+            _peso = 0.0;
             nome = "";
         }
     }

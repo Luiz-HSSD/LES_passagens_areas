@@ -59,6 +59,13 @@ namespace Dominio
             get { return qtd; }
             set { qtd = value; }
         }
+        private double _preco_uni;
+
+        public double Preco_uni
+        {
+            get { return _preco_uni; }
+            set { _preco_uni = value; }
+        }
 
 
 
@@ -71,6 +78,7 @@ namespace Dominio
             qtd = 0;
             dt_chegada = DateTime.Now;
             dt_partida = DateTime.Now;
+            _preco_uni = 0.0;
             LO_partida = new Aeroporto();
             LO_chegada = new Aeroporto();
         }

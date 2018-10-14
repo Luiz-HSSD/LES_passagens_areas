@@ -25,10 +25,11 @@ namespace Core.DAO
             if (connection.State == ConnectionState.Closed)
                 connection.Open();
             Classe Classe = (Classe)entidade;
-            pst.CommandText = "insert into Classe ( class_nome ) values (  :nome )";
+            pst.CommandText = "insert into Classe ( class_nome,peso ) values (  :nome ,:nom )";
             parameters = new NpgsqlParameter[]
                     {
-                        new NpgsqlParameter("nome",Classe.Nome)
+                        new NpgsqlParameter("nome",Classe.Nome),
+                        new NpgsqlParameter("nom",Classe.Peso)
                     };
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);
@@ -48,10 +49,11 @@ namespace Core.DAO
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
                 Classe Classe = (Classe)entidade;
-                pst.CommandText = "UPDATE Classe SET class_nome=:nome WHERE class_id=:co";
+                pst.CommandText = "UPDATE Classe SET class_nome=:nome , peso=:nom  WHERE class_id=:co";
                 parameters = new NpgsqlParameter[]
                     {
                         new NpgsqlParameter("nome",Classe.Nome),
+                        new NpgsqlParameter("nom",Classe.Peso),
                         new NpgsqlParameter("co",Classe.ID)
                     };
                 pst.Parameters.Clear();
@@ -97,7 +99,7 @@ namespace Core.DAO
                 pst = new NpgsqlCommand();
 
                 pst.CommandText = sql;
-                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID.ToString()) };
+                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -110,6 +112,7 @@ namespace Core.DAO
                 {
                     p = new Classe();
                     p.ID = Convert.ToInt32(vai["class_id"]);
+                    p.Peso = Convert.ToDouble(vai["peso"]);
                     p.Nome=(vai["class_nome"].ToString());
                     Classes.Add(p);
                 }

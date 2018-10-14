@@ -1,9 +1,9 @@
 ﻿insert into aeroporto (nome,sigla,lat,lng) values  ('RPB Helipad','BSB',-15.7981,-47.8123),
 				('Guarulhos - Sao Paulo Airport Marriott Heliport','GRU',-23.455727,-46.491799),
 				('Fazenda Minas Gerais Airport','DCM',-14.777222,-59.046944);
-INSERT INTO Classe(class_nome) VALUES ('economica'),
-			  ('execultiva'),
-			  ('primeira classe');
+INSERT INTO Classe(class_nome,peso) VALUES ('economica',0.30),
+			  ('execultiva',0.40),
+			  ('primeira classe',0.60);
 
 INSERT INTO aviao(avi_nome,marca ,serie,lugares ) VALUES ('ZX','embraer','A',5),
 			  ('YK','bombardier','BecK',60),

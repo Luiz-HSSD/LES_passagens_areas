@@ -99,7 +99,7 @@ namespace Core.DAO
                 }
                 else if (Classe.LO_chegada.ID != 0)
                 {
-                    sql = "SELECT * FROM passagens join aeroporto on(aero_id=pass_lo_chegada) WHERE pass_lo_partida = :cod";
+                    sql = "SELECT pass_id,pass_lo_chegada ,pass_lo_partida ,qtd ,avi_id ,class_id ,data_partida ,data_chegada, class_nome,b.nome p_nome,c.nome c_nome, b.lat p_lat,c.lat c_lat, b.lng p_lng,c.lng c_lng, peso FROM passagens join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join classe using(class_id) WHERE pass_lo_partida = :cod and pass_lo_chegada = :codd and date(data_partida)=:code";
                 }
                 else
                 {
@@ -108,7 +108,7 @@ namespace Core.DAO
                 pst = new NpgsqlCommand();
 
                 pst.CommandText = sql;
-                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID), new NpgsqlParameter("cod", Classe.LO_chegada.ID) };
+                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID), new NpgsqlParameter("cod", Classe.LO_partida.ID), new NpgsqlParameter("codd", Classe.LO_chegada.ID), new NpgsqlParameter("code", Classe.DT_partida) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -129,11 +129,14 @@ namespace Core.DAO
                     p.Aviao_v.ID = Convert.ToInt32(vai["avi_id"]);
                     if (Classe.LO_chegada.ID != 0)
                     {
-                        p.LO_chegada.ID = Convert.ToInt32(vai["aero_id"]);
-                        p.LO_chegada.Nome = (vai["nome"].ToString());
-                        p.LO_chegada.sigla = (vai["sigla"].ToString());
-                        p.LO_chegada.lat = (float)Convert.ToDouble(vai["lat"]);
-                        p.LO_chegada.lng = (float)Convert.ToDouble(vai["lng"]);
+                        p.LO_chegada.Nome = (vai["c_nome"].ToString());
+                        p.LO_partida.Nome = (vai["p_nome"].ToString());
+                        p.LO_chegada.lat = Convert.ToDouble(vai["c_lat"]);
+                        p.LO_partida.lat = Convert.ToDouble(vai["p_lat"]);
+                        p.LO_chegada.lng = Convert.ToDouble(vai["c_lng"]);
+                        p.LO_partida.lng = Convert.ToDouble(vai["p_lng"]);
+                        p.Tipo.Nome = (vai["class_nome"].ToString());
+                        p.Tipo.Peso = Convert.ToDouble(vai["peso"]);
                     }
                         if (vai["qtd"]!=  DBNull.Value)
                     p.QTD = Convert.ToInt32(vai["qtd"]);

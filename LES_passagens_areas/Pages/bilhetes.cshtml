@@ -1,8 +1,9 @@
 ﻿@page
-@model LES_passagens_areas.Pages.passagensModel
+@model LES_passagens_areas.Pages.bilhetesModel
 @{
-    ViewData["Title"] = "passagens";
+    //Layout = null;
 }
+
 @if (!string.IsNullOrEmpty(Model.message))
 {
     <p id="dii" style="display:none; visibility:hidden;">@Html.Raw(Model.message)</p>
@@ -14,13 +15,13 @@
 <script src="~/js/jquery.mask.min.js"></script>
 <h2>passagens</h2>
 
-@{ 
-    if (Model.partida==null)
+@{
+    if (Model.partida == null)
     {
         Model.partida = "0";
         Model.chegada = "0";
     }
-    if (Model.aviao==null|| Model.classe == null)
+    if (Model.aviao == null || Model.classe == null)
     {
         Model.classe = new SelectList(Model.GetRoles(), "Value", "Text");
         Model.aviao = new SelectList(Model.GetRoles1(), "Value", "Text");
@@ -29,17 +30,16 @@
 <form method="POST">
     <input id="par" type="hidden" value="@{ WriteLiteral(Model.partida.ToString()); }" /><input id="che" type="hidden" value="@{ WriteLiteral(Model.chegada.ToString()); }" />
     ID: @Html.TextBox("id", (Model.id), new { @readonly = "readonly" })<br />
-    Quantidade: @Html.TextBox("qtd", (Model.name))<br />
-    PARTIDA: @Html.DropDownList("partida", (Model.GetRoles4()))<br />
-    destino: @Html.DropDownList("destino", (Model.GetRoles4()))<br />
-    DT PARTIDA: @Html.TextBox("dt_partida", (Model.dat_partida))<br />
-    DT destino: @Html.TextBox("dt_destino", (Model.dat_chegada))<br />
-    HR PARTIDA: @Html.TextBox("hr_partida", (Model.hor_partida))<br />
-    HR destino: @Html.TextBox("hr_destino", (Model.hor_chegada))<br />
-    classe: @Html.DropDownList("go", Model.classe)<br />
-    AVIAO: @Html.DropDownList("aviao", Model.aviao) (nome marca serie)<br />
-    <button type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way2">cadastrar</button>
-    <button type="submit" class="btn btn-warning" asp-route-data="foo" asp-page-handler="Way3">alterar</button>
+    nome: @Html.TextBox("nome", (Model.name))<br />
+    RG: @Html.TextBox("RG", (Model.dat_partida))<br />
+    CPF: @Html.TextBox("CPF", (Model.dat_chegada))<br />
+    EMAIL: @Html.TextBox("email", (Model.hor_partida))<br />
+    Passaporte: @Html.TextBox("Passaporte", (Model.hor_chegada))<br />
+    sexo: <select id="sexo" name="sexo">
+        <option value="true">Masculino</option>
+        <option value="false">Feminino</option>
+    </select> <br />
+    <button type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way2">Adicionar</button>
     <button type="submit" class="btn btn-light" asp-route-data="foo" asp-page-handler="Way4">cancelar</button>
 </form>
 <br />
