@@ -1,7 +1,7 @@
 ﻿@page
 @model LES_passagens_areas.Pages.bilhetesModel
 @{
-    //Layout = null;
+//Layout = null;
 }
 
 @if (!string.IsNullOrEmpty(Model.message))
@@ -13,7 +13,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="~/js/jquery.mask.min.js"></script>
-<h2>passagens</h2>
+<h2>Bilhetes</h2>
 
 @{
     if (Model.partida == null)
@@ -45,24 +45,34 @@
 <br />
 <br />
 <table id="tb_view">
-    <thead><tr><th></th><th>id</th><th>qtd</th><th>partida</th><th>chegada</th><th>data partida</th><th>data chegada</th><th>Classe</th><th>Aviao</th></tr></thead>
+    <thead><tr><th></th><th>id</th><th>nome</th><th>RG</th><th>CPF</th><th>email</th><th>passaporte</th><th>sexo</th></tr></thead>
     <tbody>
-        @foreach (Dominio.Passagens objUser in Model.GetRoles2())
+        @{ int i = 0; }
+        @foreach (Dominio.Bilhete objUser in Model.GetRoles3())
         {
-            <tr>
-                <td>
-                    <a class="btn btn-primary" href='passagens?cod=@objUser.ID.ToString()'>editar</a>
-                    <a class="btn btn-danger" href='passagens?del=@objUser.ID.ToString()'>apagar</a>
-                </td>
-                <td>@objUser.ID.ToString()</td>
-                <td>@objUser.QTD.ToString()</td>
-                <td>@objUser.LO_partida.ID</td>
-                <td>@objUser.LO_chegada.ID</td>
-                <td>@objUser.DT_partida</td>
-                <td>@objUser.DT_chegada</td>
-                <td>@objUser.Tipo.ID.ToString()</td>
-                <td>@objUser.Aviao_v.ID.ToString()</td>
-            </tr>
+        <tr>
+            <td>
+                <!--  <a class="btn btn-primary" href='bilhetes?code=@i'>editar</a>-->
+                <a class="btn btn-danger" href='bilhetes?del=@i'>apagar</a>
+            </td>
+            <td>@objUser.ID.ToString()</td>
+            <td>@objUser.Nome.ToString()</td>
+            <td>@objUser.RG.ToString()</td>
+            <td>@objUser.cpf</td>
+            <td>@objUser.Email</td>
+            <td>@objUser.passaporte</td>
+            @if (objUser.Sexo == true)
+            {
+                <td>Masculino</td>
+            }
+            else
+            {
+                <td>Feminino</td>
+            }
+
+           @{i++;
+           }
+        </tr>
         }
     </tbody>
 </table>

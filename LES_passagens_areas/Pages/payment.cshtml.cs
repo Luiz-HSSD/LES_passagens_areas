@@ -7,12 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LES_passagens_areas.Pages
 {
-    public class IndexModel : PageModel
+    public class paymentModel : PageModel
     {
-        public void OnGet(string cod)
+        public void OnGet()
         {
-            if(!string.IsNullOrEmpty(cod))
-            HttpContext.Session.SetObjectAsJson("login", null);
+
         }
     }
 }

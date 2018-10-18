@@ -6,7 +6,7 @@ using Core.Aplicacao;
 using LES_passagens_areas.Command;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-
+using System.IO;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace LES_passagens_areas
@@ -70,6 +70,18 @@ namespace LES_passagens_areas
 
             return JsonConvert.SerializeObject(res.Entidades, Formatting.None, new JsonSerializerSettings(){ ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
         }
+        [Route("analise/{cod}")]
+        [HttpGet]
+        public string analise(int cod)
+        {
+            Dominio.Analise analise = new Dominio.Analise();
+            
+                analise.ID = cod;
+            commands["CONSULTAR"].execute(analise);
+            
+            return JsonConvert.SerializeObject(analise.chartsjs, Formatting.None, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });//System.IO.File.ReadAllText("./analise.json");
+        }
+        //JsonConvert.SerializeObject(res.Entidades, Formatting.None, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
         // POST api/<controller>
         [HttpPost]
         public void Post([FromBody]string value)

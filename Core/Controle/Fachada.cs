@@ -191,6 +191,22 @@ namespace Core.Controle
             rnsPassagem_Venda.Add("CONSULTAR", rnsConsultarPassagem_Venda);
             rns.Add(typeof(Passagem_Venda).Name, rnsPassagem_Venda);
 
+            inteligencia inteli = new inteligencia();
+
+            AnaliseDAO AnaDAO = new AnaliseDAO();
+            daos.Add(typeof(Analise).Name, AnaDAO);
+            List<IStrategy> rnsSalvarAnalise = new List<IStrategy>();
+            List<IStrategy> rnsAlterarAnalise = new List<IStrategy>();
+            List<IStrategy> rnsExcluirAnalise = new List<IStrategy>();
+            List<IStrategy> rnsConsultarAnalise = new List<IStrategy>();
+            rnsConsultarAnalise.Add(inteli);
+            Dictionary<string, List<IStrategy>> rnsAnalise = new Dictionary<string, List<IStrategy>>();
+            rnsAnalise.Add("SALVAR", rnsSalvarAnalise);
+            rnsAnalise.Add("ALTERAR", rnsAlterarAnalise);
+            rnsAnalise.Add("EXCLUIR", rnsExcluirAnalise);
+            rnsAnalise.Add("CONSULTAR", rnsConsultarAnalise);
+            rns.Add(typeof(Analise).Name, rnsAnalise);
+
             //*/
 
         }
@@ -358,4 +374,3 @@ namespace Core.Controle
     }
     
 }
-

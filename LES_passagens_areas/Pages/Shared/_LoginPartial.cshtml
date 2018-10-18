@@ -1,0 +1,29 @@
+@using Dominio
+@using Microsoft.AspNetCore.Http
+
+@{
+    //HttpContext.Session.GetObjectFromJson<Venda>("login")
+}
+
+
+@if (Context.Session.GetObjectFromJson<Usuarios>("login") != null)
+{
+<form  method="post" id="logoutForm" class="navbar-right">
+   
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello !</a>
+        </li>
+        <li>
+            <button type="button" class="btn btn-link navbar-btn navbar-link" onclick="window.location.href='/Index?cod=1'" >Logout</button>
+        </li>
+    </ul>
+</form>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a asp-area="Identity" asp-page="/Register">Register</a></li>
+        <li><a asp-area="Identity" asp-page="/Login">Login</a></li>
+    </ul>
+}

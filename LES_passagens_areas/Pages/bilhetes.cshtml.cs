@@ -49,10 +49,13 @@ namespace LES_passagens_areas.Pages
 
                 return roles;
             }
-            public List<EntidadeDominio> GetRoles3()
+            public List<Bilhete> GetRoles3()
             {
-
-                var roles = commands["CONSULTAR"].execute(new Dominio.Passagens()).Entidades;
+            var venn = HttpContext.Session.GetObjectFromJson<Venda>(devil);
+            if (venn != null)
+                ven = venn;
+            var bora = ven.Viagems.Find(x => x.Voo.ID == int.Parse(HttpContext.Session.GetString("cod")));
+                var roles = bora.Passageiros;
 
 
                 return roles;
@@ -83,7 +86,7 @@ namespace LES_passagens_areas.Pages
             public SelectList aviao { get; set; }
             public SelectList classe { get; set; }
             public SelectList Passagens { get; set; }
-            public void OnGet(string cod, string del)
+            public void OnGet(string cod,string code, string del)
             {
             if(!string.IsNullOrEmpty(cod))
             HttpContext.Session.SetString("cod", cod);
@@ -100,28 +103,23 @@ namespace LES_passagens_areas.Pages
                 hor_chegada = "";
                 if (!string.IsNullOrEmpty(cod))
                 {
-                    res = commands["CONSULTAR"].execute(new Dominio.Passagens() { ID = int.Parse(cod) });
-                    var categoria = (Dominio.Passagens)res.Entidades.ElementAt(0);
-                    id = Convert.ToString(categoria.ID);
-                    name = categoria.QTD.ToString();
-                    partida = categoria.LO_partida.ID.ToString();
-                    chegada = categoria.LO_chegada.ID.ToString();
-                    dat_partida = categoria.DT_partida.ToString("dd/MM/yyyy");
-                    dat_chegada = categoria.DT_chegada.ToString("dd/MM/yyyy");
-                    hor_partida = categoria.DT_partida.ToString("HH:mm");
-                    hor_chegada = categoria.DT_chegada.ToString("HH:mm");
-                    var selected = aviao.Where(x => x.Value == categoria.Aviao_v.ID.ToString()).First();
-                    selected.Selected = true;
-                    var selected2 = classe.Where(x => x.Value == categoria.Tipo.ID.ToString()).First();
-                    selected2.Selected = true;
-                }
-                if (!string.IsNullOrEmpty(del))
-                {
 
-                    commands["EXCLUIR"].execute(new Dominio.Passagens() { ID = int.Parse(del) });
-
+                /*
+                    if (bora.qtd <= bora.Passageiros.Count)
+                        Response.Redirect("./cart");
+                        */
                 }
-                listItems = GetRoles();
+            if (!string.IsNullOrEmpty(del))
+            {
+                var venn = HttpContext.Session.GetObjectFromJson<Venda>(devil);
+                if (venn != null)
+                    ven = venn;
+                var bora = ven.Viagems.Find(x => x.Voo.ID == int.Parse(HttpContext.Session.GetString("cod")));
+                var roles = bora.Passageiros;
+                roles.RemoveAt(int.Parse( del));
+                HttpContext.Session.SetObjectAsJson(devil, ven);
+            }
+            listItems = GetRoles();
                 listItems1 = GetRoles1();
                 message = "";
                 TagBuilder td = new TagBuilder("div");
@@ -130,7 +128,7 @@ namespace LES_passagens_areas.Pages
                 td.InnerHtml.Append(tdt.ToString());
             }
             Venda ven = new Venda();
-        string devil = "cart";
+        public const string devil = "cart";
         public void OnPostWay2(string data)
             {
                 Bilhete a = new Bilhete()
@@ -149,6 +147,9 @@ namespace LES_passagens_areas.Pages
                 if (!string.IsNullOrEmpty(cod))
                 ven.Viagems.Find(x => x.Voo.ID == int.Parse(cod)).Passageiros.Add(a);
                 HttpContext.Session.SetObjectAsJson(devil, ven);
+                var bora=    ven.Viagems.Find(x => x.Voo.ID == int.Parse(cod));
+                if (bora.qtd<=bora.Passageiros.Count )
+                Response.Redirect("./cart");
             
         }
             public void OnPostWay4(string data)
