@@ -9,9 +9,9 @@
     <p id="dii" style="display:none; visibility:hidden;">@Html.Raw(Model.message)</p>
     <script>alert(document.getElementById("dii").innerHTML);</script>
 }
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/lib/datatables.min.css">
+<script type="text/javascript" src="~/lib/datatables.min.js"></script><!---->
 <script src="~/js/jquery.mask.min.js"></script>
 <h2>check-in</h2>
 
@@ -60,7 +60,7 @@
 <br />
 <table id="tb_view">
     <thead>
-    <tr><th></th><th>id</th><th>qtd</th><th>partida</th><th>chegada</th><th>data partida</th><th>data chegada</th><th>Classe</th><th>bilhete</th></tr>
+        <tr><th></th><th>id</th><th>qtd</th><th>partida</th><th>chegada</th><th>data partida</th><th>data chegada</th><th>Classe</th><th>bilhete</th></tr>
     </thead>
     <tbody>
         @foreach (Dominio.Passagens objUser in Model.GetRoles2())
@@ -94,30 +94,29 @@
     var metallica = 0;
     function go() {
         $('#voo').children('option:not(:first)').remove();
-                $.ajax({
-                type: "GET",
-                url: '/api/devil/voo/'+korn,
-                timeout: 30000,
-                contentType: "application/json; charset=utf-8",
-                cache: false,
-                success: function (devil) {
-                    var ii = 1;
-                    $.each(JSON.parse(devil), function (i, cliente) {
+        $.ajax({
+            type: "GET",
+            url: '/api/devil/voo/' + korn,
+            timeout: 30000,
+            contentType: "application/json; charset=utf-8",
+            cache: false,
+            success: function (devil) {
+                var ii = 1;
+                $.each(JSON.parse(devil), function (i, cliente) {
 
-                        $("#voo").append(new Option(cliente.LO_chegada.Nome + " " + cliente.DT_partida , cliente.ID.toString()));
-                        var o = 10;
-                        var a = (Math.round(lat * o) / o);
-                        var b = (Math.round(cliente.lat * o) / o);
-                        if (a == b)
-                        {
-                            //alert(ii);
-                            //$("#aeroporto").selectedIndex = i;
-                            $("#voo").prop('selectedIndex', ii);
-                        }
-                        ii++;
-                    });
-                }
-            });
+                    $("#voo").append(new Option(cliente.LO_chegada.Nome + " " + cliente.DT_partida, cliente.ID.toString()));
+                    var o = 10;
+                    var a = (Math.round(lat * o) / o);
+                    var b = (Math.round(cliente.lat * o) / o);
+                    if (a == b) {
+                        //alert(ii);
+                        //$("#aeroporto").selectedIndex = i;
+                        $("#voo").prop('selectedIndex', ii);
+                    }
+                    ii++;
+                });
+            }
+        });
     }
 
     function gohell() {
@@ -140,7 +139,7 @@
 
                     $("#bilhete").append(new Option(cliente.Nome + " " + cliente.RG, cliente.ID.toString()));
                     //alert(cliente.passagem.Tipo.ID);
-                    adidas.push(new bilhete(cliente.ID, cliente.passagem.Tipo.ID));    
+                    adidas.push(new bilhete(cliente.ID, cliente.passagem.Tipo.ID));
                 });
             }
         });
@@ -150,7 +149,7 @@
         $('#goo').children('option:not(:first)').remove();
         $.ajax({
             type: "GET",
-            url: '/api/devil/assento/' + korn+'/'+metallica,
+            url: '/api/devil/assento/' + korn + '/' + metallica,
             timeout: 30000,
             contentType: "application/json; charset=utf-8",
             cache: false,
@@ -164,7 +163,7 @@
                 $.each(JSON.parse(devil), function (i, cliente) {
 
                     $("#goo").append(new Option(cliente.Tag, cliente.ID.toString()));
-                    
+
                 });
             }
         });
@@ -181,7 +180,7 @@
     }
     function showPosition(position) {
         var latlon = position.coords.latitude + "," + position.coords.longitude;
-         lat = position.coords.latitude;
+        lat = position.coords.latitude;
     }
     function showError(error) {
         switch (error.code) {
@@ -214,8 +213,7 @@
                 var o = 10;
                 var a = (Math.round(lat * o) / o);
                 var b = (Math.round(cliente.lat * o) / o);
-                if (a == b)
-                {
+                if (a == b) {
                     //alert(ii);
                     //$("#aeroporto").selectedIndex = i;
                     $("#aeroporto").prop('selectedIndex', ii);
@@ -223,9 +221,9 @@
                 }
                 ii++;
             });
-            go();        
+            go();
         }
-    });    
+    });
 
     function myFunction(item, index) {
         if (item.id == korn) {
@@ -252,7 +250,7 @@
         $("#bilhete").change(function (e) {
             korn = $("#bilhete").find(":selected").val();
             adidas.forEach(myFunction);
-            $("#go").prop('selectedIndex', korn-1);
+            $("#go").prop('selectedIndex', korn - 1);
             $("#go").prop('disabled', true);
             metallica = $("#voo").find(":selected").val();
             return override();

@@ -10,12 +10,13 @@ origem: <input type="text" id="txt" placeholder="cidade,aeroporto ou sigla" />  
 periodo: <input id="letsgo" type="text" /> obs clique duas vezes para Ida & Volta <br />
 <input value="procurar" type="button" onclick="pass()" />
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/lib/datatables.min.css">
+<script type="text/javascript" src="~/lib/datatables.min.js"></script><!---->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
         integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
         crossorigin="anonymous"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="~/js/jquery.mask.min.js"></script>
 <script type="text/javascript">
@@ -41,7 +42,7 @@ periodo: <input id="letsgo" type="text" /> obs clique duas vezes para Ida & Volt
     //$('input[id="letsgo"]').daterangepicker();
     function pass() {
         //alert('ADSF');
-        window.location.href = "./voo?partida=" + $("#txtd").val() + "&chegada=" + $("#txte").val() + "&date=" + b64EncodeUnicode($("#letsgo").val() );;
+        window.location.href = "./voo?partida=" + $("#txtd").val() + "&chegada=" + $("#txte").val() + "&date=" + b64EncodeUnicode($("#letsgo").val());;
     }
     $('#letsgo').mask('00/00/0000');
     $.ajax({
@@ -63,7 +64,7 @@ periodo: <input id="letsgo" type="text" /> obs clique duas vezes para Ida & Volt
 
                 adidas.push(new aeroporto(cliente.ID, cliente.sigla, cliente.Nome));
             });
-           //alert(adidas.length);
+            //alert(adidas.length);
 
         }
     });
@@ -94,7 +95,7 @@ periodo: <input id="letsgo" type="text" /> obs clique duas vezes para Ida & Volt
             return false;
         }
     });
-      
+
     $("#txtEndereco").autocomplete({
         source: function (request, response) {
             search = request.term;
@@ -119,5 +120,5 @@ periodo: <input id="letsgo" type="text" /> obs clique duas vezes para Ida & Volt
             return false;
         }
     });
-            
+
 </script>

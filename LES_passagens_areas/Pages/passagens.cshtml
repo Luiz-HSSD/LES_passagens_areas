@@ -8,19 +8,19 @@
     <p id="dii" style="display:none; visibility:hidden;">@Html.Raw(Model.message)</p>
     <script>alert(document.getElementById("dii").innerHTML);</script>
 }
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/lib/datatables.min.css">
+<script type="text/javascript" src="~/lib/datatables.min.js"></script><!---->
 <script src="~/js/jquery.mask.min.js"></script>
 <h2>passagens</h2>
 
-@{ 
-    if (Model.partida==null)
+@{
+    if (Model.partida == null)
     {
         Model.partida = "0";
         Model.chegada = "0";
     }
-    if (Model.aviao==null|| Model.classe == null)
+    if (Model.aviao == null || Model.classe == null)
     {
         Model.classe = new SelectList(Model.GetRoles(), "Value", "Text");
         Model.aviao = new SelectList(Model.GetRoles1(), "Value", "Text");
@@ -72,7 +72,7 @@
         $('#dt_partida').mask('00/00/0000');
         $('#hr_partida').mask('00:00');
         $('#dt_destino').mask('00/00/0000');
-        if ($("#destino").val()!=0) {
+        if ($("#destino").val() != 0) {
             $("#destino").prop('selectedIndex', $("#che").val() - 1);
             $("#partida").prop('selectedIndex', $("#par").val() - 1);
 
