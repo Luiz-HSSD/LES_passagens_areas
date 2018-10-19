@@ -4,7 +4,15 @@
 INSERT INTO Classe(class_nome,peso) VALUES ('economica',0.30),
 			  ('execultiva',0.40),
 			  ('primeira classe',0.60);
-
 INSERT INTO aviao(avi_nome,marca ,serie,lugares ) VALUES ('ZX','embraer','A',5),
 			  ('YK','bombardier','BecK',60),
 			  ('WR','boeing','404',300);
+			  
+INSERT INTO passagens(pass_lo_chegada ,pass_lo_partida ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2017-01-01 12:00:00'::timestamp,'2017-01-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_chegada ,pass_lo_partida ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2017-02-01 12:00:00'::timestamp,'2017-02-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_chegada ,pass_lo_partida ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2017-03-01 12:00:00'::timestamp,'2017-03-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_chegada ,pass_lo_partida ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2017-04-01 12:00:00'::timestamp,'2017-04-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_chegada ,pass_lo_partida ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2017-05-01 12:00:00'::timestamp,'2017-05-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_chegada ,pass_lo_partida ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2017-06-01 12:00:00'::timestamp,'2017-06-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_chegada ,pass_lo_partida ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2017-07-01 12:00:00'::timestamp,'2017-07-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_chegada ,pass_lo_partida ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2017-03-01 12:00:00'::timestamp,'2017-03-01 15:00:00'::timestamp);

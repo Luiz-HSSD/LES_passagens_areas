@@ -50,12 +50,15 @@ namespace Core.DAO
                 while (vai.Read())
                 {
                     p = new Bagagem(chk);
-                    p.ID = Convert.ToInt32(vai["pass_id"]);
+                    p.ID = Convert.ToInt32(vai["baga_id"]);
                     p.comprimento = Convert.ToInt32(vai["comprimento"]);
                     p.largura = Convert.ToInt32(vai["largura"]);
                     p.altura = Convert.ToInt32(vai["altura"]);
-                    p.peso = (vai["pass_lo_partida"].ToString());
+                    p.peso = (vai["peso"].ToString());                   
                     p.dono.ID = Convert.ToInt32(vai["chck_in_id"]);
+                    {
+                        p.dono.Passagem.Voo
+                    }
                     chk = new Check_in() { ID= p.dono.ID };
                     Classes.Add(p);
                 }

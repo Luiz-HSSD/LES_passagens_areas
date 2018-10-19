@@ -79,6 +79,7 @@ bilhete_id  int,
 CONSTRAINT FK_aviao FOREIGN KEY (viagem_id) REFERENCES viagem(viagem_id),
 CONSTRAINT FK_bilhete FOREIGN KEY (bilhete_id) REFERENCES bilhete(bilhete_id)
 );
+
 CREATE TABLE bagagem(
 bagagem_id SERIAL PRIMARY KEY,
 comprimento numeric(10,5),
@@ -86,7 +87,7 @@ largura numeric(10,5),
 altura numeric(10,5),
 peso varchar(40),
 chck_in_id int,
-CONSTRAINT FK_dono FOREIGN KEY (chck_in_id) REFERENCES check_in(chck_in_id)
+CONSTRAINT FK_voo FOREIGN KEY (pass_id) REFERENCES passagens(pass_id)
 );
 
 CREATE TABLE assento(

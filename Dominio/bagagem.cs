@@ -6,6 +6,14 @@ namespace Dominio
 {
     public class Bagagem:EntidadeDominio
     {
+        private bool flg_ana;
+
+        public bool Flg
+        {
+            get { return flg_ana; }
+            set { flg_ana = value; }
+        }
+
         private int _comprimento;
 
         public int comprimento
@@ -45,6 +53,7 @@ namespace Dominio
 
         public Bagagem(Check_in dono) : base()
         {
+            flg_ana = false;
             _comprimento = 0;
             _largura = 0;
             _altura = 0;
