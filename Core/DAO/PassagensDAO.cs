@@ -106,7 +106,6 @@ namespace Core.DAO
                     sql = "SELECT * FROM passagens  WHERE pass_id= :co";
                 }
                 pst = new NpgsqlCommand();
-
                 pst.CommandText = sql;
                 parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID), new NpgsqlParameter("cod", Classe.LO_partida.ID), new NpgsqlParameter("codd", Classe.LO_chegada.ID), new NpgsqlParameter("code", Classe.DT_partida) };
                 pst.Parameters.Clear();
@@ -138,8 +137,8 @@ namespace Core.DAO
                         p.Tipo.Nome = (vai["class_nome"].ToString());
                         p.Tipo.Peso = Convert.ToDouble(vai["peso"]);
                     }
-                        if (vai["qtd"]!=  DBNull.Value)
-                    p.QTD = Convert.ToInt32(vai["qtd"]);
+                    if (vai["qtd"]!=  DBNull.Value)
+                        p.QTD = Convert.ToInt32(vai["qtd"]);
                     Classes.Add(p);
                 }
                 vai.Close();

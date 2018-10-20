@@ -171,7 +171,9 @@ namespace LES_passagens_areas.Pages
             Bagagem bg = new Bagagem(new Check_in());
             bg.ID = lb.Count + 1;
             string medidas = Request.Form["qtd"];
-            bg.peso= Request.Form["partida"];
+            double b = 0;
+            double.TryParse(Request.Form["partida"].ToString(), out b);
+            bg.peso= b;
             lb.Add(bg);
             HttpContext.Session.SetObjectAsJson(devil, lb);
            

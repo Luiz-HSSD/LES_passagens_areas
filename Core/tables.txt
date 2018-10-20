@@ -85,9 +85,9 @@ bagagem_id SERIAL PRIMARY KEY,
 comprimento numeric(10,5),
 largura numeric(10,5),
 altura numeric(10,5),
-peso varchar(40),
+peso numeric(10,5),
 chck_in_id int,
-CONSTRAINT FK_voo FOREIGN KEY (pass_id) REFERENCES passagens(pass_id)
+CONSTRAINT FK_Dono FOREIGN KEY (chck_in_id) REFERENCES check_in(chck_in_id)
 );
 
 CREATE TABLE assento(

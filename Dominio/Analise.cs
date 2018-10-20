@@ -84,12 +84,14 @@ namespace Dominio
     }
     public class Analise :EntidadeDominio
     {
+        public string[] generic_labels;
+        public Dictionary<string,List<EntidadeDominio>> resultado;
         public chartsjs chartsjs;
 
         public Analise():base()
         {
             chartsjs = new chartsjs();
-
+            resultado = new Dictionary<string,List<EntidadeDominio>>();
         }
     }
 }

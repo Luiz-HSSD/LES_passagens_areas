@@ -192,7 +192,7 @@ namespace Core.Controle
             rns.Add(typeof(Passagem_Venda).Name, rnsPassagem_Venda);
 
             inteligencia inteli = new inteligencia();
-
+            fillchartjs fillchartjs_s = new fillchartjs();
             AnaliseDAO AnaDAO = new AnaliseDAO();
             daos.Add(typeof(Analise).Name, AnaDAO);
             List<IStrategy> rnsSalvarAnalise = new List<IStrategy>();
@@ -200,6 +200,7 @@ namespace Core.Controle
             List<IStrategy> rnsExcluirAnalise = new List<IStrategy>();
             List<IStrategy> rnsConsultarAnalise = new List<IStrategy>();
             rnsConsultarAnalise.Add(inteli);
+            rnsConsultarAnalise.Add(fillchartjs_s);
             Dictionary<string, List<IStrategy>> rnsAnalise = new Dictionary<string, List<IStrategy>>();
             rnsAnalise.Add("SALVAR", rnsSalvarAnalise);
             rnsAnalise.Add("ALTERAR", rnsAlterarAnalise);

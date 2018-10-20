@@ -75,7 +75,6 @@ namespace LES_passagens_areas
         public string analise(int cod)
         {
             Dominio.Analise analise = new Dominio.Analise();
-            
                 analise.ID = cod;
             commands["CONSULTAR"].execute(analise);
             

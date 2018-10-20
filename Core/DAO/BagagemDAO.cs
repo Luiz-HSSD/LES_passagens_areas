@@ -27,9 +27,14 @@ namespace Core.DAO
                 pst.Dispose();
                 Bagagem Classe = (Bagagem)entidade;
                 string sql = null;
-                if (Classe.ID == 0)
+                if (Classe.ID == 0 && !Classe.Flg)
                 {
                     sql = "SELECT * FROM Bagagem ";
+                }
+                else if (Classe.Flg)
+                {
+                    sql= "select bagagem.bagagem_id, bagagem.peso , passagens.data_partida , c.sigla as c_sigla  ,b.sigla as p_sigla   from bagagem inner join check_in using (chck_in_id) inner join viagem using (viagem_id) inner join passagens using (pass_id) join aeroporto b on(b.aero_id= pass_lo_partida) join aeroporto c on(c.aero_id= pass_lo_chegada)";
+
                 }
                 else
                 {
@@ -49,17 +54,22 @@ namespace Core.DAO
                 Bagagem p;
                 while (vai.Read())
                 {
-                    p = new Bagagem(chk);
-                    p.ID = Convert.ToInt32(vai["baga_id"]);
+                    p = new Bagagem(new Check_in());
+                    p.ID = Convert.ToInt32(vai["bagagem_id"]);
+                    p.peso = Convert.ToDouble(vai["peso"]);
+                    if (Classe.Flg)
+                    {
+                        p.dono.Passagem.Voo.LO_partida.sigla = (vai["p_sigla"].ToString());
+                        p.dono.Passagem.Voo.LO_chegada.sigla = (vai["c_sigla"].ToString());
+                        p.dono.Passagem.Voo.DT_partida = Convert.ToDateTime(vai["data_partida"]);
+                        Classes.Add(p);
+                        continue;
+                    }
                     p.comprimento = Convert.ToInt32(vai["comprimento"]);
                     p.largura = Convert.ToInt32(vai["largura"]);
-                    p.altura = Convert.ToInt32(vai["altura"]);
-                    p.peso = (vai["peso"].ToString());                   
-                    p.dono.ID = Convert.ToInt32(vai["chck_in_id"]);
-                    {
-                        p.dono.Passagem.Voo
-                    }
-                    chk = new Check_in() { ID= p.dono.ID };
+                    p.altura = Convert.ToInt32(vai["altura"]);                   
+                    p.dono.ID = Convert.ToInt32(vai["chck_in_id"]);                    
+                    
                     Classes.Add(p);
                 }
                 vai.Close();

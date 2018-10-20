@@ -35,9 +35,9 @@ namespace Dominio
             get { return _altura; }
             set { _altura = value; }
         }
-        private string _peso;
+        private double _peso;
 
-        public string peso
+        public double peso
         {
             get { return _peso; }
             set { _peso = value; }
@@ -57,7 +57,7 @@ namespace Dominio
             _comprimento = 0;
             _largura = 0;
             _altura = 0;
-            _peso = "";
+            _peso = 0;
             _dono = dono;
         }
 
