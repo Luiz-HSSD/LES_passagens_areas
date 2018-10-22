@@ -70,11 +70,20 @@ namespace LES_passagens_areas
 
             return JsonConvert.SerializeObject(res.Entidades, Formatting.None, new JsonSerializerSettings(){ ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
         }
-        [Route("analise/{cod}")]
+        [Route("analise/{code}/{codd}/{cod}")]
         [HttpGet]
-        public string analise(int cod)
+        public string analise(int code, int codd, int cod)
         {
-            Dominio.Analise analise = new Dominio.Analise();
+            if (codd < 12)
+                codd++;
+            else
+            {
+                code++;
+                codd = 1;
+            }
+            DateTime dt_max = new DateTime(code,codd , 1);
+
+            Dominio.Analise analise = new Dominio.Analise() {Data_max=dt_max };
                 analise.ID = cod;
             commands["CONSULTAR"].execute(analise);
             

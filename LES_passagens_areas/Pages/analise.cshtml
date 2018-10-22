@@ -11,19 +11,36 @@
 <script src="~/js/jquery.mask.min.js"></script>
 <script type="text/javascript" src="~/lib/chart/Chart.bundle.min.js" 1></script>
 <script type="text/javascript" src="~/lib/chart/Chart.min.js"></script>
+Mês final: <select id="devil" onchange="maggots();">
+    <option>1</option>
+    <option>2</option>
+    <option>3</option>
+    <option>4</option>
+    <option>5</option>
+    <option selected="selected">6</option>
+</select></br>
 <div class="chart-container" style="position: relative; height:400px; width:800px">
     <canvas id="myChart"></canvas>
 </div>
 <script>
+    var asdf;
+    
+    function maggots() {
+        asdf.destroy();
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var e = document.getElementById("devil");
+        var strUser = e.options[e.selectedIndex].value;
+        asdf = new Chart(ctx, JSON.parse(httpGet('https://localhost:44390/api/devil/analise/2017/' + strUser+'/0')));
+    }
     function httpGet(theUrl) {
         var xmlHttp = new XMLHttpRequest();
         xmlHttp.open("GET", theUrl, false); // false for synchronous request
         xmlHttp.send(null);
         return xmlHttp.responseText;
     }
-
+    
     window.onload = function () {
         var ctx = document.getElementById('myChart').getContext('2d');
-        window.myLine = new Chart(ctx, JSON.parse(httpGet('https://localhost:44390/api/devil/analise/0')));
+        asdf = new Chart(ctx, JSON.parse(httpGet('https://localhost:44390/api/devil/analise/2017/6/0')));
     };
 </script>

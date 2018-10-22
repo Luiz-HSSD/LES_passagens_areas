@@ -15,7 +15,7 @@ namespace Core.Negocio
             Analise ana = (Analise)entidade;
             List<string> lbls = new List<string>();
             BagagemDAO go = new BagagemDAO();
-            List<EntidadeDominio> dii = go.consultar(new Bagagem(new Check_in()) { Flg = true });
+            List<EntidadeDominio> dii = go.consultar(new Bagagem(new Check_in()) { Flg = true,dono=new Check_in(){Passagem=new Viagem() { Voo=new Passagens() {DT_partida=ana.Data_max } } } });
             dii= dii.OrderBy(x => ((Bagagem)x).dono.Passagem.Voo.DT_partida).ToList();
             foreach (Bagagem b in dii)
             {
@@ -41,7 +41,9 @@ namespace Core.Negocio
                         bb.Add(cc);
                         continue;
                     }
-                    if (cc.dono.Passagem.Voo.DT_partida != ((Bagagem)bb.ElementAt(bb.Count - 1)).dono.Passagem.Voo.DT_partida)
+                    if (cc.dono.Passagem.Voo.DT_partida.Month > ana.Data_max.Month || cc.dono.Passagem.Voo.DT_partida.Year > ana.Data_max.Year)
+                        break;
+                    if (cc.dono.Passagem.Voo.DT_partida.Month != ((Bagagem)bb.ElementAt(bb.Count - 1)).dono.Passagem.Voo.DT_partida.Month || cc.dono.Passagem.Voo.DT_partida.Year != ((Bagagem)bb.ElementAt(bb.Count - 1)).dono.Passagem.Voo.DT_partida.Year)
                         bb.Add(cc);
                     else
                         ((Bagagem)bb.ElementAt(bb.Count - 1)).peso += cc.peso;

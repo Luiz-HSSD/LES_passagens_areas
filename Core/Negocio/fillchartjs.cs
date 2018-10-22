@@ -39,7 +39,7 @@ namespace Core.Negocio
                 Dominio.options asdf = new Dominio.options()
                 {
                     responsive = true,
-                    title= new title() { display = true, text = "bagegem por voo em tempo" },
+                    title= new title() { display = true, text = "bagagem por voo em tempo (ano "+analise.Data_max.Year+")" },
                     tooltips = new tooltips() {intersect=false,mode= "index" },
                     hover =new hover() {intersect=true,mode= "nearest" },
                     scales =new scales()

@@ -84,12 +84,29 @@ namespace Dominio
     }
     public class Analise :EntidadeDominio
     {
+        private DateTime data_max;
+
+        public DateTime Data_max
+        {
+            get { return data_max; }
+            set { data_max = value; }
+        }
+
+        private DateTime data_min;
+
+        public DateTime Data_min
+        {
+            get { return data_min; }
+            set { data_min = value; }
+        }
+
         public string[] generic_labels;
         public Dictionary<string,List<EntidadeDominio>> resultado;
         public chartsjs chartsjs;
 
         public Analise():base()
         {
+            data_min=  data_max = DateTime.Now;
             chartsjs = new chartsjs();
             resultado = new Dictionary<string,List<EntidadeDominio>>();
         }

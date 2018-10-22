@@ -14,17 +14,8 @@ namespace Core.Controle
     public sealed class Fachada : IFachada
     {
 
-
-        /** 
-         * Mapa de DAOS, será indexado pelo nome da entidade 
-         * O valor é uma instância do DAO para uma dada entidade; 
-         */
         private Dictionary<string, IDAO> daos;
 
-        /**
-         * Mapa para conter as regras de negócio de todas operações por entidade;
-         * O valor é um mapa que de regras de negócio indexado pela operação
-         */
         private Dictionary<string, Dictionary<string, List<IStrategy>>> rns;
 
         /*
@@ -210,6 +201,19 @@ namespace Core.Controle
             rnsAnalise.Add("CONSULTAR", rnsConsultarAnalise);
             rns.Add(typeof(Analise).Name, rnsAnalise);
 
+            DepartamentoDAO depDAO = new DepartamentoDAO();
+            daos.Add(typeof(Departamento).Name, depDAO);
+            List<IStrategy> rnsSalvarDepartamento = new List<IStrategy>();
+            List<IStrategy> rnsAlterarDepartamento = new List<IStrategy>();
+            List<IStrategy> rnsExcluirDepartamento = new List<IStrategy>();
+            rnsExcluirDepartamento.Add(para_ex);
+            List<IStrategy> rnsConsultarDepartamento = new List<IStrategy>();
+            Dictionary<string, List<IStrategy>> rnsDepartamento = new Dictionary<string, List<IStrategy>>();
+            rnsDepartamento.Add("SALVAR", rnsSalvarDepartamento);
+            rnsDepartamento.Add("ALTERAR", rnsAlterarDepartamento);
+            rnsDepartamento.Add("EXCLUIR", rnsExcluirDepartamento);
+            rnsDepartamento.Add("CONSULTAR", rnsConsultarDepartamento);
+            rns.Add(typeof(Departamento).Name, rnsDepartamento);
             //*/
 
         }

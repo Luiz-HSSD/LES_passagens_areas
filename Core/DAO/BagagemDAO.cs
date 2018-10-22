@@ -33,7 +33,7 @@ namespace Core.DAO
                 }
                 else if (Classe.Flg)
                 {
-                    sql= "select bagagem.bagagem_id, bagagem.peso , passagens.data_partida , c.sigla as c_sigla  ,b.sigla as p_sigla   from bagagem inner join check_in using (chck_in_id) inner join viagem using (viagem_id) inner join passagens using (pass_id) join aeroporto b on(b.aero_id= pass_lo_partida) join aeroporto c on(c.aero_id= pass_lo_chegada)";
+                    sql= "select bagagem.bagagem_id, bagagem.peso , passagens.data_partida , c.sigla as c_sigla  ,b.sigla as p_sigla   from bagagem inner join check_in using (chck_in_id) inner join viagem using (viagem_id) inner join passagens using (pass_id) join aeroporto b on(b.aero_id= pass_lo_partida) join aeroporto c on(c.aero_id= pass_lo_chegada) where passagens.data_partida < :dat";
 
                 }
                 else
@@ -43,7 +43,7 @@ namespace Core.DAO
                 pst = new NpgsqlCommand();
 
                 pst.CommandText = sql;
-                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID) };
+                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID), new NpgsqlParameter("dat", Classe.dono.Passagem.Voo.DT_partida) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
