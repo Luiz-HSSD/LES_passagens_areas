@@ -44,7 +44,7 @@ namespace Core.DAO
                 }
                 else
                 {
-                    sql = "SELECT * FROM bilhete WHERE class_id= :co";
+                    sql = "SELECT * FROM bilhete WHERE bilhete_id = :co";
                 }
                 pst = new NpgsqlCommand();
 

@@ -70,8 +70,6 @@ passaporte varchar(50),
 viagem_id int,
 CONSTRAINT FK_class FOREIGN KEY (viagem_id) REFERENCES viagem(viagem_id)
 );
-
-
 CREATE TABLE check_in(
 chck_in_id SERIAL PRIMARY KEY,
 viagem_id int,
@@ -87,17 +85,15 @@ largura numeric(10,5),
 altura numeric(10,5),
 peso numeric(10,5),
 chck_in_id int,
-CONSTRAINT FK_Dono FOREIGN KEY (chck_in_id) REFERENCES check_in(chck_in_id)
+CONSTRAINT FK_Dono FOREIGN KEY (chck_in_id) REFERENCES check_in(chck_in_id) on delete cascade on update cascade
 );
-
 CREATE TABLE assento(
 assento_id SERIAL PRIMARY KEY,
 tag varchar(40),
 chck_in_id int,
 pass_id int,
 class_id int,
-CONSTRAINT FK_ocupante FOREIGN KEY (chck_in_id) REFERENCES check_in(chck_in_id),
+CONSTRAINT FK_ocupante FOREIGN KEY (chck_in_id) REFERENCES check_in(chck_in_id) on delete cascade on update cascade,
 CONSTRAINT FK_classe FOREIGN KEY (class_id) REFERENCES classe(class_id),
 CONSTRAINT FK_voo FOREIGN KEY (pass_id) REFERENCES passagens(pass_id)
 );
-

@@ -148,8 +148,10 @@ namespace Core.Controle
             rns.Add(typeof(Aeroporto).Name, rnsAeroporto);
 
             Check_inDAO CheckDAO = new Check_inDAO();
+            Fazer_Check_in fzchk = new Fazer_Check_in();
             daos.Add(typeof(Check_in).Name, CheckDAO);
             List<IStrategy> rnsSalvarCheck_in = new List<IStrategy>();
+            rnsSalvarCheck_in.Add(fzchk);
             List<IStrategy> rnsAlterarCheck_in = new List<IStrategy>();
             List<IStrategy> rnsExcluirCheck_in = new List<IStrategy>();
             rnsExcluirCheck_in.Add(para_ex);

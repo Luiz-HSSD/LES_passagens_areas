@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
@@ -30,16 +31,22 @@ namespace Core.DAO
                 string sql = null;
                 if (Classe.ID == 0)
                 {
-                    sql = "SELECT * FROM Viagem ";
+                    sql = "SELECT * FROM Viagem";
+                }
+                else if (Classe.Passageiros.Count > 0)
+                {
+                    sql = "SELECT * FROM Viagem join bilhete using(viagem_id) where bilhete_id= :cod";
                 }
                 else
                 {
                     sql = "SELECT * FROM Viagem WHERE viagem_id= :co";
                 }
                 pst = new NpgsqlCommand();
-
                 pst.CommandText = sql;
-                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID) };
+                if(Classe.Passageiros.Count>0)
+                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID), new NpgsqlParameter("cod", Classe.Passageiros.ElementAt(0).ID) };
+                else
+                    parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -52,10 +59,14 @@ namespace Core.DAO
                 {
                     p = new Viagem();
                     p.ID = Convert.ToInt32(vai["viagem_id"]);
-                    p.qtd = Convert.ToInt32(vai["qtd"]);
-                    p.Valor_Unidade = Convert.ToDouble(vai["preco_unit"]);
-                    p.Voo.ID = Convert.ToInt32(vai["pass_id"]);
-                    p.Tipo.ID = Convert.ToInt32(vai["class_id"]); 
+                    if (vai["qtd"] != DBNull.Value)
+                        p.qtd = Convert.ToInt32(vai["qtd"]);
+                    if (vai["preco_unit"] != DBNull.Value)
+                        p.Valor_Unidade = Convert.ToDouble(vai["preco_unit"]);
+                    if (vai["pass_id"] != DBNull.Value)
+                        p.Voo.ID = Convert.ToInt32(vai["pass_id"]);
+                    if (vai["class_id"] != DBNull.Value)
+                        p.Tipo.ID = Convert.ToInt32(vai["class_id"]); 
                     Classes.Add(p);
                 }
                 vai.Close();

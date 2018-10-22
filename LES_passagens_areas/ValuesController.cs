@@ -49,7 +49,7 @@ namespace LES_passagens_areas
         [HttpGet]
         public string voo(int codd)
         {
-            res = commands["CONSULTAR"].execute(new Dominio.Passagens() { LO_chegada = new Dominio.Aeroporto() { ID = codd } });
+            res = commands["CONSULTAR"].execute(new Dominio.Passagens() { LO_partida = new Dominio.Aeroporto() { ID = codd } });
 
             return JsonConvert.SerializeObject(res.Entidades);
         }

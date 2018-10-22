@@ -91,7 +91,7 @@ namespace Core.DAO
             Bagagem Classe = (Bagagem)entidade;
             pst.Dispose();
             pst = new NpgsqlCommand();
-            pst.CommandText = "insert into Bagagem ( comprimento, largura,altura,peso ) values (  :nome,:nom,:no,:nod,:node )";
+            pst.CommandText = "insert into Bagagem ( comprimento, largura,altura,peso,chck_in_id ) values (  :nome,:nom,:no,:nod,:node )";
             parameters = new NpgsqlParameter[]
                     {
                         new NpgsqlParameter("nome",Classe.comprimento),

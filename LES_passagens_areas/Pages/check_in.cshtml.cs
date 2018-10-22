@@ -45,7 +45,7 @@ namespace LES_passagens_areas.Pages
         public List<EntidadeDominio> GetRoles2()
         {
 
-            var roles = commands["CONSULTAR"].execute(new Dominio.Passagens()).Entidades;
+            var roles = commands["CONSULTAR"].execute(new Check_in()).Entidades;
 
 
             return roles;
@@ -90,6 +90,7 @@ namespace LES_passagens_areas.Pages
                 res = commands["CONSULTAR"].execute(new Dominio.Check_in() { ID = int.Parse(cod) });
                 var categoria = (Dominio.Check_in)res.Entidades.ElementAt(0);
                 id = Convert.ToString(categoria.ID);
+                /*
                 var selected = aeroporto.Where(x => x.Value == categoria.Passagem.Voo.LO_partida.ID.ToString()).First();
                 selected.Selected = true;
                 var selected2 = voo.Where(x => x.Value == categoria.Passagem.Voo.ID.ToString()).First();
@@ -102,6 +103,7 @@ namespace LES_passagens_areas.Pages
                 selected5.Selected = true;
                 lb = categoria.Bagagem;
                 HttpContext.Session.SetObjectAsJson(devil, lb);
+                */
             }
             if (!string.IsNullOrEmpty(del))
             {
@@ -175,6 +177,21 @@ namespace LES_passagens_areas.Pages
             double.TryParse(Request.Form["partida"].ToString(), out b);
             bg.peso= b;
             lb.Add(bg);
+            medidas = medidas.ToLower();
+            string[] values = medidas.Split("x");
+           
+            double c = 0;
+            if(values.Length>=1)
+                double.TryParse(values[0], out c);
+            bg.comprimento = (int)c;
+            double d = 0;
+            if (values.Length >= 2)
+                double.TryParse(values[1], out d);
+            bg.largura = (int)d;
+            double e = 0;
+            if (values.Length >= 3)
+                double.TryParse(values[2], out e);
+            bg.altura = (int)e;
             HttpContext.Session.SetObjectAsJson(devil, lb);
            
             ///message = commands["EXCLUIR"].execute(new Aviao() { ID = a }).Msg;

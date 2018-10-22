@@ -4,7 +4,7 @@
     ViewData["Title"] = "check_in";
 }
 
-@if (!string.IsNullOrEmpty(Model.message))
+@if (!string.IsNullOrEmpty(Model.message) && Model.message=="sucesso!")
 {
     <p id="dii" style="display:none; visibility:hidden;">@Html.Raw(Model.message)</p>
     <script>alert(document.getElementById("dii").innerHTML);</script>
@@ -40,7 +40,7 @@
             {
                 <tr>
                     <td>
-                        <a class="btn btn-danger" href='passagens?dele=@objUser.ID.ToString()'>apagar</a>
+                        <a class="btn btn-danger" href='check_in?dele=@objUser.ID.ToString()'>apagar</a>
                     </td>
                     <td>@objUser.ID.ToString()</td>
                     <td>C @objUser.comprimento.ToString() X L @objUser.largura.ToString() X A @objUser.altura.ToString()</td>
@@ -60,24 +60,19 @@
 <br />
 <table id="tb_view">
     <thead>
-        <tr><th></th><th>id</th><th>qtd</th><th>partida</th><th>chegada</th><th>data partida</th><th>data chegada</th><th>Classe</th><th>bilhete</th></tr>
+        <tr><th></th><th>id</th><th>nome</th><th>assento</th></tr>
     </thead>
     <tbody>
-        @foreach (Dominio.Passagens objUser in Model.GetRoles2())
+        @foreach (Dominio.Check_in objUser in Model.GetRoles2())
         {
             <tr>
                 <td>
-                    <a class="btn btn-primary" href='passagens?cod=@objUser.ID.ToString()'>editar</a>
-                    <a class="btn btn-danger" href='passagens?del=@objUser.ID.ToString()'>apagar</a>
+                    <a class="btn btn-primary" href='check_in?cod=@objUser.ID.ToString()'>editar</a>
+                    <a class="btn btn-danger" href='check_in?del=@objUser.ID.ToString()'>apagar</a>
                 </td>
                 <td>@objUser.ID.ToString()</td>
-                <td>@objUser.QTD.ToString()</td>
-                <td>@objUser.LO_partida</td>
-                <td>@objUser.LO_chegada</td>
-                <td>@objUser.DT_partida</td>
-                <td>@objUser.DT_chegada</td>
-                <td>@objUser.Tipo.ID.ToString()</td>
-                <td>@objUser.Aviao_v.ID.ToString()</td>
+                <td>@objUser.Passagem.ID</td>
+                <td>@objUser.Entrada.ID</td>
             </tr>
         }
     </tbody>

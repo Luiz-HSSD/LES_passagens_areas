@@ -93,11 +93,15 @@ namespace Core.DAO
                 pst.Dispose();
                 Passagens Classe = (Passagens)entidade;
                 string sql = null;
-                if (Classe.ID == 0 && Classe.LO_chegada.ID == 0)
+                if (Classe.ID == 0 && Classe.LO_chegada.ID == 0 && Classe.LO_partida.ID == 0)
                 {
                     sql = "SELECT * FROM passagens ";
                 }
-                else if (Classe.LO_chegada.ID != 0)
+                else if (Classe.LO_chegada.ID == 0 && Classe.LO_partida.ID != 0)
+                {
+                    sql = "SELECT pass_id,pass_lo_chegada ,pass_lo_partida ,qtd ,avi_id ,class_id ,data_partida ,data_chegada, class_nome,b.nome p_nome,c.nome c_nome, b.lat p_lat,c.lat c_lat, b.lng p_lng,c.lng c_lng, peso FROM passagens join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join classe using(class_id) WHERE pass_lo_partida = :cod";
+                }
+                else if (Classe.LO_chegada.ID != 0 && Classe.LO_partida.ID != 0)
                 {
                     sql = "SELECT pass_id,pass_lo_chegada ,pass_lo_partida ,qtd ,avi_id ,class_id ,data_partida ,data_chegada, class_nome,b.nome p_nome,c.nome c_nome, b.lat p_lat,c.lat c_lat, b.lng p_lng,c.lng c_lng, peso FROM passagens join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join classe using(class_id) WHERE pass_lo_partida = :cod and pass_lo_chegada = :codd and date(data_partida)=:code";
                 }
@@ -126,7 +130,7 @@ namespace Core.DAO
                     p.LO_partida.ID = Convert.ToInt32(vai["pass_lo_partida"].ToString());
                     p.Tipo.ID = Convert.ToInt32(vai["class_id"]);
                     p.Aviao_v.ID = Convert.ToInt32(vai["avi_id"]);
-                    if (Classe.LO_chegada.ID != 0)
+                    if (Classe.LO_partida.ID != 0)
                     {
                         p.LO_chegada.Nome = (vai["c_nome"].ToString());
                         p.LO_partida.Nome = (vai["p_nome"].ToString());
