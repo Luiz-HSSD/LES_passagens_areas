@@ -7,7 +7,12 @@ drop table passagens;
 drop table classe;
 drop table aviao;
 drop table aeroporto;
-
+drop table clientes;
+drop table papel_func;
+drop table funcionalidade;
+drop table perfil;
+DROP TABLE usuarios;
+DROP TABLE papel; 
 
 CREATE TABLE aeroporto(
 aero_id SERIAL PRIMARY KEY,
@@ -96,4 +101,54 @@ class_id int,
 CONSTRAINT FK_ocupante FOREIGN KEY (chck_in_id) REFERENCES check_in(chck_in_id) on delete cascade on update cascade,
 CONSTRAINT FK_classe FOREIGN KEY (class_id) REFERENCES classe(class_id),
 CONSTRAINT FK_voo FOREIGN KEY (pass_id) REFERENCES passagens(pass_id)
+);
+
+create table papel
+(
+id_papel Serial PRIMARY key,
+descricao varchar(30)
+);
+
+create table funcionalidade
+(
+id_func Serial PRIMARY key,
+descricao varchar(30)
+);
+
+create table papel_func
+(
+id_func int ,
+id_papel int,
+CONSTRAINT funcionalidade FOREIGN KEY(id_func) REFERENCES funcionalidade(id_func)on delete cascade,
+CONSTRAINT fk_papel FOREIGN KEY(id_papel) REFERENCES papel(id_papel)on delete cascade,
+CONSTRAINT pk_papel_func PRIMARY KEY(id_papel,id_func)
+);
+
+create table usuarios
+(
+id_user serial PRIMARY KEY, 
+login varchar(100) unique,
+password_user varchar(80)
+);
+
+
+create table perfil(
+id_perfil serial PRIMARY KEY,
+id_papel int,
+id_user int,
+CONSTRAINT usuario FOREIGN KEY(id_user) REFERENCES usuarios(id_user),
+CONSTRAINT papel FOREIGN KEY(id_papel) REFERENCES papel(id_papel)
+);
+
+CREATE TABLE clientes
+(
+    id_cli     Serial PRIMARY KEY,
+    --ative     CHAR(1),
+    id_user int,    
+    nome_cli VARCHAR(50),
+    sexo     CHAR(1),
+    cpf      CHAR(11),
+    rg       VARCHAR(9),
+    dt_nas   DATE,
+    CONSTRAINT fk_usu_cli FOREIGN KEY(id_user) REFERENCES usuarios(id_user)  on delete cascade
 );
