@@ -193,7 +193,7 @@ namespace Core.Controle
             List<IStrategy> rnsExcluirAnalise = new List<IStrategy>();
             List<IStrategy> rnsConsultarAnalise = new List<IStrategy>();
             rnsConsultarAnalise.Add(inteli);
-            rnsConsultarAnalise.Add(fillchartjs_s);
+            //rnsConsultarAnalise.Add(fillchartjs_s);
             Dictionary<string, List<IStrategy>> rnsAnalise = new Dictionary<string, List<IStrategy>>();
             rnsAnalise.Add("SALVAR", rnsSalvarAnalise);
             rnsAnalise.Add("ALTERAR", rnsAlterarAnalise);

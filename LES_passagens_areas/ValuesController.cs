@@ -7,6 +7,7 @@ using LES_passagens_areas.Command;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.IO;
+using Dominio;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace LES_passagens_areas
@@ -86,7 +87,46 @@ namespace LES_passagens_areas
             Dominio.Analise analise = new Dominio.Analise() {Data_max=dt_max };
                 analise.ID = cod;
             commands["CONSULTAR"].execute(analise);
-            
+            if (analise.ID == 0)
+            {
+                Dominio.data asd = new Dominio.data()
+                {
+                    labels = analise.generic_labels,//new string[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" },
+
+                };
+                var fdsa = new List<Dominio.datasets>() { };
+                for (int i = 0; i < analise.resultado.Keys.Count; i++)
+                {
+                    List<EntidadeDominio> b = analise.resultado.Values.ElementAt(i);
+                    Random rnd = new Random();
+                    string color = "rgb(" + rnd.Next(0, 255) + "," + rnd.Next(0, 255) + " , " + rnd.Next(0, 255) + ")";
+                    var goLuiz = new datasets() { label = analise.resultado.Keys.ElementAt(i), backgroundColor = color, borderColor = color, fill = false };
+                    var grr = new List<double>() { };
+                    foreach (Bagagem sl in b)
+                    {
+                        grr.Add(sl.peso);
+                    }
+                    goLuiz.data = grr.ToArray();
+                    fdsa.Add(goLuiz);
+                }
+                asd.datasets = fdsa.ToArray();
+
+                Dominio.options asdf = new Dominio.options()
+                {
+                    responsive = true,
+                    title = new title() { display = true, text = "bagagem por voo em tempo (ano " + analise.Data_max.Year + ")" },
+                    tooltips = new tooltips() { intersect = false, mode = "index" },
+                    hover = new hover() { intersect = true, mode = "nearest" },
+                    scales = new scales()
+                    {
+                        xAxes = new xAxes[] { new xAxes() { display = true, scaleLabel = new scaleLabel() { display = true, labelString = "mês" } } },
+                        yAxes = new yAxes[] { new yAxes() { display = true, scaleLabel = new scaleLabel() { display = true, labelString = "peso em Kg" } } }
+                    }
+                };
+                analise.chartsjs.type = "line";
+                analise.chartsjs.data = asd;
+                analise.chartsjs.options = asdf;
+            }
             return JsonConvert.SerializeObject(analise.chartsjs, Formatting.None, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });//System.IO.File.ReadAllText("./analise.json");
         }
         //JsonConvert.SerializeObject(res.Entidades, Formatting.None, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
