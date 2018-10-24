@@ -214,6 +214,20 @@ namespace Core.Controle
             rnsDepartamento.Add("EXCLUIR", rnsExcluirDepartamento);
             rnsDepartamento.Add("CONSULTAR", rnsConsultarDepartamento);
             rns.Add(typeof(Departamento).Name, rnsDepartamento);
+
+            ClienteDAO cliDAO = new ClienteDAO();
+            daos.Add(typeof(Cliente).Name, cliDAO);
+            List<IStrategy> rnsSalvarCliente = new List<IStrategy>();
+            List<IStrategy> rnsAlterarCliente = new List<IStrategy>();
+            List<IStrategy> rnsExcluirCliente = new List<IStrategy>();
+            rnsExcluirCliente.Add(para_ex);
+            List<IStrategy> rnsConsultarCliente = new List<IStrategy>();
+            Dictionary<string, List<IStrategy>> rnsCliente = new Dictionary<string, List<IStrategy>>();
+            rnsCliente.Add("SALVAR", rnsSalvarCliente);
+            rnsCliente.Add("ALTERAR", rnsAlterarCliente);
+            rnsCliente.Add("EXCLUIR", rnsExcluirCliente);
+            rnsCliente.Add("CONSULTAR", rnsConsultarCliente);
+            rns.Add(typeof(Cliente).Name, rnsCliente);
             //*/
 
         }
