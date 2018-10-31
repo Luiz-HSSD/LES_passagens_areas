@@ -4,31 +4,101 @@
     ViewData["Title"] = "carrinho";
     //Layout = null;
 }
-<h2>carrinho</h2>
-<table id="tb_view">
-    <thead><tr><tr><th>Código</th><th>Nome</th><th>preço unitario</th><th>qtd</th><th>preço</th><th>comfimar bilhetes</th></tr></thead>
-    <tbody>
-        @foreach (Dominio.Viagem objUser in Model.ven.Viagems)
+<form method="post">
+    @{
+        if (Model.listItems == null)
         {
-            <tr>
-                <td>@objUser.ID</td>
-                <td>@objUser.Voo.LO_partida.Nome <b>to</b> @objUser.Voo.LO_chegada.Nome</td>
-                <td>@objUser.Valor_Unidade</td>
-                <td><a href='cart?code=@objUser.Voo.ID'>-</a>@objUser.qtd<a href='cart?cod=@objUser.Voo.ID'>+</a></td>
-                <td>@objUser.Valor</td>
-                <td><a href='bilhetes?cod=@objUser.Voo.ID'>confirmar bilhetes</a></td>
-            </tr>
+            Model.listItems = Model.GetRoles();
         }
-    </tbody>
-</table>
-<script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="~/lib/datatables.min.css">
-<script type="text/javascript" src="~/lib/datatables.min.js"></script><!---->
-<script src="~/js/jquery.mask.min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#tb_view').DataTable({ searching: false, paging: false, info: false, ordering: false });
+    }
+    <h2>carrinho</h2>
+    <table id="tb_view">
+        <thead><tr><tr><th>Código</th><th>Nome</th><th>preço unitario</th><th>qtd</th><th>preço</th><th>comfimar bilhetes</th></tr></thead>
+        <tbody>
+            @foreach (Dominio.Viagem objUser in Model.ven.Viagems)
+            {
+                <tr>
+                    <td>@objUser.ID</td>
+                    <td>@objUser.Voo.LO_partida.Nome <b>to</b> @objUser.Voo.LO_chegada.Nome</td>
+                    <td>@objUser.Valor_Unidade</td>
+                    <td><a href='cart?code=@objUser.Voo.ID'>-</a>@objUser.qtd<a href='cart?cod=@objUser.Voo.ID'>+</a></td>
+                    <td>@objUser.Valor</td>
+                    <td><a href='bilhetes?cod=@objUser.Voo.ID'>confirmar bilhetes</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    Cliente @Html.DropDownList("adf", Model.listItems, new { onchange = "go(document.getElementById('adf').options[document.getElementById('adf').selectedIndex].value)" })
+    <br />
+    Cartão de credito @Html.DropDownList("goasdf", new SelectList(new List<SelectListItem>(), "Value", "Text"), new { onchange = "mrSatan()" })
+    <br />
+    <b>nome do titular</b>@Html.TextBox("nome_card") @Html.TextBox("id_card", null, new { type = "hidden" })
+    <b>numero cartão</b> @Html.TextBox("num_card")
+    <br />
+    <b>validade</b> @Html.TextBox("validade")
+    <b>ccv</b> @Html.TextBox("ccv")
+    <br />
+    <button type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way2">finalizar comprar</button>
+    <button type="submit" class="btn btn-default" asp-route-data="foo" asp-page-handler="Way3">continuar comprando</button>
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/lib/datatables.min.css">
+    <script type="text/javascript" src="~/lib/datatables.min.js"></script><!---->
+    <script src="~/js/jquery.mask.min.js"></script>
+    <script type="text/javascript">
+        class cartao {
+            constructor(id, nome_card, num_card, validade, ccv) {
+                this.id = id;
+                this.nome_card = nome_card;
+                this.num_card = num_card;
+                this.validade = validade;
+                this.ccv = ccv;
+            }
+        }
 
+        var adidas = new Array();
 
-    });
-</script>
+        $(document).ready(function () {
+            $('#tb_view').DataTable({ searching: false, paging: false, info: false, ordering: false });
+            $("#goasdf").append(new Option('Selecione o cartão:', 0));
+
+        });
+        function mrSatan() {
+            var e = document.getElementById("goasdf");
+            var strUser = e.options[e.selectedIndex].value;
+            console.log(strUser);
+            for (var tipoNome in adidas) {
+                if (strUser == adidas[tipoNome].id) {
+                    console.log(tipoNome, adidas[tipoNome]);
+                    $("#nome_card").val(adidas[tipoNome].nome_card);
+                    $("#num_card").val(adidas[tipoNome].num_card);
+                    $("#validade").val(adidas[tipoNome].validade);
+                    $("#ccv").val(adidas[tipoNome].ccv);
+                    $("#id_card").val(adidas[tipoNome].id);
+                }
+            }
+        }
+
+        function go(korn) {
+            $('#goasdf').children('option:not(:first)').remove();
+            adidas = [];
+            $.ajax({
+                type: "GET",
+                url: '/api/devil/cartao/' + korn,
+                timeout: 30000,
+                contentType: "application/json; charset=utf-8",
+                cache: false,
+                success: function (devil) {
+                    var ii = 1;
+                    $.each(JSON.parse(devil), function (i, cliente) {
+                        adidas.push(new cartao(cliente.ID, cliente.Numero, cliente.Nome_Titular, cliente.Validade, cliente.CCV));
+                        $("#goasdf").append(new Option(cliente.Numero + " " + cliente.Validade, cliente.ID.toString()));
+
+                        ii++;
+                    });
+                }
+            });
+        }
+
+    </script>
+</form>

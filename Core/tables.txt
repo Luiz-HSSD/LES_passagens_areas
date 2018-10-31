@@ -7,12 +7,18 @@ drop table passagens;
 drop table classe;
 drop table aviao;
 drop table aeroporto;
+drop table car_cli;
 drop table clientes;
+drop table cartao_credito;
+drop table bandeira;
+drop table endereco;
 drop table papel_func;
 drop table funcionalidade;
 drop table perfil;
 DROP TABLE usuarios;
-DROP TABLE papel; 
+DROP TABLE papel;
+DROP TABLE Dep_pass; 
+DROP TABLE Departamento;
 
 CREATE TABLE aeroporto(
 aero_id SERIAL PRIMARY KEY,
@@ -83,7 +89,8 @@ CONSTRAINT FK_aviao FOREIGN KEY (viagem_id) REFERENCES viagem(viagem_id),
 CONSTRAINT FK_bilhete FOREIGN KEY (bilhete_id) REFERENCES bilhete(bilhete_id)
 );
 
-CREATE TABLE bagagem(
+CREATE TABLE bagagem
+(
 bagagem_id SERIAL PRIMARY KEY,
 comprimento numeric(10,5),
 largura numeric(10,5),
@@ -140,15 +147,83 @@ CONSTRAINT usuario FOREIGN KEY(id_user) REFERENCES usuarios(id_user),
 CONSTRAINT papel FOREIGN KEY(id_papel) REFERENCES papel(id_papel)
 );
 
+CREATE TABLE bandeira
+(
+    id_band     serial PRIMARY KEY,
+    nome_band VARCHAR(50)
+);
+
+CREATE TABLE cartao_credito
+(
+    id_car serial PRIMARY KEY,
+    numero VARCHAR(20),
+    ccv int ,    
+    nome_car VARCHAR(50),
+    validade  VARCHAR(9),
+    id_band int,
+    CONSTRAINT fk_bandeira FOREIGN KEY (id_band) REFERENCES bandeira(id_band)
+);
+
+CREATE TABLE endereco
+(   
+    id_end serial primary key,
+    numero VARCHAR(4),
+    logradouro VARCHAR(200),
+    bairro   VARCHAR(50),
+    cidade   VARCHAR(50),
+    complemento VARCHAR(35),
+    cep      CHAR(8),
+    uf       CHAR(2) 
+);
+
 CREATE TABLE clientes
 (
     id_cli     Serial PRIMARY KEY,
     --ative     CHAR(1),
-    id_user int,    
+    id_user int,
+    id_end int,    
     nome_cli VARCHAR(50),
     sexo     CHAR(1),
     cpf      CHAR(11),
     rg       VARCHAR(9),
     dt_nas   DATE,
-    CONSTRAINT fk_usu_cli FOREIGN KEY(id_user) REFERENCES usuarios(id_user)  on delete cascade
+    CONSTRAINT fk_usu_cli FOREIGN KEY(id_user) REFERENCES usuarios(id_user)  on delete cascade on update cascade,
+    CONSTRAINT fk_end_cli FOREIGN KEY(id_end) REFERENCES endereco(id_end)  on delete cascade on update cascade
 );
+
+CREATE TABLE car_cli
+(
+    id_cli     int,   
+    id_car   int,
+    CONSTRAINT fk_car_cli FOREIGN KEY(id_cli) REFERENCES clientes(id_cli)  on delete cascade on update cascade,
+    CONSTRAINT fk_cli_car FOREIGN KEY(id_car) REFERENCES cartao_credito(id_car)  on delete cascade on update cascade,
+    constraint PK_CC primary key (id_cli, id_car)
+);
+
+CREATE TABLE Departamento
+(
+    id_dep   serial primary key,   
+    nome   varchar(60)
+); 
+
+CREATE TABLE dep_pass
+(
+    id_dep     int,   
+    pass_id   int,
+    CONSTRAINT fk_dep_pass FOREIGN KEY(id_dep) REFERENCES Departamento(id_dep)  on delete cascade on update cascade,
+    CONSTRAINT fk_pass_dep FOREIGN KEY(pass_id) REFERENCES passagens(pass_id)  on delete cascade on update cascade,
+    constraint PK_CC primary key (id_cli, id_car)
+);
+
+CREATE TABLE status
+(
+    bilhete_id     int,   
+    atual   int,
+    prox   int,
+    CONSTRAINT fk_st_at FOREIGN KEY (atual) REFERENCES Departamento(id_dep)  on delete cascade on update cascade,
+    CONSTRAINT fk_st_px FOREIGN KEY (prox) REFERENCES Departamento(id_dep)  on delete cascade on update cascade,
+    CONSTRAINT fk_st_bilhete FOREIGN KEY (bilhete_id) REFERENCES Departamento(bilhete_id)  on delete cascade on update cascade,
+    constraint PK_CC primary key (id_cli, id_car)
+);
+
+ 

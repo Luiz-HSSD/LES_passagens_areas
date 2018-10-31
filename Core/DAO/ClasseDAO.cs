@@ -124,10 +124,6 @@ namespace Core.DAO
             {
                 throw ora;
             }
-            
-
         }
-
-
     }
 }

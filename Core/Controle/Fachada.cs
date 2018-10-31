@@ -215,9 +215,54 @@ namespace Core.Controle
             rnsDepartamento.Add("CONSULTAR", rnsConsultarDepartamento);
             rns.Add(typeof(Departamento).Name, rnsDepartamento);
 
+            EnderecoDAO endDAO = new EnderecoDAO();
+            daos.Add(typeof(Endereco).Name, endDAO);
+            List<IStrategy> rnsSalvarEndereco = new List<IStrategy>();
+            List<IStrategy> rnsAlterarEndereco = new List<IStrategy>();
+            List<IStrategy> rnsExcluirEndereco = new List<IStrategy>();
+            rnsExcluirEndereco.Add(para_ex);
+            List<IStrategy> rnsConsultarEndereco = new List<IStrategy>();
+            Dictionary<string, List<IStrategy>> rnsEndereco = new Dictionary<string, List<IStrategy>>();
+            rnsEndereco.Add("SALVAR", rnsSalvarEndereco);
+            rnsEndereco.Add("ALTERAR", rnsAlterarEndereco);
+            rnsEndereco.Add("EXCLUIR", rnsExcluirEndereco);
+            rnsEndereco.Add("CONSULTAR", rnsConsultarEndereco);
+            rns.Add(typeof(Endereco).Name, rnsEndereco);
+
+            UsuariosDAO usuDAO = new UsuariosDAO();
+            daos.Add(typeof(Usuarios).Name, usuDAO);
+            List<IStrategy> rnsSalvarUsuarios = new List<IStrategy>();
+            List<IStrategy> rnsAlterarUsuarios = new List<IStrategy>();
+            List<IStrategy> rnsExcluirUsuarios = new List<IStrategy>();
+            rnsExcluirUsuarios.Add(para_ex);
+            List<IStrategy> rnsConsultarUsuarios = new List<IStrategy>();
+            Dictionary<string, List<IStrategy>> rnsUsuarios = new Dictionary<string, List<IStrategy>>();
+            rnsUsuarios.Add("SALVAR", rnsSalvarUsuarios);
+            rnsUsuarios.Add("ALTERAR", rnsAlterarUsuarios);
+            rnsUsuarios.Add("EXCLUIR", rnsExcluirUsuarios);
+            rnsUsuarios.Add("CONSULTAR", rnsConsultarUsuarios);
+            rns.Add(typeof(Usuarios).Name, rnsUsuarios);
+
+            Cartao_CreditoDAO ccDAO = new Cartao_CreditoDAO();
+            daos.Add(typeof(Cartao_Credito).Name, ccDAO);
+            List<IStrategy> rnsSalvarCartao_Credito = new List<IStrategy>();
+            List<IStrategy> rnsAlterarCartao_Credito = new List<IStrategy>();
+            List<IStrategy> rnsExcluirCartao_Credito = new List<IStrategy>();
+            rnsExcluirCartao_Credito.Add(para_ex);
+            List<IStrategy> rnsConsultarCartao_Credito = new List<IStrategy>();
+            Dictionary<string, List<IStrategy>> rnsCartao_Credito = new Dictionary<string, List<IStrategy>>();
+            rnsCartao_Credito.Add("SALVAR", rnsSalvarCartao_Credito);
+            rnsCartao_Credito.Add("ALTERAR", rnsAlterarCartao_Credito);
+            rnsCartao_Credito.Add("EXCLUIR", rnsExcluirCartao_Credito);
+            rnsCartao_Credito.Add("CONSULTAR", rnsConsultarCartao_Credito);
+            rns.Add(typeof(Cartao_Credito).Name, rnsCartao_Credito);
+
+            Fazer_Cliente fc = new Fazer_Cliente();
+
             ClienteDAO cliDAO = new ClienteDAO();
             daos.Add(typeof(Cliente).Name, cliDAO);
             List<IStrategy> rnsSalvarCliente = new List<IStrategy>();
+            rnsSalvarCliente.Add(fc);
             List<IStrategy> rnsAlterarCliente = new List<IStrategy>();
             List<IStrategy> rnsExcluirCliente = new List<IStrategy>();
             rnsExcluirCliente.Add(para_ex);
@@ -228,8 +273,21 @@ namespace Core.Controle
             rnsCliente.Add("EXCLUIR", rnsExcluirCliente);
             rnsCliente.Add("CONSULTAR", rnsConsultarCliente);
             rns.Add(typeof(Cliente).Name, rnsCliente);
-            //*/
 
+            VendaDAO VenDAO = new VendaDAO();
+            daos.Add(typeof(Venda).Name, usuDAO);
+            List<IStrategy> rnsSalvarVenda = new List<IStrategy>();
+            List<IStrategy> rnsAlterarVenda = new List<IStrategy>();
+            List<IStrategy> rnsExcluirVenda = new List<IStrategy>();
+            rnsExcluirVenda.Add(para_ex);
+            List<IStrategy> rnsConsultarVenda = new List<IStrategy>();
+            Dictionary<string, List<IStrategy>> rnsVenda = new Dictionary<string, List<IStrategy>>();
+            rnsVenda.Add("SALVAR", rnsSalvarVenda);
+            rnsVenda.Add("ALTERAR", rnsAlterarVenda);
+            rnsVenda.Add("EXCLUIR", rnsExcluirVenda);
+            rnsVenda.Add("CONSULTAR", rnsConsultarVenda);
+            rns.Add(typeof(Venda).Name, rnsVenda);
+            //*/
         }
         private static readonly Fachada Instance = new Fachada();
 

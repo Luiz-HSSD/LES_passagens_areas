@@ -71,9 +71,9 @@ namespace LES_passagens_areas
 
             return JsonConvert.SerializeObject(res.Entidades, Formatting.None, new JsonSerializerSettings(){ ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
         }
-        [Route("analise/{code}/{codd}/{cod}")]
+        [Route("analise/{code}/{codd}/{codee}/{codde}/{co}/{cod}")]
         [HttpGet]
-        public string analise(int code, int codd, int cod)
+        public string analise(int code, int codd, int codee, int codde,int co, int cod)
         {
             if (codd < 12)
                 codd++;
@@ -82,9 +82,9 @@ namespace LES_passagens_areas
                 code++;
                 codd = 1;
             }
-            DateTime dt_max = new DateTime(code,codd , 1);
-
-            Dominio.Analise analise = new Dominio.Analise() {Data_max=dt_max };
+            DateTime dt_max = new DateTime(code , codd  , 1);
+            DateTime dt_min = new DateTime(codee, codde , 1);
+            Dominio.Analise analise = new Dominio.Analise() {Data_max=dt_max,Data_min=dt_min  };
                 analise.ID = cod;
             commands["CONSULTAR"].execute(analise);
             if (analise.ID == 0)
@@ -97,17 +97,33 @@ namespace LES_passagens_areas
                 var fdsa = new List<Dominio.datasets>() { };
                 for (int i = 0; i < analise.resultado.Keys.Count; i++)
                 {
-                    List<EntidadeDominio> b = analise.resultado.Values.ElementAt(i);
-                    Random rnd = new Random();
-                    string color = "rgb(" + rnd.Next(0, 255) + "," + rnd.Next(0, 255) + " , " + rnd.Next(0, 255) + ")";
-                    var goLuiz = new datasets() { label = analise.resultado.Keys.ElementAt(i), backgroundColor = color, borderColor = color, fill = false };
-                    var grr = new List<double>() { };
-                    foreach (Bagagem sl in b)
+                    if (co == 0)
                     {
-                        grr.Add(sl.peso);
+                        List<EntidadeDominio> b = analise.resultado.Values.ElementAt(i);
+                        Random rnd = new Random();
+                        string color = "rgb(" + rnd.Next(0, 255) + "," + rnd.Next(0, 255) + " , " + rnd.Next(0, 255) + ")";
+                        var goLuiz = new datasets() { label = analise.resultado.Keys.ElementAt(i), backgroundColor = color, borderColor = color, fill = false };
+                        var grr = new List<double>() { };
+                        foreach (Bagagem sl in b)
+                        {
+                            grr.Add(sl.peso);
+                        }
+                        goLuiz.data = grr.ToArray();
+                        fdsa.Add(goLuiz);
+                    }else if (co == i+1){
+                        List<EntidadeDominio> b = analise.resultado.Values.ElementAt(i);
+                        Random rnd = new Random();
+                        string color = "rgb(" + rnd.Next(0, 255) + "," + rnd.Next(0, 255) + " , " + rnd.Next(0, 255) + ")";
+                        var goLuiz = new datasets() { label = analise.resultado.Keys.ElementAt(i), backgroundColor = color, borderColor = color, fill = false };
+                        var grr = new List<double>() { };
+                        foreach (Bagagem sl in b)
+                        {
+                            grr.Add(sl.peso);
+                        }
+                        goLuiz.data = grr.ToArray();
+                        fdsa.Add(goLuiz);
+
                     }
-                    goLuiz.data = grr.ToArray();
-                    fdsa.Add(goLuiz);
                 }
                 asd.datasets = fdsa.ToArray();
 
@@ -128,6 +144,16 @@ namespace LES_passagens_areas
                 analise.chartsjs.options = asdf;
             }
             return JsonConvert.SerializeObject(analise.chartsjs, Formatting.None, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });//System.IO.File.ReadAllText("./analise.json");
+        }
+
+        [Route("cartao/{cod}")]
+        [HttpGet]
+        public string cartao(int cod)
+        {
+            res = commands["CONSULTAR"].execute(new Dominio.Cliente() { ID=cod   });
+            if(res.Entidades.Count>0)
+            return JsonConvert.SerializeObject(((Cliente)res.Entidades.ElementAt(0)).Cartoes);
+            return JsonConvert.SerializeObject(null); 
         }
         //JsonConvert.SerializeObject(res.Entidades, Formatting.None, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
         // POST api/<controller>

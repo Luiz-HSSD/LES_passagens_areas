@@ -15,7 +15,7 @@ namespace Core.Negocio
             Analise ana = (Analise)entidade;
             List<string> lbls = new List<string>();
             BagagemDAO go = new BagagemDAO();
-            List<EntidadeDominio> dii = go.consultar(new Bagagem(new Check_in()) { Flg = true,dono=new Check_in(){Passagem=new Viagem() { Voo=new Passagens() {DT_partida=ana.Data_max } } } });
+            List<EntidadeDominio> dii = go.consultar(new Bagagem(new Check_in()) { Flg = true,dono=new Check_in(){Passagem=new Viagem() { Voo=new Passagens() {DT_partida= ana.Data_min, DT_chegada = ana.Data_max } } } });
             dii= dii.OrderBy(x => ((Bagagem)x).dono.Passagem.Voo.DT_partida).ToList();
             foreach (Bagagem b in dii)
             {

@@ -15,7 +15,7 @@ namespace Dominio
         private string cpf;
         private char sexo;
         private DateTime dt_nas;
-        private List<Endereco> enderecos;
+        private Endereco endereco;
         private List<Cartao_Credito> cartoes;
         private Usuarios _usuario;
 
@@ -33,10 +33,10 @@ namespace Dominio
             set { cartoes = value; }
         }
 
-        public List<Endereco> Enderecos
+        public Endereco Endereco
         {
-            get { return enderecos; }
-            set { enderecos = value; }
+            get { return endereco; }
+            set { endereco = value; }
         }
 
         public DateTime Dt_Nas
@@ -79,7 +79,7 @@ namespace Dominio
             Sexo = 'M';
             _usuario = new Usuarios();
             Dt_Nas = Convert.ToDateTime("01/01/1995 03:30");
-            Enderecos = new List<Endereco>();
+            Endereco = new Endereco();
             Cartoes = new List<Cartao_Credito>();
             
         }

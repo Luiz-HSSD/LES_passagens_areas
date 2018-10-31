@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -47,10 +48,10 @@ namespace LES_passagens_areas.Pages
 
             return roles;
         }
-        public List<Bagagem> GetRoles3()
+        public List<Cartao_Credito> GetRoles3()
         {
             HttpContext.Session.SetObjectAsJson(devil, lb);
-            lb = HttpContext.Session.GetObjectFromJson<List<Bagagem>>(devil);
+            lb = HttpContext.Session.GetObjectFromJson<List<Cartao_Credito>>(devil);
 
             return lb;
         }
@@ -83,10 +84,16 @@ namespace LES_passagens_areas.Pages
             nome = "";
             password = "";
             com_password = "";
-            /*dat_partida = "";
-            dat_chegada = "";
-            hor_partida = "";
-            hor_chegada = "";*/
+            cpf = "";
+            rg = "";
+            dt_nas = "";
+            email = "";
+            cep = "";
+            rua = "";
+            numero = "";
+            bairro = "";
+            complemento = "";
+            cidade = "";
             if (!string.IsNullOrEmpty(cod))
             {
                 res = commands["CONSULTAR"].execute(new Dominio.Check_in() { ID = int.Parse(cod) });
@@ -113,6 +120,16 @@ namespace LES_passagens_areas.Pages
                 commands["EXCLUIR"].execute(new Dominio.Check_in() { ID = int.Parse(del) });
 
             }
+            if (!string.IsNullOrEmpty(dele))
+            {
+
+                lb = HttpContext.Session.GetObjectFromJson<List<Cartao_Credito>>(devil);
+                int b;
+                int.TryParse(dele, out b);
+                lb.RemoveAt(b - 1);
+                HttpContext.Session.SetObjectAsJson(devil, lb);
+
+            }
             listItems = GetRoles();
             listItems1 = GetRoles1();
             message = "";
@@ -123,6 +140,29 @@ namespace LES_passagens_areas.Pages
         }
         public void OnPostWay2(string data)
         {
+            Cliente bg = new Cliente();
+            if(Request.Form["password"]!= Request.Form["com_password"])
+            {
+                message = "digite a mesma senha";
+                return;
+            }
+            bg.Nome = Request.Form["nome"];
+            bg.usuario.Password = Request.Form["password"];
+            if (Convert.ToBoolean(Request.Form["sexo"]))
+                bg.Sexo = 'M';
+            else
+                bg.Sexo = 'F';
+            bg.Cpf = Request.Form["cpf"];
+            bg.Rg = Request.Form["rg"];
+            bg.Dt_Nas = DateTime.ParseExact(Request.Form["dt_nas"],"dd/mm/yyyy",CultureInfo.GetCultureInfo("pt-BR"));
+            bg.usuario.Login = Request.Form["email"];
+            bg.Endereco.Cep = Request.Form["cep"];
+            bg.Endereco.Logradouro = Request.Form["rua"];
+            bg.Endereco.Numero = Request.Form["numero"];
+            bg.Endereco.Bairro = Request.Form["bairro"];
+            bg.Endereco.Complemento = Request.Form["complemento"];
+            bg.Endereco.Cidade = Request.Form["cidade"];
+            bg.Endereco.UF = Request.Form["uf"];
             int b = 0;
             int.TryParse(Request.Form["aeroporto"].ToString(), out b);
             int c = 0;
@@ -133,7 +173,9 @@ namespace LES_passagens_areas.Pages
             int.TryParse(Request.Form["go"].ToString(), out e);
             int f = 0;
             int.TryParse(Request.Form["goo"].ToString(), out f);
-            message = commands["SALVAR"].execute(new Dominio.Cliente() {  }).Msg;
+
+            bg.Cartoes = HttpContext.Session.GetObjectFromJson<List<Cartao_Credito>>(devil);
+            message = commands["SALVAR"].execute(bg).Msg;
         }
         public void OnPostWay3(string data)
         {
@@ -167,33 +209,35 @@ namespace LES_passagens_areas.Pages
         }
         public string asdf = "";
         public string asdf2 = "";
-        List<Bagagem> lb = new List<Bagagem>();
+        List<Cartao_Credito> lb = new List<Cartao_Credito>();
         const string devil = "devil";
         public void OnPostWay5(string data)
         {
-            lb = HttpContext.Session.GetObjectFromJson<List<Bagagem>>(devil);
+            lb = HttpContext.Session.GetObjectFromJson<List<Cartao_Credito>>(devil);
+            id = Request.Form["id"];
+            nome = Request.Form["nome"];
+            password = Request.Form["password"];
+            com_password = Request.Form["com_password"];
+            cpf = Request.Form["cpf"];
+            rg = Request.Form["rg"];
+            dt_nas = Request.Form["dt"];
+            email = Request.Form["email"];
+            cep = Request.Form["cep"];
+            rua = Request.Form["rua"];
+            numero = Request.Form["numero"];
+            bairro = Request.Form["bairro"];
+            complemento = Request.Form["complemento"];
+            cidade = Request.Form["cidade"];
             Cartao_Credito bg = new Cartao_Credito();
             bg.ID = lb.Count + 1;
-            string medidas = Request.Form["qtd"];
-            double b = 0;
-            double.TryParse(Request.Form["partida"].ToString(), out b);
-            //bg.peso = b;
-            //lb.Add(bg);
-            medidas = medidas.ToLower();
-            string[] values = medidas.Split("x");
-
-            double c = 0;
-            if (values.Length >= 1)
-                double.TryParse(values[0], out c);
-            //bg.comprimento = (int)c;
-            double d = 0;
-            if (values.Length >= 2)
-                double.TryParse(values[1], out d);
-            //bg.largura = (int)d;
-            double e = 0;
-            if (values.Length >= 3)
-                double.TryParse(values[2], out e);
-            //bg.altura = (int)e;
+            bg.Nome_Titular = Request.Form["nome_card"];
+            bg.Numero = Request.Form["num_card"];
+            bg.Validade = Request.Form["validade"];
+            int a=0;
+            int.TryParse(Request.Form["ccv"],out a);
+            bg.CCV = a;
+            bg.Bandeira.ID = 1;
+            lb.Add(bg);
             HttpContext.Session.SetObjectAsJson(devil, lb);
 
             ///message = commands["EXCLUIR"].execute(new Aviao() { ID = a }).Msg;

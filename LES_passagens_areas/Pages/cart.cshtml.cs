@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Dominio;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Globalization;
+
 namespace LES_passagens_areas.Pages
 {
     public class cartModel : viewgenerico
@@ -13,12 +16,28 @@ namespace LES_passagens_areas.Pages
         private Passagens liv = new Passagens();
         string devil = "cart";
         //private static Gerar_produtos gp = new Gerar_produtos();
+
+        public IEnumerable<SelectListItem> listItems;
+        public IEnumerable<SelectListItem> GetRoles()
+        {
+            var roles = commands["CONSULTAR"].execute(new Cliente()).Entidades
+                        .Select(x =>
+                                new SelectListItem
+                                {
+                                    Value = x.ID.ToString(),
+                                    Text = ((Cliente)x).Nome
+                                });
+            var roles2 = roles.ToList();
+            roles2.Insert(0, new SelectListItem { Value = 0.ToString(), Text = "Selecione o cliente:" });
+            return new SelectList(roles2, "Value", "Text");
+        }
+        public string message { get; set; }
         public void OnGet(string cod, string code)
         {
             var venn = HttpContext.Session.GetObjectFromJson<Venda>(devil);
             if (venn!=null)
                 ven = venn;
-            
+            listItems = GetRoles();
             if (!string.IsNullOrEmpty(cod))
                 {
                     liv.ID = int.Parse(cod);
@@ -71,45 +90,26 @@ namespace LES_passagens_areas.Pages
                     }
 
                 }
-            //Pesquisar();
             HttpContext.Session.SetObjectAsJson(devil, ven);
             //*/
         }
-        
-        private void Pesquisar()
+        public void OnPostWay2(string data)
         {
-            /*
-            int evade = 0;
-            string GRID = "<TABLE class='display' onload=\"bora()\" id='GridViewcat'><THEAD>{0}</THEAD><TBODY>{1}</TBODY></TABLE>";
-            string tituloColunas = "<tr><th></th><th>Código</th><th>Nome</th><th>Descrição </th><th>preço unitario</th><th>qtd</th><th>preço</th></tr>";
-            string linha = "<tr><td></td>  ";
-            linha += "<td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td><a href='cart.aspx?code={0}'>-</a>{4}<a href='cart.aspx?cod={0}'>+</a></td><td>{5}</td></tr>";
-            try
-            {
-                evade = ven.Produtos.Count;
-            }
-            catch
-            {
-                evade = 0;
-            }
-            StringBuilder conteudo = new StringBuilder();
-            for (int i = 0; i < evade; i++)
-            {
-                liv = (Livro)ven.Produtos.ElementAt(i).Pro;
-                conteudo.AppendFormat(linha,
-                    liv.Id.ToString(),
-                    liv.Nome.ToString(),
-                    liv.Descricao.ToString(),
-                    liv.Preco,
-                    ven.Produtos.ElementAt(i).Qtd,
-                    liv.Preco * ven.Produtos.ElementAt(i).Qtd
-                    );
-
-
-            }
-            string tabelafinal = string.Format(GRID, tituloColunas, conteudo.ToString());
-            divTable.InnerHtml = tabelafinal;
-            */
+            int b = 0;
+            int.TryParse(Request.Form["qtd"].ToString(), out b);
+            int c = 0;
+            int.TryParse(Request.Form["go"].ToString(), out c);
+            int d = 0;
+            int.TryParse(Request.Form["aviao"].ToString(), out d);
+            DateTime e = DateTime.Now;
+            DateTime.TryParseExact(Request.Form["dt_partida"].ToString() + " " + Request.Form["hr_partida"].ToString(), "dd/MM/yyyy HH:mm", new CultureInfo("pt-BR"), DateTimeStyles.None, out e);
+            DateTime f = DateTime.Now;
+            DateTime.TryParseExact(Request.Form["dt_destino"].ToString() + " " + Request.Form["hr_destino"].ToString(), "dd/MM/yyyy HH:mm", new CultureInfo("pt-BR"), DateTimeStyles.None, out f);
+            message = commands["SALVAR"].execute(new Dominio.Passagens() { QTD = b, DT_partida = e, DT_chegada = f, LO_partida = new Aeroporto() { ID = Convert.ToInt32(Request.Form["partida"]) }, LO_chegada = new Aeroporto() { ID = Convert.ToInt32(Request.Form["destino"]) }, Tipo = new Classe() { ID = c }, Aviao_v = new Aviao() { ID = d } }).Msg;
+        }
+        public void OnPostWay3(string data)
+        {
+            Response.Redirect(("./"));
         }
 
     }
