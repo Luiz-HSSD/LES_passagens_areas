@@ -50,11 +50,14 @@ namespace Core.Negocio
                 }
                 ana.resultado[ana.resultado.Keys.ElementAt(i)] = bb;
             }
+            if(ana.resultado.Values.Count>0)
+            { 
             foreach (Bagagem b in ana.resultado.Values.ElementAt(0))
             {
                 lbls.Add(b.dono.Passagem.Voo.DT_partida.ToString("MMMM"));
             }
             ana.generic_labels = lbls.ToArray();
+            }
             return null;
             //throw new NotImplementedException();
         }

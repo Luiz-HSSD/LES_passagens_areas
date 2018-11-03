@@ -217,6 +217,7 @@ CREATE TABLE dep_pass
 
 CREATE TABLE status
 (
+    id_status   serial primary key,
     bilhete_id     int,   
     atual   int,
     prox   int,
@@ -225,5 +226,3 @@ CREATE TABLE status
     CONSTRAINT fk_st_bilhete FOREIGN KEY (bilhete_id) REFERENCES Departamento(bilhete_id)  on delete cascade on update cascade,
     constraint PK_CC primary key (id_cli, id_car)
 );
-
- 

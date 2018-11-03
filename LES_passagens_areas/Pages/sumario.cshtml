@@ -1,0 +1,18 @@
+﻿@page
+@model LES_passagens_areas.Pages.sumarioModel
+@{
+    ViewData["Title"] = "sumario";
+}
+
+<h2>sumario</h2>
+<TABLE class='display' onload="bora()" id='GridViewcat'>
+    <THEAD>
+        <tr><th>nome</th><th>passaram</th><th>não passaram</th></tr>
+    </THEAD>
+    <TBODY>
+        @foreach (Dominio.Classe objUser in Model.GetRoles())
+        {
+            <tr><td>completo</td><td>80</td><td><input type="button" value="80" onclick="window.location.href='./status.html?cod=completo';" /> </td></tr>
+            <tr><td>total</td><td>160</td><td><input type="button" value="0" onclick="window.location.href='./status.html?cod=check-in';" /> </td></tr>
+        }
+</TABLE>

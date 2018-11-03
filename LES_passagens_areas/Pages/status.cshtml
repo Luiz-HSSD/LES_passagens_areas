@@ -1,0 +1,19 @@
+﻿@page
+@model LES_passagens_areas.Pages.statusModel
+@{
+    ViewData["Title"] = "status";
+}
+
+<h2>status</h2>
+<TABLE class='display' onload="bora()" id='GridViewcat'>
+    <THEAD>
+        <tr><th></th><th>nome</th><th>voo</th><th>aeroporto</th></tr>
+    </THEAD>
+    <TBODY>
+        @foreach (Dominio.Status objUser in new List<Dominio.Status>() { new Dominio.Status() {Passageiro=new Dominio.Bilhete() {Nome="luiz" } }, new Dominio.Status() { Passageiro = new Dominio.Bilhete() { Nome = "rodrigo" } } })
+        {
+            <tr><td><input value="comfirmar" type="button" /></td><td>@objUser.Passageiro.Nome </td><td>TDU to GRU </td><td>guarulhos</td></tr>
+        }
+        </TBODY>
+</TABLE>
+<br />
