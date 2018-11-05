@@ -3,17 +3,57 @@
 @{
     ViewData["Title"] = "status";
 }
-
+@if (Model.nome_dep == null)
+{
 <h2>status</h2>
-<TABLE class='display' onload="bora()" id='GridViewcat'>
+}
+else
+{
+<h2>@Model.nome_dep</h2>
+}
+
+
+<TABLE class='display' onload="bora()" id='tb_view'>
     <THEAD>
-        <tr><th></th><th>nome</th><th>voo</th><th>aeroporto</th></tr>
+        <tr><th></th><th>nome</th><th>voo</th><th>aeroporto</th><th>Departamento</th></tr>
     </THEAD>
     <TBODY>
-        @foreach (Dominio.Status objUser in new List<Dominio.Status>() { new Dominio.Status() {Passageiro=new Dominio.Bilhete() {Nome="luiz" } }, new Dominio.Status() { Passageiro = new Dominio.Bilhete() { Nome = "rodrigo" } } })
+        @foreach (Dominio.Status objUser in Model.resposta)
         {
-            <tr><td><input value="comfirmar" type="button" /></td><td>@objUser.Passageiro.Nome </td><td>TDU to GRU </td><td>guarulhos</td></tr>
-        }
-        </TBODY>
-</TABLE>
-<br />
+        <tr>
+            <td><input value="comfirmar" type="button" onclick="window.location.href='@Model.mount_url(objUser.ID)'" /></td>
+            <td>@objUser.Passageiro.Nome </td>
+            <td>@objUser.Passageiro.passagem.Voo.LO_partida.sigla to @objUser.Passageiro.passagem.Voo.LO_chegada.sigla</td>
+
+            @if (objUser.IsDesembarque)
+            {
+                <td>
+                    @objUser.Passageiro.passagem.Voo.LO_chegada.sigla
+                </td>
+                <!--<td>desembarcando</td>-->
+            }
+            else
+            {
+                <td>
+                    @objUser.Passageiro.passagem.Voo.LO_partida.sigla
+                </td>
+                <!--<td>embarcando</td>-->
+            }
+            <td>@objUser.Atual.Nome</td>
+
+        </tr>
+                }
+            </TBODY>
+        </TABLE>
+        <br />
+        <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="~/lib/datatables.min.css">
+        <script type="text/javascript" src="~/lib/datatables.min.js"></script><!---->
+                <script src="~/js/jquery.mask.min.js"></script>
+                <script type="text/javascript">
+                    //code C# 
+                    //new List<Dominio.Status>() { new Dominio.Status() { IsDesembarque = true, Passageiro = new Dominio.Bilhete() { Nome = "luiz" } }, new Dominio.Status() { Passageiro = new Dominio.Bilhete() { Nome = "rodrigo" } } }
+                    $(document).ready(function () {
+                        $('#tb_view').DataTable();
+                    });
+                </script>

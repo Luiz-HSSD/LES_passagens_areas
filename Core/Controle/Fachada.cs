@@ -287,6 +287,24 @@ namespace Core.Controle
             rnsVenda.Add("EXCLUIR", rnsExcluirVenda);
             rnsVenda.Add("CONSULTAR", rnsConsultarVenda);
             rns.Add(typeof(Venda).Name, rnsVenda);
+
+            ProximoDepartamento pd = new ProximoDepartamento();
+
+            StatusDAO StatusDAO = new StatusDAO();
+            daos.Add(typeof(Status).Name, StatusDAO);
+            List<IStrategy> rnsSalvarStatus = new List<IStrategy>();
+            List<IStrategy> rnsAlterarStatus = new List<IStrategy>();
+            rnsAlterarStatus.Add(pd);
+            List<IStrategy> rnsExcluirStatus = new List<IStrategy>();
+            rnsExcluirStatus.Add(para_ex);
+            List<IStrategy> rnsConsultarStatus = new List<IStrategy>();
+            Dictionary<string, List<IStrategy>> rnsStatus = new Dictionary<string, List<IStrategy>>();
+            rnsStatus.Add("SALVAR", rnsSalvarStatus);
+            rnsStatus.Add("ALTERAR", rnsAlterarStatus);
+            rnsStatus.Add("EXCLUIR", rnsExcluirStatus);
+            rnsStatus.Add("CONSULTAR", rnsConsultarStatus);
+            rns.Add(typeof(Status).Name, rnsStatus);
+
             //*/
         }
         private static readonly Fachada Instance = new Fachada();

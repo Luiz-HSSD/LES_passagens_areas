@@ -1,6 +1,9 @@
 ﻿drop table bagagem;
 drop table assento;
 drop table check_in;
+DROP TABLE Dep_pass;
+DROP TABLE status; 
+DROP TABLE Departamento;
 drop table bilhete;
 drop table viagem;
 drop table passagens;
@@ -17,8 +20,7 @@ drop table funcionalidade;
 drop table perfil;
 DROP TABLE usuarios;
 DROP TABLE papel;
-DROP TABLE Dep_pass; 
-DROP TABLE Departamento;
+
 
 CREATE TABLE aeroporto(
 aero_id SERIAL PRIMARY KEY,
@@ -212,7 +214,7 @@ CREATE TABLE dep_pass
     pass_id   int,
     CONSTRAINT fk_dep_pass FOREIGN KEY(id_dep) REFERENCES Departamento(id_dep)  on delete cascade on update cascade,
     CONSTRAINT fk_pass_dep FOREIGN KEY(pass_id) REFERENCES passagens(pass_id)  on delete cascade on update cascade,
-    constraint PK_CC primary key (id_cli, id_car)
+    constraint PK_DP primary key (id_dep, pass_id)
 );
 
 CREATE TABLE status
@@ -220,9 +222,7 @@ CREATE TABLE status
     id_status   serial primary key,
     bilhete_id     int,   
     atual   int,
-    prox   int,
+    IsDesembarque   Boolean,
     CONSTRAINT fk_st_at FOREIGN KEY (atual) REFERENCES Departamento(id_dep)  on delete cascade on update cascade,
-    CONSTRAINT fk_st_px FOREIGN KEY (prox) REFERENCES Departamento(id_dep)  on delete cascade on update cascade,
-    CONSTRAINT fk_st_bilhete FOREIGN KEY (bilhete_id) REFERENCES Departamento(bilhete_id)  on delete cascade on update cascade,
-    constraint PK_CC primary key (id_cli, id_car)
+    CONSTRAINT fk_st_bilhete FOREIGN KEY (bilhete_id) REFERENCES bilhete(bilhete_id)  on delete cascade on update cascade  
 );

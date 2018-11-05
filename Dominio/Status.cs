@@ -6,6 +6,14 @@ namespace Dominio
 {
     public class Status:EntidadeDominio
     {
+        private bool flg_completo;
+
+        public bool Flg_completo
+        {
+            get { return flg_completo; }
+            set { flg_completo = value; }
+        }
+
         private Departamento atual;
 
         public Departamento Atual
@@ -13,12 +21,12 @@ namespace Dominio
             get { return atual; }
             set { atual = value; }
         }
-        private Departamento prox;
+        private bool isDesembarque;
 
-        public Departamento Prox
+        public bool IsDesembarque
         {
-            get { return prox; }
-            set { prox = value; }
+            get { return isDesembarque; }
+            set { isDesembarque = value; }
         }
 
         private Bilhete passageiro;
@@ -32,9 +40,10 @@ namespace Dominio
 
         public Status()
         {
+            flg_completo = false;
             passageiro = new Bilhete();
             atual = new Departamento();
-            prox = new Departamento();
+            isDesembarque = false;
 
         }
 
