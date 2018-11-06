@@ -59,6 +59,8 @@ namespace Core.DAO
                 {
                     p = new Viagem();
                     p.ID = Convert.ToInt32(vai["viagem_id"]);
+                    if (vai["id_ven"] != DBNull.Value)
+                        p.Compra.ID = Convert.ToInt32(vai["id_ven"]);
                     if (vai["qtd"] != DBNull.Value)
                         p.qtd = Convert.ToInt32(vai["qtd"]);
                     if (vai["preco_unit"] != DBNull.Value)

@@ -95,17 +95,20 @@ namespace LES_passagens_areas.Pages
         }
         public void OnPostWay2(string data)
         {
+            var venn = HttpContext.Session.GetObjectFromJson<Venda>(devil);            
             int b = 0;
-            int.TryParse(Request.Form["qtd"].ToString(), out b);
+            int.TryParse(Request.Form["adf"].ToString(), out b);
+            venn.Cliente_prop.ID = b;
             int c = 0;
-            int.TryParse(Request.Form["go"].ToString(), out c);
+            int.TryParse(Request.Form["id_card"].ToString(), out c);
+            venn.Forma_pagamento.ID = c;
             int d = 0;
-            int.TryParse(Request.Form["aviao"].ToString(), out d);
-            DateTime e = DateTime.Now;
-            DateTime.TryParseExact(Request.Form["dt_partida"].ToString() + " " + Request.Form["hr_partida"].ToString(), "dd/MM/yyyy HH:mm", new CultureInfo("pt-BR"), DateTimeStyles.None, out e);
-            DateTime f = DateTime.Now;
-            DateTime.TryParseExact(Request.Form["dt_destino"].ToString() + " " + Request.Form["hr_destino"].ToString(), "dd/MM/yyyy HH:mm", new CultureInfo("pt-BR"), DateTimeStyles.None, out f);
-            message = commands["SALVAR"].execute(new Dominio.Passagens() { QTD = b, DT_partida = e, DT_chegada = f, LO_partida = new Aeroporto() { ID = Convert.ToInt32(Request.Form["partida"]) }, LO_chegada = new Aeroporto() { ID = Convert.ToInt32(Request.Form["destino"]) }, Tipo = new Classe() { ID = c }, Aviao_v = new Aviao() { ID = d } }).Msg;
+            int.TryParse(Request.Form["ccv"].ToString(), out d);
+            venn.Forma_pagamento.CCV = d;
+            venn.Forma_pagamento.Nome_Titular = Request.Form["nome_card"];
+            venn.Forma_pagamento.Numero = Request.Form["num_card"];
+            venn.Forma_pagamento.Validade = Request.Form["validade"];
+            message = commands["SALVAR"].execute(venn).Msg;
         }
         public void OnPostWay3(string data)
         {

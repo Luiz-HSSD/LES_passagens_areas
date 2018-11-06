@@ -31,6 +31,14 @@ namespace Core.Negocio
             chk_in.Ocupante.viagem.ID = luiz.viagem.ID;
             chk_in.Ocupante.ocupante = chk_in;
             assendao.alterar(chk_in.Ocupante);
+            List<EntidadeDominio> go = new List<EntidadeDominio>();
+            Departamento dep = new Departamento();
+            DepartamentoDAO depDAO = new DepartamentoDAO();
+            go = depDAO.consultar(chk_in.Passagem.Voo);
+            if (go.Count > 0)
+                dep = (Departamento)go.ElementAt(0);
+            StatusDAO stDAO = new StatusDAO();
+            stDAO.salvar(new Status() {Passageiro=chk_in.Entrada,IsDesembarque=false,Atual = dep  });
             return "sucesso!";
         }
     }

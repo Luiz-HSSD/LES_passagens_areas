@@ -274,9 +274,12 @@ namespace Core.Controle
             rnsCliente.Add("CONSULTAR", rnsConsultarCliente);
             rns.Add(typeof(Cliente).Name, rnsCliente);
 
+            Fazer_compra fz_c = new Fazer_compra();
+
             VendaDAO VenDAO = new VendaDAO();
             daos.Add(typeof(Venda).Name, usuDAO);
             List<IStrategy> rnsSalvarVenda = new List<IStrategy>();
+            rnsSalvarVenda.Add(fz_c);
             List<IStrategy> rnsAlterarVenda = new List<IStrategy>();
             List<IStrategy> rnsExcluirVenda = new List<IStrategy>();
             rnsExcluirVenda.Add(para_ex);

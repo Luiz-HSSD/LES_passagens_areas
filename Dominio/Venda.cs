@@ -9,13 +9,15 @@ namespace Dominio
         private List<Viagem> viagems;
         private Cliente cliente;
         private decimal total;
+        private Cartao_Credito forma_pagamento;
 
-        public Venda() : base()
+        public Cartao_Credito Forma_pagamento
         {
-            cliente = new Cliente();
-            viagems = new List<Viagem>();
-            total = 0;
+            get { return forma_pagamento; }
+            set { forma_pagamento = value; }
         }
+
+        
 
         public decimal Total
         {
@@ -36,6 +38,14 @@ namespace Dominio
         {
             get { return viagems; }
             set { viagems = value; }
+        }
+
+        public Venda() : base()
+        {
+            forma_pagamento = new Cartao_Credito();
+            cliente = new Cliente();
+            viagems = new List<Viagem>();
+            total = 0;
         }
     }
 }

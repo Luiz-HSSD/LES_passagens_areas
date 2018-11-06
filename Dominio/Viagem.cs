@@ -65,6 +65,13 @@ namespace Dominio
             get { return _passageiros; }
             set { _passageiros = value; }
         }
+        private Venda compra;
+
+        public Venda Compra
+        {
+            get { return compra; }
+            set { compra = value; }
+        }
 
 
         public Viagem():base()
@@ -76,6 +83,7 @@ namespace Dominio
             valor_unidade = 0.0;
             _voo = new Passagens();
             _tipo = new Classe();
+            compra = new Venda();
         }
     }
 }
