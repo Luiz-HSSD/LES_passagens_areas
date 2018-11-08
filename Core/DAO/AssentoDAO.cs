@@ -113,14 +113,13 @@ namespace Core.DAO
             Assento Classe = (Assento)entidade;
             pst.Dispose();
             pst = new NpgsqlCommand();
-            pst.CommandText = "insert into assento ( tag ,class_id,chck_in_id,pass_id ) values (  :no,:nomm,:nome,:nom )";
+            pst.CommandText = "insert into assento ( tag ,class_id,pass_id ) values (  :no,:nomm,:nom )";
             parameters = new NpgsqlParameter[]
-                    {
-                        new NpgsqlParameter("no",Classe.Tag),
-                        new NpgsqlParameter("nomm",Classe.tipo.ID),
-                        new NpgsqlParameter("nome",Classe.ocupante.ID),
-                        new NpgsqlParameter("nom",Classe.viagem.ID)
-                    }; 
+            {
+                new NpgsqlParameter("no",Classe.Tag),
+                new NpgsqlParameter("nomm",Classe.tipo.ID),
+                new NpgsqlParameter("nom",Classe.viagem.ID)
+            }; 
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);
             pst.Connection = connection;

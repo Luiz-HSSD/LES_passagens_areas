@@ -20,6 +20,7 @@ namespace Core.Negocio
             DepartamentoDAO depDAO = new DepartamentoDAO();
             var devil = Classe.Atual.ID;
             bool go = false;
+            Agradecimento agra = new Agradecimento();
             List<EntidadeDominio> ld= depDAO.consultar(Classe.Passageiro.passagem.Voo);
             foreach (Departamento d in ld)
             {
@@ -35,9 +36,12 @@ namespace Core.Negocio
             if (ld.Count > 0)
             {
                 if(ld.ElementAt(ld.Count-1).ID==Classe.Atual.ID && ld.ElementAt(ld.Count - 1).ID==devil)
-                {                    
+                {
                     if (Classe.IsDesembarque)
+                    {
                         Classe.Atual.ID = 0;
+                        agra.processar(Classe.Passageiro);
+                    }
                     else
                     {
                         Classe.Atual.ID = ld.ElementAt(0).ID;

@@ -79,9 +79,10 @@
 </table>
 <script type="text/javascript">
     class bilhete {
-        constructor(id, class_id) {
+        constructor(id, class_id,pass_id) {
             this.id = id;
             this.class_id = class_id;
+            this.pass_id = pass_id;
         }
     }
     var adidas = new Array();
@@ -134,7 +135,7 @@
 
                     $("#bilhete").append(new Option(cliente.Nome + " " + cliente.RG, cliente.ID.toString()));
                     //alert(cliente.passagem.Tipo.ID);
-                    adidas.push(new bilhete(cliente.ID, cliente.passagem.Tipo.ID));
+                    adidas.push(new bilhete(cliente.ID, cliente.passagem.Tipo.ID, cliente.passagem.Voo.ID));
                 });
             }
         });
@@ -144,7 +145,7 @@
         $('#goo').children('option:not(:first)').remove();
         $.ajax({
             type: "GET",
-            url: '/api/devil/assento/' + korn + '/' + metallica,
+            url: '/api/devil/assento/' + metallica + '/' + korn ,
             timeout: 30000,
             contentType: "application/json; charset=utf-8",
             cache: false,
@@ -197,7 +198,7 @@
     $.ajax({
         type: "GET",
         url: '/api/devil/aeroporto?cod=0',
-        timeout: 3000,
+        timeout: 30000,
         contentType: "application/json; charset=utf-8",
         cache: false,
         success: function (devil) {
@@ -223,6 +224,8 @@
     function myFunction(item, index) {
         if (item.id == korn) {
             korn = item.class_id;
+            alert(item.class_id)
+            metallica = item.pass_id;
             return;
         }
     }
@@ -247,7 +250,7 @@
             adidas.forEach(myFunction);
             $("#go").prop('selectedIndex', korn - 1);
             $("#go").prop('disabled', true);
-            metallica = $("#voo").find(":selected").val();
+            //metallica = $("#voo").find(":selected").val();
             return override();
         });
     });

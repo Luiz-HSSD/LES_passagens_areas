@@ -65,7 +65,8 @@ namespace LES_passagens_areas.Pages
                             Voo = liv,
                             qtd = 1,
                             Valor = liv.Preco_uni,
-                            Valor_Unidade = liv.Preco_uni
+                            Valor_Unidade = liv.Preco_uni,
+                            Tipo = liv.Tipo
                         };
                         ven.Viagems.Add(item);
                     }

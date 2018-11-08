@@ -7,6 +7,7 @@ using Npgsql;
 using Dominio;
 using Core.Utils;
 using System.Data;
+using Core.Core;
 
 namespace Core.DAO
 {
@@ -27,7 +28,7 @@ namespace Core.DAO
             Passagens Classe = (Passagens)entidade;
             pst.Dispose();
             pst = new NpgsqlCommand();
-            pst.CommandText = "insert into passagens ( class_id, avi_id,data_chegada,data_partida,pass_lo_chegada,pass_lo_partida,qtd ) values (  :nome,:nom,:no,:nod,:node,:nodei,:dev )";
+            pst.CommandText = "insert into passagens ( class_id, avi_id,data_chegada,data_partida,pass_lo_chegada,pass_lo_partida,qtd ) values (  :nome,:nom,:no,:nod,:node,:nodei,:dev ) returning pass_id";
             parameters = new NpgsqlParameter[]
                     {
                         new NpgsqlParameter("nome",Classe.Tipo.ID),
@@ -42,10 +43,15 @@ namespace Core.DAO
             pst.Parameters.AddRange(parameters);
             pst.Connection = connection;
             pst.CommandType = CommandType.Text;
-            pst.ExecuteNonQuery();
+            Classe.ID=(int) pst.ExecuteScalar();
             pst.CommandText = "commit work";
             pst.ExecuteNonQuery();
             connection.Close();
+            IDAO DAO = new AssentoDAO();
+            for (int i = 1; i <= Classe.QTD; i++)
+                DAO.salvar(new Assento(new Check_in()) { tipo = Classe.Tipo, Tag = "A" + i, viagem = new Passagens() { ID = Classe.ID } });
+             DAO = new DepartamentoDAO();
+                DAO.salvar(Classe);
             return;
         }
 

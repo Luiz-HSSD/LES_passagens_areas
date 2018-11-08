@@ -67,12 +67,19 @@ namespace Dominio
             set { _preco_uni = value; }
         }
 
+        private List<Departamento> departamentos;
+
+        public List<Departamento> Departamentos
+        {
+            get { return departamentos; }
+            set { departamentos = value; }
+        }
 
 
 
         public Passagens():base()
         {
-            
+            departamentos = new List<Departamento>();
             aviao_v = new Aviao();
             tipo = new Classe();
             qtd = 0;

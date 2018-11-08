@@ -88,7 +88,7 @@ namespace Core.DAO
             Viagem Classe = (Viagem)entidade;
             pst.Dispose();
             pst = new NpgsqlCommand();
-            pst.CommandText = "insert into viagem ( qtd ,preco_unit,pass_id,class_id ) values (  :no,:nomm,:nome,:noo )";
+            pst.CommandText = "insert into viagem ( qtd ,preco_unit,pass_id,class_id ) values (  :no,:nomm,:nome,:noo ) returning viagem_id";
             parameters = new NpgsqlParameter[]
                     {
                         new NpgsqlParameter("no",Classe.qtd),
@@ -100,7 +100,7 @@ namespace Core.DAO
             pst.Parameters.AddRange(parameters);
             pst.Connection = connection;
             pst.CommandType = CommandType.Text;
-            pst.ExecuteNonQuery();
+            Classe.ID = (int)pst.ExecuteScalar();
             pst.CommandText = "commit work";
             pst.ExecuteNonQuery();
             connection.Close();

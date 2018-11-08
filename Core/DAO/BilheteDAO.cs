@@ -70,7 +70,7 @@ namespace Core.DAO
                     if (Classe.ID == 0 && Classe.passagem.Voo.ID != 0)
                     {
                         p.passagem.Tipo.ID= Convert.ToInt32(vai["class_id"]);
-                        p.passagem.Voo.Tipo.ID = Convert.ToInt32(vai["class_id"]);
+                        p.passagem.Voo.ID = Convert.ToInt32(vai["pass_id"]);
                     }
                     Classes.Add(p);
                 }
@@ -90,7 +90,31 @@ namespace Core.DAO
 
         public override void salvar(EntidadeDominio entidade)
         {
-            throw new NotImplementedException();
+            if (connection.State == ConnectionState.Closed)
+                connection.Open();
+            Bilhete Classe = (Bilhete)entidade;
+            pst.Dispose();
+            pst = new NpgsqlCommand();
+            pst.CommandText = "insert into bilhete (  nome , rg , cpf ,email , sexo , passaporte , viagem_id    ) values (  :no,:nome,:nomm,:nom,:sex,:passpor,:via ) returning bilhete_id";
+            parameters = new NpgsqlParameter[]
+                    {
+                        new NpgsqlParameter("no",Classe.Nome),
+                        new NpgsqlParameter("nome",Classe.RG),
+                        new NpgsqlParameter("nomm",Classe.cpf),
+                        new NpgsqlParameter("nom",Classe.Email),
+                        new NpgsqlParameter("sex",Classe.Sexo),
+                        new NpgsqlParameter("passpor",Classe.passaporte),
+                        new NpgsqlParameter("via",Classe.passagem.ID),
+                    };
+            pst.Parameters.Clear();
+            pst.Parameters.AddRange(parameters);
+            pst.Connection = connection;
+            pst.CommandType = CommandType.Text;
+            Classe.ID = (int)pst.ExecuteScalar();
+            pst.CommandText = "commit work";
+            pst.ExecuteNonQuery();
+            connection.Close();
+            return;
         }
     }
 }

@@ -68,7 +68,29 @@ namespace Core.DAO
 
         public override void salvar(EntidadeDominio entidade)
         {
-            throw new NotImplementedException();
+            if (connection.State == ConnectionState.Closed)
+                connection.Open();
+            Passagens Classe = (Passagens)entidade;
+            foreach (Departamento d  in Classe.Departamentos)
+            { 
+                pst.Dispose();
+                pst = new NpgsqlCommand();
+                pst.CommandText = "insert into dep_pass ( pass_id, id_dep ) values (  :no,:nomm )";
+                parameters = new NpgsqlParameter[]
+                {
+                    new NpgsqlParameter("no",Classe.ID),
+                    new NpgsqlParameter("nomm",d.ID)
+                };
+                pst.Parameters.Clear();
+                pst.Parameters.AddRange(parameters);
+                pst.Connection = connection;
+                pst.CommandType = CommandType.Text;
+                pst.ExecuteNonQuery();
+            }
+            pst.CommandText = "commit work";
+            pst.ExecuteNonQuery();
+            connection.Close();
+            return;
         }
     }
 }

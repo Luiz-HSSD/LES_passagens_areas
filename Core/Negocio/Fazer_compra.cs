@@ -17,18 +17,22 @@ namespace Core.Negocio
             {
                 Classe.Total += (decimal)(vg.qtd*vg.Valor_Unidade);
             }
-            
-                VendaDAO go  =  new VendaDAO();
+            VendaDAO go  =  new VendaDAO();
             go.salvar(Classe);
             ViagemDAO vgDAO = new ViagemDAO();
-            foreach(Viagem vg in Classe.Viagems)
-            {
-                
-                //vg.Titular.
+            BilheteDAO biDAO = new BilheteDAO();
+            foreach (Viagem vg in Classe.Viagems)
+            {             
                 vg.Compra.ID = Classe.ID;
                 vgDAO.salvar(vg);
-
-            }           
+                foreach(Bilhete b in vg.Passageiros)
+                {
+                    b.passagem.ID = vg.ID;
+                    biDAO.salvar(b);
+                }
+            }
+            
+            
             return "sucesso!";
         }
     }

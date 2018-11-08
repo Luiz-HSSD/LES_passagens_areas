@@ -28,7 +28,7 @@
 }
 <form method="POST">
     <input id="par" type="hidden" value="@{ WriteLiteral(Model.partida.ToString()); }" /><input id="che" type="hidden" value="@{ WriteLiteral(Model.chegada.ToString()); }" />
-    ID: @Html.TextBox("id", (Model.id), new { @readonly = "readonly" })<br />
+    ID: @Html.TextBox("id", (Model.id), new { @readonly = "readonly" }) <br />
     Quantidade: @Html.TextBox("qtd", (Model.name))<br />
     PARTIDA: @Html.DropDownList("partida", (Model.GetRoles4()))<br />
     destino: @Html.DropDownList("destino", (Model.GetRoles4()))<br />
@@ -36,6 +36,7 @@
     DT destino: @Html.TextBox("dt_destino", (Model.dat_chegada))<br />
     HR PARTIDA: @Html.TextBox("hr_partida", (Model.hor_partida))<br />
     HR destino: @Html.TextBox("hr_destino", (Model.hor_chegada))<br />
+    tipo de voo: <select id="dii" name="dii"><option value="0">nacional</option><option value="1">internacional</option><option value="2">especial</option></select><br />
     classe: @Html.DropDownList("go", Model.classe)<br />
     AVIAO: @Html.DropDownList("aviao", Model.aviao) (nome marca serie)<br />
     <button type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way2">cadastrar</button>

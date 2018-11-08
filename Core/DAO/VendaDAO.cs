@@ -30,7 +30,7 @@ namespace Core.DAO
             Venda Classe = (Venda)entidade;
             pst.Dispose();
             pst = new NpgsqlCommand();
-            pst.CommandText = "insert into assento (        id_cli  , preco     ,    id_car   ) values (  :no,:nomm,:nome,:nom ) returning id_ven";
+            pst.CommandText = "insert into vendas (   id_cli  , preco     ,    id_car   ) values (  :no,:nomm,:nom ) returning id_ven";
             parameters = new NpgsqlParameter[]
                     {
                         new NpgsqlParameter("no",Classe.Cliente_prop.ID),
@@ -41,7 +41,7 @@ namespace Core.DAO
             pst.Parameters.AddRange(parameters);
             pst.Connection = connection;
             pst.CommandType = CommandType.Text;
-            pst.ExecuteNonQuery();
+            Classe.ID = (int)pst.ExecuteScalar();
             pst.CommandText = "commit work";
             pst.ExecuteNonQuery();
             connection.Close();
