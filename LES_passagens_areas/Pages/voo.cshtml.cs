@@ -49,11 +49,14 @@ namespace LES_passagens_areas.Pages
             if (partida != 0 && chegada != 0)
             {
                 GetRoles = Getvoo(partida, chegada, date);
-                Passagens gr = ((Passagens)GetRoles.ElementAt(0));
-                var sCoord = new GeoCoordinate(gr.LO_partida.lat, gr.LO_partida.lng);
-                var eCoord = new GeoCoordinate(gr.LO_chegada.lat, gr.LO_partida.lng);
+                if (GetRoles.Count>0)
+                {
+                    Passagens gr = ((Passagens)GetRoles.ElementAt(0));
+                    var sCoord = new GeoCoordinate(gr.LO_partida.lat, gr.LO_partida.lng);
+                    var eCoord = new GeoCoordinate(gr.LO_chegada.lat, gr.LO_partida.lng);
 
-                dist = eCoord.GetDistanceTo(sCoord).ToString(); //distFrom(gr.LO_chegada.lat, gr.LO_chegada.lng, gr.LO_partida.lat, gr.LO_partida.lng).ToString();
+                    dist = eCoord.GetDistanceTo(sCoord).ToString(); //distFrom(gr.LO_chegada.lat, gr.LO_chegada.lng, gr.LO_partida.lat, gr.LO_partida.lng).ToString();
+                }
             }
 
         }

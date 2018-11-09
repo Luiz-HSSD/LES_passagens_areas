@@ -27,6 +27,7 @@ namespace Core.Negocio
                 if (go)
                 {
                     Classe.Atual.ID = d.ID;
+                    break;
                 }
                 if (Classe.Atual.ID ==d.ID)
                 {

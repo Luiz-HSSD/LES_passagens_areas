@@ -71,6 +71,9 @@ namespace LES_passagens_areas
 
             return JsonConvert.SerializeObject(res.Entidades, Formatting.None, new JsonSerializerSettings(){ ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
         }
+
+
+
         [Route("analise/{code}/{codd}/{codee}/{codde}/{co}/{cod}")]
         [HttpGet]
         public string analise(int code, int codd, int codee, int codde,int co, int cod)
