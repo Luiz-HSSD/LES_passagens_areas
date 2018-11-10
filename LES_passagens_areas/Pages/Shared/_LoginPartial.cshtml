@@ -2,17 +2,19 @@
 @using Microsoft.AspNetCore.Http
 
 @{
-    //HttpContext.Session.GetObjectFromJson<Venda>("login")
+//HttpContext.Session.GetObjectFromJson<Venda>("login")
+}
+@{ 
+   var usu=  Context.Session.GetObjectFromJson<Usuarios>("login");
 }
 
-
-@if (Context.Session.GetObjectFromJson<Usuarios>("login") != null)
+@if (usu != null)
 {
 <form  method="post" id="logoutForm" class="navbar-right">
    
     <ul class="nav navbar-nav navbar-right">
         <li>
-            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello !</a>
+            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @usu.Login !</a>
         </li>
         <li>
             <button type="button" class="btn btn-link navbar-btn navbar-link" onclick="window.location.href='/Index?cod=1'" >Logout</button>

@@ -148,6 +148,7 @@ namespace LES_passagens_areas.Pages
             }
             bg.Nome = Request.Form["nome"];
             bg.usuario.Password = Request.Form["password"];
+            bg.usuario.Permisao = 1;
             if (Convert.ToBoolean(Request.Form["sexo"]))
                 bg.Sexo = 'M';
             else

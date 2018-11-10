@@ -75,7 +75,7 @@ namespace LES_passagens_areas.Pages
         }
         public void OnGet()
         {
-
+            autenticar(2);
         }
     }
 }

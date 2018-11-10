@@ -86,12 +86,16 @@ namespace LES_passagens_areas.Pages
             public SelectList aviao { get; set; }
             public SelectList classe { get; set; }
             public SelectList Passagens { get; set; }
+            public List<Bilhete> devill = new List<Bilhete>();
             public void OnGet(string cod,string code, string del)
             {
+            if(!autenticar(1))
+                return;
             if(!string.IsNullOrEmpty(cod))
             HttpContext.Session.SetString("cod", cod);
             classe = (SelectList)GetRoles();
                 aviao = (SelectList)GetRoles1();
+            devill= GetRoles3();
                 //aviao = (SelectList)GetRoles1();
                 id = "";
                 name = "";
@@ -148,8 +152,9 @@ namespace LES_passagens_areas.Pages
                 ven.Viagems.Find(x => x.Voo.ID == int.Parse(cod)).Passageiros.Add(a);
                 HttpContext.Session.SetObjectAsJson(devil, ven);
                 var bora=    ven.Viagems.Find(x => x.Voo.ID == int.Parse(cod));
+                devill = GetRoles3();
                 if (bora.qtd<=bora.Passageiros.Count )
-                Response.Redirect("./cart");
+                    Response.Redirect("./cart");
             
         }
             public void OnPostWay4(string data)

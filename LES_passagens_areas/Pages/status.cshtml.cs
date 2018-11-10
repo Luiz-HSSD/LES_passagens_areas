@@ -32,6 +32,8 @@ namespace LES_passagens_areas.Pages
         public string dep, voo;
         public void OnGet(string dep,string voo, string st)
         {
+            if(!autenticar(2))
+                return;
             if (!string.IsNullOrEmpty(st))
             {
                 int a;

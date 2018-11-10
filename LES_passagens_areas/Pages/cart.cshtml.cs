@@ -31,9 +31,21 @@ namespace LES_passagens_areas.Pages
             roles2.Insert(0, new SelectListItem { Value = 0.ToString(), Text = "Selecione o cliente:" });
             return new SelectList(roles2, "Value", "Text");
         }
+        public string id_cli { get; set; }
         public string message { get; set; }
         public void OnGet(string cod, string code)
         {
+            if (!autenticar(1))
+                return;
+            var usu= HttpContext.Session.GetObjectFromJson<Usuarios>("login");
+            if(usu==null)
+            {
+                Response.Redirect(("./"));
+                return;
+            }
+            res =commands["CONSULTAR"].execute(new Cliente() {usuario=usu }); //usu
+            if (res.Entidades.Count > 0)
+              id_cli=  res.Entidades.ElementAt(0).ID.ToString();
             var venn = HttpContext.Session.GetObjectFromJson<Venda>(devil);
             if (venn!=null)
                 ven = venn;
@@ -98,7 +110,7 @@ namespace LES_passagens_areas.Pages
         {
             var venn = HttpContext.Session.GetObjectFromJson<Venda>(devil);            
             int b = 0;
-            int.TryParse(Request.Form["adf"].ToString(), out b);
+            int.TryParse(Request.Form["adf"], out b);
             venn.Cliente_prop.ID = b;
             int c = 0;
             int.TryParse(Request.Form["id_card"].ToString(), out c);
@@ -110,6 +122,7 @@ namespace LES_passagens_areas.Pages
             venn.Forma_pagamento.Numero = Request.Form["num_card"];
             venn.Forma_pagamento.Validade = Request.Form["validade"];
             message = commands["SALVAR"].execute(venn).Msg;
+            HttpContext.Session.SetObjectAsJson(devil, null);
         }
         public void OnPostWay3(string data)
         {

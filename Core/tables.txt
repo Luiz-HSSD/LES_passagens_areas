@@ -56,7 +56,8 @@ create table usuarios
 (
 id_user serial PRIMARY KEY, 
 login varchar(100) unique,
-password_user varchar(80)
+password_user varchar(80),
+permisao int
 );
 
 create table perfil(

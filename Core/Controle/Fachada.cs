@@ -229,12 +229,15 @@ namespace Core.Controle
             rnsEndereco.Add("CONSULTAR", rnsConsultarEndereco);
             rns.Add(typeof(Endereco).Name, rnsEndereco);
 
+            Exclusao_admin adm_ex = new Exclusao_admin();
+
             UsuariosDAO usuDAO = new UsuariosDAO();
             daos.Add(typeof(Usuarios).Name, usuDAO);
             List<IStrategy> rnsSalvarUsuarios = new List<IStrategy>();
             List<IStrategy> rnsAlterarUsuarios = new List<IStrategy>();
             List<IStrategy> rnsExcluirUsuarios = new List<IStrategy>();
             rnsExcluirUsuarios.Add(para_ex);
+            rnsExcluirUsuarios.Add(adm_ex);
             List<IStrategy> rnsConsultarUsuarios = new List<IStrategy>();
             Dictionary<string, List<IStrategy>> rnsUsuarios = new Dictionary<string, List<IStrategy>>();
             rnsUsuarios.Add("SALVAR", rnsSalvarUsuarios);
@@ -276,13 +279,14 @@ namespace Core.Controle
 
             Fazer_compra fz_c = new Fazer_compra();
 
+
             VendaDAO VenDAO = new VendaDAO();
             daos.Add(typeof(Venda).Name, usuDAO);
             List<IStrategy> rnsSalvarVenda = new List<IStrategy>();
             rnsSalvarVenda.Add(fz_c);
             List<IStrategy> rnsAlterarVenda = new List<IStrategy>();
             List<IStrategy> rnsExcluirVenda = new List<IStrategy>();
-            rnsExcluirVenda.Add(para_ex);
+            rnsExcluirVenda.Add(para_ex);            
             List<IStrategy> rnsConsultarVenda = new List<IStrategy>();
             Dictionary<string, List<IStrategy>> rnsVenda = new Dictionary<string, List<IStrategy>>();
             rnsVenda.Add("SALVAR", rnsSalvarVenda);

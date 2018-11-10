@@ -1,0 +1,50 @@
+﻿@page
+@model LES_passagens_areas.Pages.usuariosModel
+@{
+    ViewData["Title"] = "usuarios";
+}
+
+<h2>usuarios</h2>
+@if (!string.IsNullOrEmpty(Model.message))
+{
+    <p id="dii" style="display:none; visibility:hidden;">@Html.Raw(Model.message)</p>
+    <script>alert(document.getElementById("dii").innerHTML);</script>
+}
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/lib/datatables.min.css">
+<script type="text/javascript" src="~/lib/datatables.min.js"></script><!---->
+<script src="~/js/jquery.mask.min.js"></script>
+<form method="POST">
+    ID: @Html.TextBox("id", (Model.id), new { @readonly = "readonly" }) @Html.TextBox("permisao", (Model.permissao), new { @readonly = "readonly", type = "hidden" }) <br />
+    usuario: @Html.TextBox("login", (Model.Login))<br />
+    senha: @Html.TextBox("senha", (Model.senha))<br />
+    <button type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way2">cadastrar</button>
+    <button type="submit" class="btn btn-warning" asp-route-data="foo" asp-page-handler="Way3">alterar</button>
+    <button type="submit" class="btn btn-light" asp-route-data="foo" asp-page-handler="Way4">cancelar</button>
+</form>
+<br />
+<br />
+<table id="tb_view">
+    <thead><tr><th></th><th>id</th><th>login</th><th>senha</th></tr></thead>
+    <tbody>
+        @foreach (Dominio.Usuarios objUser in Model.GetRoles())
+        {
+        <tr>
+            <td>
+                <a class="btn btn-primary" href='usuarios?cod=@objUser.ID.ToString()'>editar</a>
+                <a class="btn btn-danger" href='usuarios?del=@objUser.ID.ToString()'>apagar</a>
+            </td>
+            <td>@objUser.ID.ToString()</td>
+            <td>@objUser.Login.ToString()</td>
+            <td>@objUser.Password.ToString()</td>
+        </tr>
+        }
+    </tbody>
+</table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tb_view').DataTable();   
+    });
+</script>
+<div id="table">
+</div>

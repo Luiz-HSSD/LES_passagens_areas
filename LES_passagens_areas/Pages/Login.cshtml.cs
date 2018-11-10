@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Dominio;
 namespace LES_passagens_areas.Pages
 {
-    public class LoginModel : PageModel
+    public class LoginModel : viewgenerico
     {
         public void OnGet()
         {
@@ -15,8 +15,15 @@ namespace LES_passagens_areas.Pages
         }
         public void OnPostCev(string data)
         {
-            HttpContext.Session.SetObjectAsJson("login", new Usuarios());
-            Response.Redirect("./index");
+            var usu = new Usuarios();
+            usu.Login = Request.Form["Email"];
+            usu.Password = Request.Form["Password"];
+            res=commands["CONSULTAR"].execute(usu);
+            if (res.Entidades.Count > 0)
+            { 
+                HttpContext.Session.SetObjectAsJson("login", res.Entidades.ElementAt(0));
+                Response.Redirect("./index");
+            }
         }
     }
 }

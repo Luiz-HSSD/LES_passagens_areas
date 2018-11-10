@@ -39,7 +39,8 @@
     </environment>
 </head>
 <body>
-
+    @using Dominio
+    @using Microsoft.AspNetCore.Http
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -56,10 +57,24 @@
                     <li><a asp-page="/Index">Home</a></li>
                     <li><a asp-page="/About">About</a></li>
                     <li><a asp-page="/Contact">Contact</a></li>
-                    <li><a asp-page="/passagens">Passagens</a></li>
-                    <li><a asp-page="/check_in">check-in</a></li>
-                    <li><a asp-page="/sumario">sumario</a></li>
-                    <li><a asp-page="/analise">analise</a></li>
+                    @{
+                        var usu = Context.Session.GetObjectFromJson<Usuarios>("login");
+                    }
+
+                    @if (usu != null)
+                    {
+                        @if (usu.Permisao > 1)
+                        {
+                            <li><a asp-page="/passagens">Passagens</a></li>
+                            <li><a asp-page="/check_in">check-in</a></li>
+                            <li><a asp-page="/sumario">sumario</a></li>
+                            @if (usu.Permisao > 2)
+                            {
+                                <li><a asp-page="/analise">analise</a></li>
+                                <li><a asp-page="/usuarios">usuarios</a></li>
+                            }
+                        }
+                    }
                 </ul>
                 <partial name="_LoginPartial" />
             </div>

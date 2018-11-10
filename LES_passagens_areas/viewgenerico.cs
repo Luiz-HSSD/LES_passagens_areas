@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using LES_passagens_areas.Command;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Dominio;
 
 namespace LES_passagens_areas
 {
@@ -22,5 +23,20 @@ namespace LES_passagens_areas
             commands.Add("VISUALIZAR", new VisualizarCommand());
         }
                
+        public bool autenticar(int permisão)
+        {
+            var usu = HttpContext.Session.GetObjectFromJson<Usuarios>("login");
+            if (usu == null)
+            {
+                Response.Redirect(("./"));
+                return false;
+            }
+            if (usu.Permisao < permisão)
+            {
+                Response.Redirect(("./"));
+                return false;
+            }
+            return true;
+        }
     }
 }

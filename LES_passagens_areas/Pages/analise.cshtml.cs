@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LES_passagens_areas.Pages
 {
-    public class analiseModel : PageModel
+    public class analiseModel : viewgenerico
     {
         public void OnGet()
         {
-
+            autenticar(2);
         }
     }
 }

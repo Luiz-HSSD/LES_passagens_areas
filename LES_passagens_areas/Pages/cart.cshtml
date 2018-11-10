@@ -29,8 +29,9 @@
         </tbody>
     </table>
     <br />
-    Cliente @Html.DropDownList("adf", Model.listItems, new { onchange = "go(document.getElementById('adf').options[document.getElementById('adf').selectedIndex].value)" })
-    <br />
+    @Html.TextBox("adf", Model.id_cli, new { type = "hidden" })
+    <!--Cliente Html.DropDownList("adf", Model.listItems, new { onchange = "go(document.getElementById('adf').options[document.getElementById('adf').selectedIndex].value)" })
+    <br />-->
     Cartão de credito @Html.DropDownList("goasdf", new SelectList(new List<SelectListItem>(), "Value", "Text"), new { onchange = "mrSatan()" })
     <br />
     <b>nome do titular</b>@Html.TextBox("nome_card") @Html.TextBox("id_card", null, new { type = "hidden" })
@@ -91,7 +92,7 @@
                 success: function (devil) {
                     var ii = 1;
                     $.each(JSON.parse(devil), function (i, cliente) {
-                        adidas.push(new cartao(cliente.ID, cliente.Numero, cliente.Nome_Titular, cliente.Validade, cliente.CCV));
+                        adidas.push(new cartao(cliente.ID, cliente.Nome_Titular , cliente.Numero, cliente.Validade, cliente.CCV));
                         $("#goasdf").append(new Option(cliente.Numero + " " + cliente.Validade, cliente.ID.toString()));
 
                         ii++;
@@ -99,6 +100,6 @@
                 }
             });
         }
-
+        go( @Model.id_cli );
     </script>
 </form>

@@ -36,12 +36,21 @@ namespace Dominio
             get { return domain; }
             set { domain = value; }
         }
+        private int permisao;
+
+        public int Permisao
+        {
+            get { return permisao; }
+            set { permisao = value; }
+        }
+
 
         public Usuarios() : base()
         {
             login = "";
             password = "";
             passrec = "";
+            permisao = 0;
             domain = "";
         }
         

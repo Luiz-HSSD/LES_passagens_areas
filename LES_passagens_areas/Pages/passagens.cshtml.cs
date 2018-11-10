@@ -45,10 +45,7 @@ namespace LES_passagens_areas.Pages
         }
         public List<EntidadeDominio> GetRoles2()
         {
-
-            var roles = commands["CONSULTAR"].execute(new Dominio.Passagens()).Entidades;
-                        
-
+            var roles = commands["CONSULTAR"].execute(new Dominio.Passagens()).Entidades;      
             return roles;
         }
         public List<EntidadeDominio> GetRoles3()
@@ -87,6 +84,8 @@ namespace LES_passagens_areas.Pages
         public SelectList Passagens { get; set; }
         public void OnGet(string cod,string del)
         {
+            if(!autenticar(2))
+                return;
             classe= (SelectList)GetRoles();
             aviao =(SelectList) GetRoles1();
             //aviao = (SelectList)GetRoles1();

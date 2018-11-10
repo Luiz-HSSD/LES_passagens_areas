@@ -75,6 +75,8 @@ namespace LES_passagens_areas.Pages
         
         public void OnGet(string cod, string del, string dele)
         {
+            if(!autenticar(2))
+                return;
             classe = (SelectList)GetRoles1();
             //bilhete = (SelectList)GetRoles();
             id = "";

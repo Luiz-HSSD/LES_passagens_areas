@@ -35,9 +35,13 @@ namespace Core.DAO
                 }
 
 
-                if (Classe.ID == 0)
+                if (Classe.ID == 0 && string.IsNullOrEmpty(Classe.usuario.Login))
                 {
                     sql = "SELECT * FROM clientes ";
+                }
+                else if (!string.IsNullOrEmpty(Classe.usuario.Login))
+                {
+                    sql = "SELECT * FROM clientes join usuarios using(id_user) WHERE login = :lo and password_user = :pas ";
                 }
                 else
                 {
@@ -46,7 +50,12 @@ namespace Core.DAO
                 pst = new NpgsqlCommand();
 
                 pst.CommandText = sql;
-                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID) };
+                parameters = new NpgsqlParameter[] 
+                {
+                    new NpgsqlParameter("co", Classe.ID),
+                    new NpgsqlParameter("lo", Classe.usuario.Login),
+                    new NpgsqlParameter("pas", Classe.usuario.Password)
+                };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -54,9 +63,10 @@ namespace Core.DAO
                 //pst.ExecuteNonQuery();
                 vai = pst.ExecuteReader();
                 List<EntidadeDominio> Classes = new List<EntidadeDominio>();
-                Cliente p;
+                Cliente p =new Cliente();
                 while (vai.Read())
                 {     
+                    if(Classe.ID ==0)
                     p = new Cliente();
                     p.ID = Convert.ToInt32(vai["id_cli"]);
                     p.Nome = (vai["nome_cli"].ToString());
@@ -68,24 +78,18 @@ namespace Core.DAO
                     p.Endereco.ID = Convert.ToInt32(vai["id_end"]);
                     if (Classe.ID != 0)
                     {
-                        p.Cartoes.Add(new Cartao_Credito());
-                        p.Cartoes.ElementAt(0).ID = Convert.ToInt32(vai["id_car"]);
-                        p.Cartoes.ElementAt(0).Numero = (vai["numero"].ToString());
-                        p.Cartoes.ElementAt(0).CCV = Convert.ToInt32(vai["ccv"]);
-                        p.Cartoes.ElementAt(0).Nome_Titular = (vai["nome_car"].ToString());
-                        p.Cartoes.ElementAt(0).Validade = (vai["validade"].ToString());
-                        p.Cartoes.ElementAt(0).Bandeira.ID = Convert.ToInt32(vai["id_band"].ToString());
-                        if (Classes.Count > 1)
-                        { 
-                            Cliente c = (Cliente)Classes.ElementAt(Classes.Count - 1);
-                            if (c.ID == p.ID)
-                            {
-                                c.Cartoes.Add(p.Cartoes.ElementAt(0));
-                                continue;
-                            }
-                        }
+                        var c = new Cartao_Credito();
+                        p.Cartoes.Add(c);
+                        c.ID = Convert.ToInt32(vai["id_car"]);
+                        c.Numero = (vai["numero"].ToString());
+                        c.CCV = Convert.ToInt32(vai["ccv"]);
+                        c.Nome_Titular = (vai["nome_car"].ToString());
+                        c.Validade = (vai["validade"].ToString());
+                        c.Bandeira.ID = Convert.ToInt32(vai["id_band"].ToString());
+                        
                     }
-                    Classes.Add(p);
+                    if (Classe.ID == 0 || Classes.Count==0)
+                        Classes.Add(p);
                 }
                 vai.Close();
                 connection.Close();
