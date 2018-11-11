@@ -5,13 +5,101 @@
 }
 
 <h2>sumario</h2>
-<TABLE class='display' onload="bora()" id='GridViewcat'>
-    <THEAD>
-        <tr><th>nome</th><th>qtd</th></tr>
-    </THEAD>
-    <TBODY>
-        @foreach (Dominio.Sumario objUser in Model.GetRoles())
-        {
-            <tr><td>@objUser.Dep.Nome</td><td><input type="button" value="@objUser.Qtd" onclick="window.location.href='./status?dep=@objUser.Dep.ID';" /> </td></tr>
+    aeroporto: <select id="aeroporto" name="aeroporto" onchange="go()"></select>
+    <br />
+    <br />
+    <TABLE class='display' onload="bora()" id='GridViewcat'>
+        <THEAD>
+            <tr><th>nome</th><th>qtd</th></tr>
+        </THEAD>
+        <TBODY>
+
+            @foreach (Dominio.Sumario objUser in Model.lt)
+            {
+            <tr>
+                <td>@objUser.Dep.Nome</td>
+                @if (string.IsNullOrEmpty(Model.codd))
+                {
+                    <td><input type="button" value="@objUser.Qtd" onclick="window.location.href='./status?dep=@objUser.Dep.ID';" /> </td>
+                }
+                else
+                {
+                    <td><input type="button" value="@objUser.Qtd" onclick="window.location.href='./status?dep=@objUser.Dep.ID&voo=@Model.codd';" /> </td>
+                }
+
+
+
+            </tr>
+            }
+    </TABLE>
+<script>
+    function go() {
+        var e = document.getElementById("aeroporto");
+        var strUser = e.options[e.selectedIndex].value;
+        //alert(strUser);
+        window.location = "./sumario?cod=" + strUser;
+    }
+    var lat = 0.5;
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
         }
-</TABLE>
+    }
+    function showPosition(position) {
+        var latlon = position.coords.latitude + "," + position.coords.longitude;
+        lat = position.coords.latitude;
+    }
+    function showError(error) {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                x.innerHTML = "User denied the request for Geolocation."
+                break;
+            case error.POSITION_UNAVAILABLE:
+                x.innerHTML = "Location information is unavailable."
+                break;
+            case error.TIMEOUT:
+                x.innerHTML = "The request to get user location timed out."
+                break;
+            case error.UNKNOWN_ERROR:
+                x.innerHTML = "An unknown error occurred."
+                break;
+        }
+    }
+    getLocation();
+    var url = new URL(window.location.href);
+    var c = url.searchParams.get("cod");
+    $.ajax({
+        type: "GET",
+        url: '/api/devil/aeroporto?cod=0',
+        timeout: 30000,
+        contentType: "application/json; charset=utf-8",
+        cache: false,
+        success: function (devil) {
+            var ii = 0;
+            
+            $.each(JSON.parse(devil), function (i, cliente) {
+
+                $("#aeroporto").append(new Option(cliente.Nome, cliente.ID.toString()));
+                var o = 10;
+                var a = (Math.round(lat * o) / o);
+                var b = (Math.round(cliente.lat * o) / o);
+                if (a == b) {
+                    if (c == null)
+                    {
+                        $("#aeroporto").prop('selectedIndex', ii);
+                        korn = ii;
+                        go();
+                    }  
+
+                }
+                ii++;
+            });
+            $("#aeroporto > option").each(function () {
+                if (c == this.value)
+                    $("#aeroporto").prop('selectedIndex', this.index);
+                //alert(this.text + ' ' + this.index + ' ' + this.value);
+
+            });
+        }
+    });
+</script>

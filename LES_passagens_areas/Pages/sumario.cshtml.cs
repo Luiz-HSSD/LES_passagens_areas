@@ -13,6 +13,8 @@ namespace LES_passagens_areas.Pages
     {
         public IEnumerable<EntidadeDominio> GetRoles()
         {
+            int b=0;
+            int.TryParse(codd, out b);
             List<EntidadeDominio> ld = new List<EntidadeDominio>();
             foreach(Status s in  commands["CONSULTAR"].execute(new Status()).Entidades)
             {
@@ -34,6 +36,7 @@ namespace LES_passagens_areas.Pages
                         su.Aero.Nome = s.Passageiro.passagem.Voo.LO_partida.Nome;
                         su.Aero.sigla = s.Passageiro.passagem.Voo.LO_partida.sigla;
                     }
+                    if( b == 0 || (b == su.Aero.ID))
                     ld.Add(su);
                 }
                 else
@@ -43,7 +46,8 @@ namespace LES_passagens_areas.Pages
                     {
                         if (s.Atual.ID == sum.Dep.ID)
                         {
-                            sum.Qtd++;
+                            if (b == 0 || (b == su.Aero.ID))
+                                sum.Qtd++;
                             exists = true;
                         }
                     }
@@ -64,18 +68,26 @@ namespace LES_passagens_areas.Pages
                             su.Aero.Nome = s.Passageiro.passagem.Voo.LO_partida.Nome;
                             su.Aero.sigla = s.Passageiro.passagem.Voo.LO_partida.sigla;
                         }
-                        ld.Add(su);
+                        if (b == 0 || b == su.Aero.ID)
+                            ld.Add(su);
                     }
 
                 }
             }
-            return ld;
+            
+                return ld;
                       
                 
         }
-        public void OnGet()
+        public string codd;
+        public IEnumerable<EntidadeDominio> lt =new List<EntidadeDominio>();
+        public void OnGet(int cod)
         {
-            autenticar(2);
+           if(!autenticar(2))
+                return;
+            if (cod != 0)
+                codd = cod.ToString();
+            lt= GetRoles();
         }
     }
 }
