@@ -26,7 +26,7 @@ namespace LES_passagens_areas.Pages
             else
                 return "./status?st=" + id;
         }
-        public List<EntidadeDominio> resposta;
+        public List<EntidadeDominio> resposta =new List<EntidadeDominio>();
 
         public string nome_dep = null;
         public string dep, voo;

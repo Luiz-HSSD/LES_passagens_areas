@@ -3,11 +3,12 @@
 @{
     ViewData["Title"] = "Home page";
 }
+<br />
 <input type="hidden" id="txtd"><input type="hidden" id="txte">
 <!--<input type="radio" name="gender" value="male" checked> Ida & Volta
 <input type="radio" name="gender" value="female"> Ida ou volta<br />-->
 origem: <input type="text" id="txt" placeholder="cidade,aeroporto ou sigla" />  destino: <input type="text" id="txtEndereco" placeholder="cidade,aeroporto ou sigla" /><br />
-periodo: <input id="letsgo" type="text" /> obs clique duas vezes para Ida & Volta <br />
+periodo: <input id="letsgo" type="text" />  <br />
 <input value="procurar" type="button" onclick="pass()" />
 
 
@@ -20,6 +21,9 @@ periodo: <input id="letsgo" type="text" /> obs clique duas vezes para Ida & Volt
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="~/js/jquery.mask.min.js"></script>
 <script type="text/javascript">
+    $("#txtEndereco").val('');
+    $("#txt").val('');
+    $("#letsgo").val('');
     function b64EncodeUnicode(str) {
         // first we use encodeURIComponent to get percent-encoded UTF-8,
         // then we convert the percent encodings into raw bytes which

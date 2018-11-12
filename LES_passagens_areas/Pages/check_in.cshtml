@@ -202,7 +202,7 @@
         contentType: "application/json; charset=utf-8",
         cache: false,
         success: function (devil) {
-            var ii = 1;
+            var ii = 0;
             $.each(JSON.parse(devil), function (i, cliente) {
 
                 $("#aeroporto").append(new Option(cliente.Nome, cliente.ID.toString()));

@@ -281,7 +281,7 @@ namespace Core.Controle
 
 
             VendaDAO VenDAO = new VendaDAO();
-            daos.Add(typeof(Venda).Name, usuDAO);
+            daos.Add(typeof(Venda).Name, VenDAO);
             List<IStrategy> rnsSalvarVenda = new List<IStrategy>();
             rnsSalvarVenda.Add(fz_c);
             List<IStrategy> rnsAlterarVenda = new List<IStrategy>();

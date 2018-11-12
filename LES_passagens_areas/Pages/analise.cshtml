@@ -50,7 +50,7 @@ voo: <select id="mmrdevil" onchange="maggots();">
             var strUserr = ee.options[ee.selectedIndex].value;
             var eee = document.getElementById("mmrdevil");
             var strUserrr = eee.options[eee.selectedIndex].value;
-            asdf = new Chart(ctx, JSON.parse(httpGet('https://localhost:44390/api/devil/analise/2017/' + strUser + '/2017/' + strUserr + '/' + strUserrr+'/0')));
+            asdf = new Chart(ctx, JSON.parse(httpGet('./api/devil/analise/2017/' + strUser + '/2017/' + strUserr + '/' + strUserrr+'/0')));
         }
         function httpGet(theUrl) {
             var xmlHttp = new XMLHttpRequest();
@@ -61,6 +61,6 @@ voo: <select id="mmrdevil" onchange="maggots();">
 
         window.onload = function () {            
             var ctx = document.getElementById('myChart').getContext('2d');
-            asdf = new Chart(ctx, JSON.parse(httpGet('https://localhost:44390/api/devil/analise/2017/6/2017/1/0/0')));
+            asdf = new Chart(ctx, JSON.parse(httpGet('./api/devil/analise/2017/6/2017/1/0/0')));
         };
     </script>

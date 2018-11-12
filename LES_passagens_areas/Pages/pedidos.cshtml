@@ -3,6 +3,19 @@
 @{
     ViewData["Title"] = "pedidos";
 }
-
 <h2>pedidos</h2>
+<TABLE class='display' onload="bora()" id='GridViewcat'>
+    <THEAD>
+        <tr><th>nome</th><th>qtd</th></tr>
+    </THEAD>
+    <TBODY>
 
+        @foreach (Dominio.Venda objUser in Model.lt)
+        {
+            <tr>
+                <td>@objUser.ID</td>               
+                <td><input type="button" value="@objUser.ID" onclick="window.location.href='./status';" /> </td>
+                               
+            </tr>
+        }
+</TABLE>

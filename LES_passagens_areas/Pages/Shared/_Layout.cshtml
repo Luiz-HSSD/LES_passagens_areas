@@ -54,7 +54,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-page="/Index">Home</a></li>
+                    
                     <li><a asp-page="/About">About</a></li>
                     <li><a asp-page="/Contact">Contact</a></li>
                     @{
@@ -63,6 +63,11 @@
 
                     @if (usu != null)
                     {
+                        @if (usu.Permisao == 1)
+                        {
+                            <li><a asp-page="/cart">Carrinho</a></li>
+                            <li><a asp-page="/pedidos">Pedidos</a></li>
+                        }
                         @if (usu.Permisao > 1)
                         {
                             <li><a asp-page="/passagens">Passagens</a></li>
