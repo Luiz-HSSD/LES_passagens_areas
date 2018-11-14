@@ -16,7 +16,8 @@ namespace LES_passagens_areas.Pages
             int b=0;
             int.TryParse(codd, out b);
             List<EntidadeDominio> ld = new List<EntidadeDominio>();
-            foreach(Status s in  commands["CONSULTAR"].execute(new Status()).Entidades)
+            List<EntidadeDominio> ldd = commands["CONSULTAR"].execute(new Status()).Entidades;
+            foreach (Status s in  ldd)
             {
                 Sumario su = new Sumario();
                 if (ld.Count == 0)
@@ -74,10 +75,7 @@ namespace LES_passagens_areas.Pages
 
                 }
             }
-            
-                return ld;
-                      
-                
+            return ld;                
         }
         public string codd;
         public IEnumerable<EntidadeDominio> lt =new List<EntidadeDominio>();

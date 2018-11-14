@@ -133,7 +133,7 @@ namespace LES_passagens_areas
                 Dominio.options asdf = new Dominio.options()
                 {
                     responsive = true,
-                    title = new title() { display = true, text = "bagagem por voo em tempo (ano " + analise.Data_max.Year + ")" },
+                    title = new title() { display = true, text = "bagagem por voo em tempo (ano " + analise.Data_min.Year + ")" },
                     tooltips = new tooltips() { intersect = false, mode = "index" },
                     hover = new hover() { intersect = true, mode = "nearest" },
                     scales = new scales()

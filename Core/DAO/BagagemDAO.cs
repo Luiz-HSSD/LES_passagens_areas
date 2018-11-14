@@ -27,23 +27,27 @@ namespace Core.DAO
                 pst.Dispose();
                 Bagagem Classe = (Bagagem)entidade;
                 string sql = null;
-                if (Classe.ID == 0 && !Classe.Flg)
+                if (Classe.ID == 0 && !Classe.Flg && Classe.dono.ID==0)
                 {
                     sql = "SELECT * FROM Bagagem ";
                 }
                 else if (Classe.Flg)
                 {
-                    sql= "select bagagem.bagagem_id, bagagem.peso , passagens.data_partida , c.sigla as c_sigla  ,b.sigla as p_sigla   from bagagem inner join check_in using (chck_in_id) inner join viagem using (viagem_id) inner join passagens using (pass_id) join aeroporto b on(b.aero_id= pass_lo_partida) join aeroporto c on(c.aero_id= pass_lo_chegada) where passagens.data_partida >= :dat AND passagens.data_partida < :datt ";
+                    sql= "select bagagem.bagagem_id, bagagem.peso , passagens.data_partida , c.sigla as c_sigla  ,b.sigla as p_sigla   from bagagem inner join check_in using (chck_in_id) inner join viagem using (viagem_id) inner join passagens using (pass_id) join aeroporto b on(b.aero_id= pass_lo_partida) join aeroporto c on(c.aero_id= pass_lo_chegada) where passagens.data_partida >= :dat AND passagens.data_partida < :datt order by passagens.data_partida asc";
 
+                }
+                else if(Classe.dono.ID == 0)
+                {
+                    sql = "SELECT * FROM Bagagem WHERE Bagagem_id= :co";
                 }
                 else
                 {
-                    sql = "SELECT * FROM Bagagem WHERE Bagagem_id= :co";
+                    sql = "SELECT * FROM Bagagem WHERE chck_in_id = :cod";
                 }
                 pst = new NpgsqlCommand();
 
                 pst.CommandText = sql;
-                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID), new NpgsqlParameter("dat", Classe.dono.Passagem.Voo.DT_partida), new NpgsqlParameter("datt", Classe.dono.Passagem.Voo.DT_chegada) };
+                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID), new NpgsqlParameter("cod", Classe.dono.ID), new NpgsqlParameter("dat", Classe.dono.Passagem.Voo.DT_partida), new NpgsqlParameter("datt", Classe.dono.Passagem.Voo.DT_chegada) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;

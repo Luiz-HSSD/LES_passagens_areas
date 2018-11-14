@@ -54,7 +54,6 @@ namespace Core.Negocio
             ((Status)entidade).IsDesembarque = Classe.IsDesembarque;
             ((Status)entidade).Atual.ID = Classe.Atual.ID;
             ((Status)entidade).Passageiro.ID = Classe.Passageiro.ID;
-
             return null;
         }
     }

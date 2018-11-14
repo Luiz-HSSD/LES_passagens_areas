@@ -4,7 +4,7 @@
     ViewData["Title"] = "check_in";
 }
 
-@if (!string.IsNullOrEmpty(Model.message) && Model.message=="sucesso!")
+@if (!string.IsNullOrEmpty(Model.message) && Model.message=="sucesso!\n")
 {
     <p id="dii" style="display:none; visibility:hidden;">@Html.Raw(Model.message)</p>
     <script>alert(document.getElementById("dii").innerHTML);</script>

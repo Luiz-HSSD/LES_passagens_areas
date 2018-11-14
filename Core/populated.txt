@@ -4,16 +4,16 @@ insert into bandeira(nome_band) values ('Mastercard'),
 					('Visa');
 				
 insert into aeroporto(nome,sigla,lat,lng) values  ('RPB Helipad','BSB',-15.7981,-47.8123),
-				('Guarulhos - Sao Paulo Airport Marriott Heliport','GRU',-23.455727,-46.491799),
-				('Fazenda Minas Gerais Airport','DCM',-14.777222,-59.046944);
+						  ('Guarulhos - Sao Paulo Airport Marriott Heliport','GRU',-23.455727,-46.491799),
+						  ('Fazenda Minas Gerais Airport','DCM',-14.777222,-59.046944);
 
 INSERT INTO Classe(class_nome,peso) VALUES ('economica',0.30),
-			  ('execultiva',0.40),
-			  ('primeira classe',0.60);
+					   ('execultiva',0.40),
+					   ('primeira classe',0.60);
 
 INSERT INTO aviao(avi_nome,marca ,serie,lugares ) VALUES ('ZX','embraer','A',5),
-			  ('YK','bombardier','BecK',60),
-			  ('WR','boeing','404',300);
+							 ('YK','bombardier','BecK',60),
+							 ('WR','boeing','404',300);
 
 
 --análise
@@ -23,21 +23,68 @@ INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,
 INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2017-04-01 12:00:00'::timestamp,'2017-04-01 15:00:00'::timestamp);
 INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2017-05-01 12:00:00'::timestamp,'2017-05-01 15:00:00'::timestamp);
 INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2017-06-01 12:00:00'::timestamp,'2017-06-01 15:00:00'::timestamp);
-
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2017-07-01 12:00:00'::timestamp,'2017-07-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2017-08-01 12:00:00'::timestamp,'2017-08-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2017-09-01 12:00:00'::timestamp,'2017-09-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2017-10-01 12:00:00'::timestamp,'2017-10-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2017-11-01 12:00:00'::timestamp,'2017-11-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2017-12-01 12:00:00'::timestamp,'2017-12-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2018-01-01 12:00:00'::timestamp,'2018-01-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2018-02-01 12:00:00'::timestamp,'2018-02-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2018-03-01 12:00:00'::timestamp,'2018-03-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2018-04-01 12:00:00'::timestamp,'2018-04-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2018-05-01 12:00:00'::timestamp,'2018-05-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2018-06-01 12:00:00'::timestamp,'2018-06-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2018-07-01 12:00:00'::timestamp,'2018-07-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2018-08-01 12:00:00'::timestamp,'2018-08-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2018-09-01 12:00:00'::timestamp,'2018-09-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (1,2,30,1,1,'2018-10-01 12:00:00'::timestamp,'2018-10-01 15:00:00'::timestamp);
 
 insert into viagem (preco_unit,pass_id,class_id ) VALUES (15000,1,1),
 							 (15000,2,1),
 							 (15000,3,1),
 							 (15000,4,1),
 							 (15000,5,1),
-							 (15000,6,1);
+							 (15000,6,1),
+							 (15000,7,1),
+							 (15000,8,1),
+							 (15000,9,1),
+							 (15000,10,1),
+							 (15000,11,1),
+							 (15000,12,1),
+							 (15000,13,1),
+							 (15000,14,1),
+							 (15000,15,1),
+							 (15000,16,1),
+							 (15000,17,1),
+							 (15000,18,1),
+							 (15000,19,1),
+							 (15000,20,1),
+							 (15000,21,1),
+							 (15000,22,1);
 
 insert into  check_in  (viagem_id ,bilhete_id) values	(1,null),
 							(2,null),
 							(3,null),
 							(4,null),
 							(5,null),
-							(6,null);
+							(6,null),
+							(7,null),
+							(8,null),
+							(9,null),
+							(10,null),
+							(11,null),
+							(12,null),
+							(13,null),
+							(14,null),
+							(15,null),
+							(16,null),
+							(17,null),
+							(18,null),
+							(19,null),
+							(20,null),
+							(21,null),
+							(22,null);
 
 insert into  bagagem  ( comprimento ,largura ,altura ,peso ,chck_in_id) values	(1,1,1,150,1),
 										(1,1,1,150,1),
@@ -45,7 +92,26 @@ insert into  bagagem  ( comprimento ,largura ,altura ,peso ,chck_in_id) values	(
 										(1,1,1,200,3),
 										(1,1,1,300,4),
 										(1,1,1,350,5),
-										(1,1,1,400,6);
+										(1,1,1,400,6),--
+										(1,1,1,250,7),
+										(1,1,1,155,7),
+										(1,1,1,150,8),
+										(1,1,1,250,9),
+										(1,1,1,250,10),
+										(1,1,1,400,11),
+										(1,1,1,350,12),
+										(1,1,1,250,13),
+										(1,1,1,150,13),
+										(1,1,1,350,14),
+										(1,1,1,300,15),
+										(1,1,1,350,16),
+										(1,1,1,400,17),
+										(1,1,1,350,18),
+										(1,1,1,300,19),
+										(1,1,1,100,19),
+										(1,1,1,250,20),
+										(1,1,1,250,21),
+										(1,1,1,350,22);
 										
 INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,1,30,1,1,'2017-01-01 12:00:00'::timestamp,'2017-01-01 15:00:00'::timestamp);
 INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,1,30,1,1,'2017-02-01 12:00:00'::timestamp,'2017-02-01 15:00:00'::timestamp);
@@ -53,29 +119,96 @@ INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,
 INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,1,30,1,1,'2017-04-01 12:00:00'::timestamp,'2017-04-01 15:00:00'::timestamp);
 INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,1,30,1,1,'2017-05-01 12:00:00'::timestamp,'2017-05-01 15:00:00'::timestamp);
 INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,1,30,1,1,'2017-06-01 12:00:00'::timestamp,'2017-06-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,1,30,1,1,'2017-07-01 12:00:00'::timestamp,'2017-07-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,1,30,1,1,'2017-08-01 12:00:00'::timestamp,'2017-08-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,1,30,1,1,'2017-09-01 12:00:00'::timestamp,'2017-09-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,1,30,1,1,'2017-10-01 12:00:00'::timestamp,'2017-10-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,1,30,1,1,'2017-11-01 12:00:00'::timestamp,'2017-11-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,1,30,1,1,'2017-12-01 12:00:00'::timestamp,'2017-12-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,1,30,1,1,'2018-01-01 12:00:00'::timestamp,'2018-01-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,1,30,1,1,'2018-02-01 12:00:00'::timestamp,'2018-02-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,1,30,1,1,'2018-03-01 12:00:00'::timestamp,'2018-03-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,1,30,1,1,'2018-04-01 12:00:00'::timestamp,'2018-04-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,1,30,1,1,'2018-05-01 12:00:00'::timestamp,'2018-05-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,1,30,1,1,'2018-06-01 12:00:00'::timestamp,'2018-06-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,1,30,1,1,'2018-07-01 12:00:00'::timestamp,'2018-07-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,1,30,1,1,'2018-08-01 12:00:00'::timestamp,'2018-08-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,1,30,1,1,'2018-09-01 12:00:00'::timestamp,'2018-09-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,1,30,1,1,'2018-10-01 12:00:00'::timestamp,'2018-10-01 15:00:00'::timestamp);
 
 
-insert into viagem (preco_unit,pass_id,class_id ) VALUES (15000,7,1),
-							 (15000,8,1),
-							 (15000,9,1),
-							 (15000,10,1),
-							 (15000,11,1),
-							 (15000,12,1);
+insert into viagem (preco_unit,pass_id,class_id ) VALUES (15000,23,1),
+							 (15000,24,1),
+							 (15000,25,1),
+							 (15000,26,1),
+							 (15000,27,1),
+							 (15000,28,1),
+							 (15000,29,1),
+							 (15000,30,1),
+							 (15000,31,1),
+							 (15000,32,1),
+							 (15000,33,1),
+							 (15000,34,1),
+							 (15000,35,1),
+							 (15000,36,1),
+							 (15000,37,1),
+							 (15000,38,1),
+							 (15000,39,1),
+							 (15000,40,1),
+							 (15000,41,1),
+							 (15000,42,1),
+							 (15000,43,1),
+							 (15000,44,1);
 
-insert into  check_in  (viagem_id ,bilhete_id) values	(7,null),
-							(8,null),
-							(9,null),
-							(10,null),
-							(11,null),
-							(12,null);
+insert into  check_in  (viagem_id ,bilhete_id) values	(23,null),
+							(24,null),
+							(25,null),
+							(26,null),
+							(27,null),
+							(28,null),
+							(29,null),
+							(30,null),
+							(31,null),
+							(32,null),
+							(33,null),
+							(34,null),
+							(35,null),
+							(36,null),
+							(37,null),
+							(38,null),
+							(39,null),
+							(40,null),
+							(41,null),
+							(42,null),
+							(43,null),
+							(44,null);
 
-insert into  bagagem  ( comprimento ,largura ,altura ,peso ,chck_in_id) values	(1,1,1,400,7),
-										(1,1,1,250,8),
-										(1,1,1,100,8),
-										(1,1,1,300,9),
-										(1,1,1,300,10),
-										(1,1,1,250,11),
-										(1,1,1,200,12);
+insert into  bagagem  ( comprimento ,largura ,altura ,peso ,chck_in_id) values	(1,1,1,400,23),
+										(1,1,1,250,24),
+										(1,1,1,100,24),
+										(1,1,1,300,25),
+										(1,1,1,300,26),
+										(1,1,1,250,27),
+										(1,1,1,200,28),
+										(1,1,1,450,29),--
+										(1,1,1,350,30),
+										(1,1,1,150,30),
+										(1,1,1,250,31),
+										(1,1,1,300,32),
+										(1,1,1,350,33),
+										(1,1,1,250,34),
+										(1,1,1,450,35),
+										(1,1,1,200,36),
+										(1,1,1,150,36),
+										(1,1,1,250,37),
+										(1,1,1,300,38),
+										(1,1,1,250,39),
+										(1,1,1,200,40),
+										(1,1,1,300,41),
+										(1,1,1,350,42),
+										(1,1,1,300,42),
+										(1,1,1,400,43),
+										(1,1,1,400,44);
 
 INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,3,30,1,1,'2017-01-01 12:00:00'::timestamp,'2017-01-01 15:00:00'::timestamp);
 INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,3,30,1,1,'2017-02-01 12:00:00'::timestamp,'2017-02-01 15:00:00'::timestamp);
@@ -83,29 +216,96 @@ INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,
 INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,3,30,1,1,'2017-04-01 12:00:00'::timestamp,'2017-04-01 15:00:00'::timestamp);
 INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,3,30,1,1,'2017-05-01 12:00:00'::timestamp,'2017-05-01 15:00:00'::timestamp);
 INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,3,30,1,1,'2017-06-01 12:00:00'::timestamp,'2017-06-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,3,30,1,1,'2017-07-01 12:00:00'::timestamp,'2017-07-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,3,30,1,1,'2017-08-01 12:00:00'::timestamp,'2017-08-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,3,30,1,1,'2017-09-01 12:00:00'::timestamp,'2017-09-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,3,30,1,1,'2017-10-01 12:00:00'::timestamp,'2017-10-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,3,30,1,1,'2017-11-01 12:00:00'::timestamp,'2017-11-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,3,30,1,1,'2017-12-01 12:00:00'::timestamp,'2017-12-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,3,30,1,1,'2018-01-01 12:00:00'::timestamp,'2018-01-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,3,30,1,1,'2018-02-01 12:00:00'::timestamp,'2018-02-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,3,30,1,1,'2018-03-01 12:00:00'::timestamp,'2018-03-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,3,30,1,1,'2018-04-01 12:00:00'::timestamp,'2018-04-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,3,30,1,1,'2018-05-01 12:00:00'::timestamp,'2018-05-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,3,30,1,1,'2018-06-01 12:00:00'::timestamp,'2018-06-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,3,30,1,1,'2018-07-01 12:00:00'::timestamp,'2018-07-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,3,30,1,1,'2018-08-01 12:00:00'::timestamp,'2018-08-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,3,30,1,1,'2018-09-01 12:00:00'::timestamp,'2018-09-01 15:00:00'::timestamp);
+INSERT INTO passagens(pass_lo_partida , pass_lo_chegada ,qtd ,avi_id ,class_id ,data_partida ,data_chegada) values  (2,3,30,1,1,'2018-10-01 12:00:00'::timestamp,'2018-10-01 15:00:00'::timestamp);
 
 
-insert into viagem (preco_unit,pass_id,class_id ) VALUES (15000,13,1),
-							 (15000,14,1),
-							 (15000,15,1),
-							 (15000,16,1),
-							 (15000,17,1),
-							 (15000,18,1);
+insert into viagem (preco_unit,pass_id,class_id ) VALUES (15000,45,1),
+							 (15000,46,1),
+							 (15000,47,1),
+							 (15000,48,1),
+							 (15000,49,1),
+							 (15000,50,1),
+							 (15000,51,1),
+							 (15000,52,1),
+							 (15000,53,1),
+							 (15000,54,1),
+							 (15000,55,1),
+							 (15000,56,1),
+							 (15000,57,1),
+							 (15000,58,1),
+							 (15000,59,1),
+							 (15000,60,1),
+							 (15000,61,1),
+							 (15000,62,1),
+							 (15000,63,1),
+							 (15000,64,1),
+							 (15000,65,1),
+							 (15000,66,1);
 
-insert into  check_in  (viagem_id ,bilhete_id) values	(13,null),
-							(14,null),
-							(15,null),
-							(16,null),
-							(17,null),
-							(18,null);
+insert into  check_in  (viagem_id ,bilhete_id) values	(45,null),
+							(46,null),
+							(47,null),
+							(48,null),
+							(49,null),
+							(50,null),
+							(51,null),
+							(52,null),
+							(53,null),
+							(54,null),
+							(55,null),
+							(56,null),
+							(57,null),
+							(58,null),
+							(59,null),
+							(60,null),
+							(61,null),
+							(62,null),
+							(63,null),
+							(64,null),
+							(65,null),
+							(66,null);
 
-insert into  bagagem  ( comprimento ,largura ,altura ,peso ,chck_in_id) values	(1,1,1,500,13),
-										(1,1,1,600,14),
-										(1,1,1,325,15),
-										(1,1,1,325,15),
-										(1,1,1,500,16),
-										(1,1,1,450,17),
-										(1,1,1,400,18);
+insert into  bagagem  ( comprimento ,largura ,altura ,peso ,chck_in_id) values	(1,1,1,500,45),
+										(1,1,1,600,46),
+										(1,1,1,325,47),
+										(1,1,1,325,47),
+										(1,1,1,500,48),
+										(1,1,1,450,49),
+										(1,1,1,400,50),--
+										(1,1,1,550,51),
+										(1,1,1,600,52),
+										(1,1,1,425,53),
+										(1,1,1,325,53),
+										(1,1,1,300,54),
+										(1,1,1,400,55),
+										(1,1,1,450,56),
+										(1,1,1,500,57),
+										(1,1,1,450,58),
+										(1,1,1,375,59),
+										(1,1,1,325,59),
+										(1,1,1,600,60),
+										(1,1,1,550,61),
+										(1,1,1,400,62),
+										(1,1,1,500,63),
+										(1,1,1,600,64),
+										(1,1,1,325,65),
+										(1,1,1,375,65),
+										(1,1,1,500,66);
 
 --fim análise
 
@@ -154,7 +354,7 @@ insert into assento ( tag , pass_id, class_id  ) VALUES ('A1',1,1),
 							('X1',2,2),
 							('X2',2,2),
 							('X3',2,2),
-							('z1',2,3),
+							('Z1',2,3),
 							('Z2',2,3),
 							('Z3',2,3),
 							('G1',3,1),
