@@ -29,7 +29,7 @@
 <form method="POST">
     ID: @Html.TextBox("id", (Model.id), new { @readonly = "readonly" })<br />
     aeroporto: @Html.DropDownList("aeroporto", Model.aeroporto) <br />
-    voo: @Html.DropDownList("voo", Model.voo) <br />
+    voo: @Html.DropDownList("voo", Model.voo) id: <input id="queen" oninput="under_pressure(document.getElementById('queen').value , 'a');" />  nome: <input id="aerosmith" oninput="under_pressure('0' , document.getElementById('aerosmith').value);" />  <br />
     Bilhete: @Html.DropDownList("bilhete", Model.bilhete) (nome rg)<br />
     <table id="tb_vieww">
         <thead>
@@ -78,6 +78,14 @@
     </tbody>
 </table>
 <script type="text/javascript">
+    function myFunction(item, index) {
+        if (item.id == korn) {
+            korn = item.class_id;
+            metallica = item.pass_id;
+            return;
+        }
+    }
+
     class bilhete {
         constructor(id, class_id,pass_id) {
             this.id = id;
@@ -135,6 +143,31 @@
 
                     $("#bilhete").append(new Option(cliente.Nome + " " + cliente.RG, cliente.ID.toString()));
                     //alert(cliente.passagem.Tipo.ID);
+                    adidas.push(new bilhete(cliente.ID, cliente.passagem.Tipo.ID, cliente.passagem.Voo.ID));
+                });
+            }
+        });
+    }
+
+    function under_pressure(boerap, another ) {
+        $('#bilhete').children('option:not(:first)').remove();
+        $.ajax({
+            type: "GET",
+            url: '/api/devil/bilhete/' + boerap + '/' + another,
+            timeout: 30000,
+            contentType: "application/json; charset=utf-8",
+            cache: false,
+            error: function () {
+                console.log("erro");
+            },
+            success: function (devil) {
+                //var ii = 1;
+                console.log(" asdfasdfasdfasdf");
+                //alert('a');
+                adidas = [];
+                $.each(JSON.parse(devil), function (i, cliente)
+                {
+                    $("#bilhete").append(new Option(cliente.Nome + " " + cliente.RG, cliente.ID.toString()));
                     adidas.push(new bilhete(cliente.ID, cliente.passagem.Tipo.ID, cliente.passagem.Voo.ID));
                 });
             }
@@ -221,14 +254,7 @@
         }
     });
 
-    function myFunction(item, index) {
-        if (item.id == korn) {
-            korn = item.class_id;
-            alert(item.class_id)
-            metallica = item.pass_id;
-            return;
-        }
-    }
+
 
     $(document).ready(function () {
         $('#tb_vieww').DataTable({ searching: false, paging: false, info: false, ordering: false });
@@ -248,6 +274,7 @@
         $("#bilhete").change(function (e) {
             korn = $("#bilhete").find(":selected").val();
             adidas.forEach(myFunction);
+            alert(korn);
             $("#go").prop('selectedIndex', korn - 1);
             $("#go").prop('disabled', true);
             //metallica = $("#voo").find(":selected").val();

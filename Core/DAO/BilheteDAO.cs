@@ -34,22 +34,26 @@ namespace Core.DAO
                 }
                 
 
-                if (Classe.ID == 0 && Classe.passagem.Voo.ID==0) 
+                if (Classe.ID == 0 && Classe.passagem.Voo.ID==0 && string.IsNullOrEmpty(Classe.Nome)) 
                 {
                     sql = "SELECT * FROM bilhete ";
                 }
-                else if (Classe.ID == 0)
+                else if (Classe.ID == 0 && string.IsNullOrEmpty(Classe.Nome))
                 {
                     sql = "SELECT * FROM bilhete join viagem using(viagem_id ) join passagens using(pass_id) WHERE pass_id= :cod";
                 }
+                else  if(string.IsNullOrEmpty(Classe.Nome))
+                {
+                    sql = "SELECT * FROM bilhete join viagem using(viagem_id ) join passagens using(pass_id) WHERE bilhete_id = :co";
+                }
                 else
                 {
-                    sql = "SELECT * FROM bilhete WHERE bilhete_id = :co";
+                    sql = "SELECT * FROM bilhete join viagem using(viagem_id ) join passagens using(pass_id) where nome ilike :codd ||'%'";
                 }
                 pst = new NpgsqlCommand();
 
                 pst.CommandText = sql;
-                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID), new NpgsqlParameter("cod", Classe.passagem.Voo.ID) };
+                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID), new NpgsqlParameter("cod", Classe.passagem.Voo.ID), new NpgsqlParameter("codd", Classe.Nome) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -67,7 +71,7 @@ namespace Core.DAO
                     p.RG = (vai["rg"].ToString());
                     p.Sexo =Convert.ToBoolean(vai["sexo"]);
                     p.passagem.ID = Convert.ToInt32(vai["viagem_id"]);
-                    if (Classe.ID == 0 && Classe.passagem.Voo.ID != 0)
+                    if (Classe.ID == 0 && (Classe.passagem.Voo.ID != 0 || !string.IsNullOrEmpty(Classe.Nome)))
                     {
                         p.passagem.Tipo.ID= Convert.ToInt32(vai["class_id"]);
                         p.passagem.Voo.ID = Convert.ToInt32(vai["pass_id"]);

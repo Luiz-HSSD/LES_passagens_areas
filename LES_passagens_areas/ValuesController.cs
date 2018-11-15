@@ -63,6 +63,16 @@ namespace LES_passagens_areas
 
             return JsonConvert.SerializeObject(res.Entidades);
         }
+        [Route("bilhete/{codd}/{cod}")]
+        [HttpGet]
+        public string bilhete(int codd,string cod)
+        {
+            if(codd==0)
+                res = commands["CONSULTAR"].execute(new Dominio.Bilhete() { Nome=cod });
+            else
+                res = commands["CONSULTAR"].execute(new Dominio.Bilhete() { ID = codd });
+            return JsonConvert.SerializeObject(res.Entidades);
+        }
         [Route("assento/{codd}/{cod}")]
         [HttpGet]
         public string assento(int codd,int cod)
