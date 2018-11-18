@@ -21,7 +21,7 @@
             <td><b>Confirmar senha:</b>@Html.Password("com_password", (Model.com_password))  <asp:Button ID="mudar" Text="mudar_senha" runat="server" OnClick="mudar_Click"></asp:Button></td>
         </tr>
         <tr>
-            <td><b>sexo:</b><select name="sexo"><option value="true">Masculino</option><option value="false">feminino</option></select></td>
+            <td><b>sexo:</b><select id="sexo" name="sexo"><option value="true">Masculino</option><option value="false">feminino</option></select></td>
         </tr>
         <tr>
             <td><b>cpf:</b>@Html.TextBox("cpf", (Model.cpf))</td>
@@ -44,7 +44,7 @@
             <td><b>Tipo de endereço:</b><asp:DropDownList ID="DropDownList_tipo_end" runat="server" DataTextField="tipo" DataValueField="id"></asp:DropDownList> </td>
         <tr>
             <td><b>cidade:</b>  @Html.TextBox("cidade", (Model.cidade)) </td>
-            <td><b>UF:</b> <select name="uf"><option>SE</option><option>PA</option><option>MG</option><option>RR</option><option>DF</option><option>MS</option><option>MT</option><option>PR</option><option>SC</option><option>CE</option><option>GO</option><option>PB</option><option>AP</option><option>AL</option><option>AM</option><option>RN</option><option>TO</option><option>RS</option><option>RO</option><option>PE</option><option>AC</option><option>RJ</option><option>BA</option><option>MA</option><option>SP</option><option>PI</option><option>ES</option></select> </td>
+            <td><b>UF:</b> <select id="uf" name="uf"><option>SE</option><option>PA</option><option>MG</option><option>RR</option><option>DF</option><option>MS</option><option>MT</option><option>PR</option><option>SC</option><option>CE</option><option>GO</option><option>PB</option><option>AP</option><option>AL</option><option>AM</option><option>RN</option><option>TO</option><option>RS</option><option>RO</option><option>PE</option><option>AC</option><option>RJ</option><option>BA</option><option>MA</option><option>SP</option><option>PI</option><option>ES</option></select> </td>
         </tr>
     </table>
     <table>
@@ -57,7 +57,7 @@
             <td><b>ccv</b> @Html.TextBox("ccv", (Model.nome))  <asp:CheckBox ID="CHK_preferencial" runat="server" /> </td>
         </tr>
         <tr>
-            <td> <button type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way5">Adicionar Cartão</button> </td>
+            <td> <button id="add_card" type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way5">Adicionar Cartão</button> </td>
         </tr>
     </table>
     <table id="tb_vieww">
@@ -98,6 +98,6 @@
         <script>alert(document.getElementById("dii").innerHTML);</script>
     }
     <div>
-        <button type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way2">Registrar</button>
+        <button id="register" type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way2">Registrar</button>
     </div>
 </form>

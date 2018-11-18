@@ -84,9 +84,9 @@ namespace LES_passagens_areas
 
 
 
-        [Route("analise/{code}/{codd}/{codee}/{codde}/{co}/{cod}")]
+        [Route("analise/{tip}/{code}/{codd}/{codee}/{codde}/{co}/{cod}")]
         [HttpGet]
-        public string analise(int code, int codd, int codee, int codde,int co, int cod)
+        public string analise(int tip,int code, int codd, int codee, int codde,int co, int cod)
         {
             if (codd < 12)
                 codd++;
@@ -152,7 +152,70 @@ namespace LES_passagens_areas
                         yAxes = new yAxes[] { new yAxes() { display = true, scaleLabel = new scaleLabel() { display = true, labelString = "peso em Kg" } } }
                     }
                 };
-                analise.chartsjs.type = "line";
+                if (tip == 0)
+                    analise.chartsjs.type = "line";
+                else
+                    analise.chartsjs.type = "bar";
+                analise.chartsjs.data = asd;
+                analise.chartsjs.options = asdf;
+            }
+            else
+            {
+                Dominio.data asd = new Dominio.data()
+                {
+                    labels = analise.generic_labels,
+                };
+                var fdsa = new List<Dominio.datasets>() { };
+                for (int i = 0; i < analise.resultado.Keys.Count; i++)
+                {
+                    if (co == 0)
+                    {
+                        List<EntidadeDominio> b = analise.resultado.Values.ElementAt(i);
+                        Random rnd = new Random();
+                        string color = "rgb(" + rnd.Next(0, 255) + "," + rnd.Next(0, 255) + " , " + rnd.Next(0, 255) + ")";
+                        var goLuiz = new datasets() { label = analise.resultado.Keys.ElementAt(i), backgroundColor = color, borderColor = color, fill = false };
+                        var grr = new List<double>() { };
+                        foreach (Check_in sl in b)
+                        {
+                            grr.Add(sl.ID);
+                        }
+                        goLuiz.data = grr.ToArray();
+                        fdsa.Add(goLuiz);
+                    }
+                    else if (co == i + 1)
+                    {
+                        List<EntidadeDominio> b = analise.resultado.Values.ElementAt(i);
+                        Random rnd = new Random();
+                        string color = "rgb(" + rnd.Next(0, 255) + "," + rnd.Next(0, 255) + " , " + rnd.Next(0, 255) + ")";
+                        var goLuiz = new datasets() { label = analise.resultado.Keys.ElementAt(i), backgroundColor = color, borderColor = color, fill = false };
+                        var grr = new List<double>() { };
+                        foreach (Check_in sl in b)
+                        {
+                            grr.Add(sl.ID);
+                        }
+                        goLuiz.data = grr.ToArray();
+                        fdsa.Add(goLuiz);
+
+                    }
+                }
+                asd.datasets = fdsa.ToArray();
+
+                Dominio.options asdf = new Dominio.options()
+                {
+                    responsive = true,
+                    title = new title() { display = true, text = "passageiros por voo em tempo (ano " + analise.Data_min.Year + ")" },
+                    tooltips = new tooltips() { intersect = false, mode = "index" },
+                    hover = new hover() { intersect = true, mode = "nearest" },
+                    scales = new scales()
+                    {
+                        xAxes = new xAxes[] { new xAxes() { display = true, scaleLabel = new scaleLabel() { display = true, labelString = "mês" } } },
+                        yAxes = new yAxes[] { new yAxes() { display = true, scaleLabel = new scaleLabel() { display = true, labelString = "quantidade" } } }
+                    }
+                };
+                if (tip == 0)
+                    analise.chartsjs.type = "line";
+                else
+                    analise.chartsjs.type = "bar";
                 analise.chartsjs.data = asd;
                 analise.chartsjs.options = asdf;
             }

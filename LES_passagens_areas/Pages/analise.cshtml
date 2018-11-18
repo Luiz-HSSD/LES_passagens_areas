@@ -11,6 +11,14 @@
 <script src="~/js/jquery.mask.min.js"></script>
 <script type="text/javascript" src="~/lib/chart/Chart.bundle.min.js" 1></script>
 <script type="text/javascript" src="~/lib/chart/Chart.min.js"></script>
+grafico: <select id="queen" onchange="maggots();">
+    <option selected="selected" value="0">bagagem</option>
+    <option value="1">passageiros</option>
+</select>
+tipo: <select id="mmrdevill" onchange="maggots();">
+    <option selected="selected" value="0">linha</option>
+    <option value="1">barra</option>
+</select>
 voo: <select id="mmrdevil" onchange="maggots();">
     <option selected="selected" value="0">todos</option>
     <option value="1">BSB To GRU</option>
@@ -75,7 +83,11 @@ voo: <select id="mmrdevil" onchange="maggots();">
         var strUserree = eerr.options[eerr.selectedIndex].value;
         var eee = document.getElementById("mmrdevil");
         var strUserrr = eee.options[eee.selectedIndex].value;
-        asdf = new Chart(ctx, JSON.parse(httpGet('./api/devil/analise/' + strUserree + '/' + strUser + '/' + strUserre + '/' + strUserr + '/' + strUserrr + '/0')));
+        var eeee = document.getElementById("mmrdevill");
+        var sstrUserrr = eeee.options[eeee.selectedIndex].value;
+        var eeeeu = document.getElementById("queen");
+        var loml = eeeeu.options[eeeeu.selectedIndex].value;
+        asdf = new Chart(ctx, JSON.parse(httpGet('./api/devil/analise/' + sstrUserrr + '/' + strUserree + '/' + strUser + '/' + strUserre + '/' + strUserr + '/' + strUserrr + '/' + loml )));
     }
     function httpGet(theUrl) {
         var xmlHttp = new XMLHttpRequest();
@@ -86,6 +98,6 @@ voo: <select id="mmrdevil" onchange="maggots();">
 
     window.onload = function () {
         var ctx = document.getElementById('myChart').getContext('2d');
-        asdf = new Chart(ctx, JSON.parse(httpGet('./api/devil/analise/2018/10/2017/1/0/0')));
+        asdf = new Chart(ctx, JSON.parse(httpGet('./api/devil/analise/0/2018/10/2017/1/0/0')));
     };
 </script>

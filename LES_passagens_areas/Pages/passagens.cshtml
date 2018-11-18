@@ -36,7 +36,7 @@
     DT destino: @Html.TextBox("dt_destino", (Model.dat_chegada))<br />
     HR PARTIDA: @Html.TextBox("hr_partida", (Model.hor_partida))<br />
     HR destino: @Html.TextBox("hr_destino", (Model.hor_chegada))<br />
-    tipo de voo: <select id="dii" name="dii"><option value="0">nacional</option><option value="1">internacional</option><option value="2">especial</option></select><br />
+    tipo de voo: <select id="dii" name="dii"><option value="0">nacional</option><option selected="selected" value="1">internacional</option><option value="2">especial</option></select><br />
     classe: @Html.DropDownList("go", Model.classe)<br />
     AVIAO: @Html.DropDownList("aviao", Model.aviao) (nome marca serie)<br />
     <button type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way2">cadastrar</button>

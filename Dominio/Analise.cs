@@ -57,6 +57,11 @@ namespace Dominio
     {
         public bool display;
         public scaleLabel scaleLabel;
+        public ticks ticks =new ticks();
+    }
+    public class ticks
+    {
+        public bool beginAtZero = true;
     }
     public class scales
     {

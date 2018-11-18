@@ -71,7 +71,7 @@ namespace Core.DAO
                     p.RG = (vai["rg"].ToString());
                     p.Sexo =Convert.ToBoolean(vai["sexo"]);
                     p.passagem.ID = Convert.ToInt32(vai["viagem_id"]);
-                    if (Classe.ID == 0 && (Classe.passagem.Voo.ID != 0 || !string.IsNullOrEmpty(Classe.Nome)))
+                    if (Classe.ID != 0 || (Classe.passagem.Voo.ID != 0 || !string.IsNullOrEmpty(Classe.Nome)))
                     {
                         p.passagem.Tipo.ID= Convert.ToInt32(vai["class_id"]);
                         p.passagem.Voo.ID = Convert.ToInt32(vai["pass_id"]);

@@ -6,18 +6,19 @@
 
 <h2>sumario</h2>
     aeroporto: <select id="aeroporto" name="aeroporto" onchange="go()"></select>
-    <br />
-    <br />
-    <TABLE class='display' onload="bora()" id='GridViewcat'>
-        <THEAD>
-            <tr><th>nome</th><th>qtd</th></tr>
-        </THEAD>
-        <TBODY>
+<br />
+<br />
+<TABLE class='display' onload="bora()" id='tb_view'>
+    <THEAD>
+        <tr><th>nome</th><th>qtd passaram </th><th>qtd</th><th>qtd não passaram</th></tr>
+    </THEAD>
+    <TBODY>
 
-            @foreach (Dominio.Sumario objUser in Model.lt)
-            {
+        @foreach (Dominio.Sumario objUser in Model.lt)
+        {
             <tr>
                 <td>@objUser.Dep.Nome</td>
+                <td>@objUser.Qtd_passaram</td>
                 @if (string.IsNullOrEmpty(Model.codd))
                 {
                     <td><input type="button" value="@objUser.Qtd" onclick="window.location.href='./status?dep=@objUser.Dep.ID';" /> </td>
@@ -26,13 +27,17 @@
                 {
                     <td><input type="button" value="@objUser.Qtd" onclick="window.location.href='./status?dep=@objUser.Dep.ID&voo=@Model.codd';" /> </td>
                 }
-
+                <td>@objUser.Qtd_nao_passaram</td>
 
 
             </tr>
-            }
-    </TABLE>
+        }
+</TABLE>
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/lib/datatables.min.css">
+<script type="text/javascript" src="~/lib/datatables.min.js"></script>
 <script>
+    $('#tb_view').DataTable({ searching: false, paging: false, info: false, ordering: false });
     $("#aeroporto").append(new Option('todos', '0'));
     function go() {
         var e = document.getElementById("aeroporto");
@@ -77,7 +82,7 @@
         cache: false,
         success: function (devil) {
             var ii = 0;
-            
+
             $.each(JSON.parse(devil), function (i, cliente) {
 
                 $("#aeroporto").append(new Option(cliente.Nome, cliente.ID.toString()));
@@ -85,12 +90,11 @@
                 var a = (Math.round(lat * o) / o);
                 var b = (Math.round(cliente.lat * o) / o);
                 if (a == b) {
-                    if (c == null)
-                    {
+                    if (c == null) {
                         $("#aeroporto").prop('selectedIndex', ii);
                         korn = ii;
                         go();
-                    }  
+                    }
 
                 }
                 ii++;

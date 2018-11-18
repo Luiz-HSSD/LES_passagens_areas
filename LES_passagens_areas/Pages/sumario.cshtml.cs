@@ -75,6 +75,18 @@ namespace LES_passagens_areas.Pages
 
                 }
             }
+            for (int a = 0; a < ld.Count; a++)
+            {
+                for (int bb = 0; bb < ld.Count; bb++)
+                {
+                    if (bb == a)
+                        continue;
+                    else
+                    {
+
+                    }
+                }
+            }
             return ld;                
         }
         public string codd;

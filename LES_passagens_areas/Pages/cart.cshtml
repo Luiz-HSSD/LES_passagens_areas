@@ -23,7 +23,7 @@
                     <td>@objUser.Valor_Unidade</td>
                     <td><a href='cart?code=@objUser.Voo.ID'>-</a>@objUser.qtd<a href='cart?cod=@objUser.Voo.ID'>+</a></td>
                     <td>@objUser.Valor</td>
-                    <td><a href='bilhetes?cod=@objUser.Voo.ID'>confirmar bilhetes</a></td>
+                    <td><a class="cfm-blt" href='bilhetes?cod=@objUser.Voo.ID'>confirmar bilhetes</a></td>
                 </tr>
             }
         </tbody>
@@ -32,7 +32,7 @@
     @Html.TextBox("adf", Model.id_cli, new { type = "hidden" })
     <!--Cliente Html.DropDownList("adf", Model.listItems, new { onchange = "go(document.getElementById('adf').options[document.getElementById('adf').selectedIndex].value)" })
     <br />-->
-    Cartão de credito @Html.DropDownList("goasdf", new SelectList(new List<SelectListItem>(), "Value", "Text"), new { onchange = "mrSatan()" })
+    Cartão de credito @Html.DropDownList("goasdf", new SelectList(new List<SelectListItem>(), "Value", "Text"), new { oninput = "mrSatan()", onchange= "mrSatan()" })
     <br />
     <b>nome do titular</b>@Html.TextBox("nome_card") @Html.TextBox("id_card", null, new { type = "hidden" })
     <b>numero cartão</b> @Html.TextBox("num_card")

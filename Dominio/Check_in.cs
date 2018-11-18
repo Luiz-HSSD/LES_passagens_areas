@@ -38,10 +38,18 @@ namespace Dominio
             set { _entrada = value; }
         }
 
+        private bool flg_ana;
+
+        public bool Flg
+        {
+            get { return flg_ana; }
+            set { flg_ana = value; }
+        }
+
 
         public Check_in() : base()
         {
-
+            flg_ana = false;
             _Bagagem = new List<Bagagem>();
             _ocupante = new Assento(this);
             _passagem = new Viagem();

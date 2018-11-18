@@ -230,6 +230,8 @@ namespace LES_passagens_areas.Pages
             complemento = Request.Form["complemento"];
             cidade = Request.Form["cidade"];
             Cartao_Credito bg = new Cartao_Credito();
+            if (lb == null)
+                lb = new List<Cartao_Credito>();
             bg.ID = lb.Count + 1;
             bg.Nome_Titular = Request.Form["nome_card"];
             bg.Numero = Request.Form["num_card"];
