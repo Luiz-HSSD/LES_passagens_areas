@@ -13,6 +13,7 @@ namespace Dominio
             get { return _id; }
             set { _id = value; }
         }
+        /*
         private DateTime dt_op;
 
         public DateTime DT_op
@@ -20,11 +21,11 @@ namespace Dominio
             get { return dt_op; }
             set { dt_op = value; }
         }
-
+        */
         public EntidadeDominio()
         {
             _id = 0;
-            dt_op= Convert.ToDateTime("01/01/1995 03:30");
+            //dt_op= Convert.ToDateTime("01/01/1995 03:30");
         }
     }
 }

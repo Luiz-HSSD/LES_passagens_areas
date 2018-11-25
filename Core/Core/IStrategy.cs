@@ -2,7 +2,7 @@
 
 namespace Core.Core
 {
-    interface IStrategy
+    public interface IStrategy
     {
          string processar(EntidadeDominio entidade);
     }

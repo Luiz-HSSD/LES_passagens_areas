@@ -103,6 +103,7 @@ namespace LES_passagens_areas.Pages
                     }
 
                 }
+                
             HttpContext.Session.SetObjectAsJson(devil, ven);
             //*/
         }
@@ -128,6 +129,15 @@ namespace LES_passagens_areas.Pages
             venn = HttpContext.Session.GetObjectFromJson<Venda>(devil);
             if (venn != null)
                 ven = venn;
+            var usu = HttpContext.Session.GetObjectFromJson<Usuarios>("login");
+            if (usu == null)
+            {
+                Response.Redirect(("./"));
+                return;
+            }
+            res = commands["CONSULTAR"].execute(new Cliente() { usuario = usu }); //usu
+            if (res.Entidades.Count > 0)
+                id_cli = res.Entidades.ElementAt(0).ID.ToString();
         }
         public void OnPostWay3(string data)
         {

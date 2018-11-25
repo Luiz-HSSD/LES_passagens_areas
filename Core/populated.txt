@@ -706,25 +706,26 @@ insert into bilhete ( nome, rg, cpf , email ,sexo, passaporte, viagem_id  ) VALU
 										   ('severina joana solva','45.291.587-9','406.982.998-92','severina_joh@gmail.com',true,'',21);
 
 
-insert into Departamento (id_dep,nome) VALUES (0 , 'Completo');
+insert into Departamento (id_dep,nome) VALUES (0 , 'Barrado');
 
 
 
-insert into Departamento (nome) VALUES ('check-in'),
+insert into Departamento (nome) VALUES ('completo'),
+				       ('check-in'),
 				       ('Imigração'),
 				       ('Policia civil'),
 				       ('epidemia de gripe'),
 				       ('alfandega');
 
-insert into dep_pass (pass_id,id_dep) values  (1,1),
-					      (1,2),
+insert into dep_pass (pass_id,id_dep) values  (1,2),
 					      (1,3),
-					      (7,1),
+					      (1,4),
 					      (7,2),
 					      (7,3),
-					      (13,1),
+					      (7,4),
 					      (13,2),
-					      (13,3);
+					      (13,3),
+					      (13,4);
 										   
 insert into status ( bilhete_id  ,   atual   ,    IsDesembarque     ) VALUES 	   (1,1,true),
 										   (2,1,false),

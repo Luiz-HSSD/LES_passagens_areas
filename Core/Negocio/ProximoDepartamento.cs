@@ -40,7 +40,7 @@ namespace Core.Negocio
                 {
                     if (Classe.IsDesembarque)
                     {
-                        Classe.Atual.ID = 0;
+                        Classe.Atual.ID = 1;
                         agra.processar(Classe.Passageiro);
                     }
                     else
