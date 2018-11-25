@@ -25,7 +25,7 @@ namespace Core.DAO
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
                 pst.Dispose();
-                Passagens Classe = (Passagens)entidade;
+                Departamento Classe = (Departamento)entidade;
                 string sql = null;
                 
 

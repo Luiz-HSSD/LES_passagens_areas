@@ -14,9 +14,19 @@ namespace Dominio
             set { nome = value; }
         }
 
+        private Passagens pass;
+
+        public Passagens Pass
+        {
+            get { return pass; }
+            set { pass = value; }
+        }
+
+
 
         public Departamento() : base()
         {
+            pass = new Passagens();
             nome = "";
 
         }

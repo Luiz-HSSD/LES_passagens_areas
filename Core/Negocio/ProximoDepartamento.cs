@@ -21,7 +21,7 @@ namespace Core.Negocio
             var devil = Classe.Atual.ID;
             bool go = false;
             Agradecimento agra = new Agradecimento();
-            List<EntidadeDominio> ld= depDAO.consultar(Classe.Passageiro.passagem.Voo);
+            List<EntidadeDominio> ld= depDAO.consultar(new Departamento() { Pass = Classe.Passageiro.passagem.Voo });
             foreach (Departamento d in ld)
             {
                 if (go)

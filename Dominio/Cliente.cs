@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace Dominio
 {
-    public class Cliente:EntidadeDominio
+    public class Cliente:Pessoa_Fisica
     { 
 
-
-        private string nome;
-        private string rg;
-        private string cpf;
+        
         private char sexo;
         private DateTime dt_nas;
         private Endereco endereco;
@@ -59,23 +56,11 @@ namespace Dominio
             set { cpf = value; }
         }
 
-        public string Rg
-        {
-            get { return rg; }
-            set { rg = value; }
-        }
-
-        public string Nome
-        {
-            get { return nome; }
-            set { nome = value; }
-        }
+        
 
         public Cliente() : base()
         {
-            Nome = "";
-            Rg = "";
-            Cpf = "";
+
             Sexo = 'M';
             _usuario = new Usuarios();
             Dt_Nas = Convert.ToDateTime("01/01/1995 03:30");

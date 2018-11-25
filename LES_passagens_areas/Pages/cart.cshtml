@@ -4,6 +4,11 @@
     ViewData["Title"] = "carrinho";
     //Layout = null;
 }
+@if (!string.IsNullOrEmpty(Model.message) && Model.message != "sucesso!\n")
+{
+    <p id="dii" style="display:none; visibility:hidden;">@Html.Raw(Model.message)</p>
+    <script>alert(document.getElementById("dii").innerHTML);</script>
+}
 <form method="post">
     @{
         if (Model.listItems == null)
@@ -32,7 +37,7 @@
     @Html.TextBox("adf", Model.id_cli, new { type = "hidden" })
     <!--Cliente Html.DropDownList("adf", Model.listItems, new { onchange = "go(document.getElementById('adf').options[document.getElementById('adf').selectedIndex].value)" })
     <br />-->
-    Cartão de credito @Html.DropDownList("goasdf", new SelectList(new List<SelectListItem>(), "Value", "Text"), new { oninput = "mrSatan()", onchange= "mrSatan()" })
+    Cartão de credito @Html.DropDownList("goasdf", new SelectList(new List<SelectListItem>(), "Value", "Text"), new { oninput = "mrSatan()", onchange = "mrSatan()" })
     <br />
     <b>nome do titular</b>@Html.TextBox("nome_card") @Html.TextBox("id_card", null, new { type = "hidden" })
     <b>numero cartão</b> @Html.TextBox("num_card")

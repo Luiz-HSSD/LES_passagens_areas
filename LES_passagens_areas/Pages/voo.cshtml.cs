@@ -15,15 +15,21 @@ namespace LES_passagens_areas.Pages
     {
         public List<EntidadeDominio> Getvoo(int partida,int chegada,string date)
         {
+            try
+            {
+                date = Encoding.UTF8.GetString(Convert.FromBase64String(date));
+                DateTime e = DateTime.Now;
+                DateTime.TryParseExact(date, "dd/MM/yyyy", new CultureInfo("pt-BR"), DateTimeStyles.None, out e);
+                var roles = commands["CONSULTAR"].execute(new Dominio.Passagens() { DT_partida = e, LO_partida = new Aeroporto() { ID = partida }, LO_chegada = new Aeroporto() { ID = chegada } }).Entidades;
+                Passagem_Venda pass = new Passagem_Venda() { Pass = roles.Cast<Passagens>().ToList() };
+                commands["CONSULTAR"].execute(pass);
 
-            date = Encoding.UTF8.GetString(Convert.FromBase64String(date));
-            DateTime e = DateTime.Now;
-            DateTime.TryParseExact(date, "dd/MM/yyyy", new CultureInfo("pt-BR"), DateTimeStyles.None, out e);
-            var roles = commands["CONSULTAR"].execute(new Dominio.Passagens() {DT_partida=e, LO_partida =new Aeroporto() {ID=partida }, LO_chegada = new Aeroporto() { ID = chegada } }).Entidades;
-            Passagem_Venda pass = new Passagem_Venda() { Pass = roles.Cast<Passagens>().ToList() };
-            commands["CONSULTAR"].execute(pass);
-
-            return pass.Pass.Cast<EntidadeDominio>().ToList();
+                return pass.Pass.Cast<EntidadeDominio>().ToList();
+            }
+            catch
+            {
+                return new List<EntidadeDominio>();
+            }
         }
         public List<EntidadeDominio> GetRoles=new List<EntidadeDominio>();
         public string dist = "";

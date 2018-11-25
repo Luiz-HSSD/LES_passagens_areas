@@ -1,0 +1,27 @@
+﻿@page
+@model LES_passagens_areas.Pages.bagagemModel
+@{
+    ViewData["Title"] = "bagagem";
+}
+
+<h2>bagagem</h2>
+<table id="tb_vieww">
+    <thead>
+        <tr><th></th><th>id ou indice caso não cadastrado</th><th>dimensões</th><th>peso</th></tr>
+    </thead>
+    <tbody>
+        @foreach (Dominio.Bagagem objUser in Model.GetRoles3())
+        {
+            <tr>
+                <td>
+                    <a class="btn btn-danger" href='check_in?dele=@objUser.ID.ToString()'>apagar</a>
+                </td>
+                <td>@objUser.ID.ToString()</td>
+                <td>C @objUser.comprimento.ToString() X L @objUser.largura.ToString() X A @objUser.altura.ToString()</td>
+                <td>@objUser.peso</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<button type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way5">Incluir</button><br />
+<button type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way2">Cadastrar</button>

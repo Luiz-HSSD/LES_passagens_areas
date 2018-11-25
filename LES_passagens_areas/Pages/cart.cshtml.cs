@@ -122,7 +122,12 @@ namespace LES_passagens_areas.Pages
             venn.Forma_pagamento.Numero = Request.Form["num_card"];
             venn.Forma_pagamento.Validade = Request.Form["validade"];
             message = commands["SALVAR"].execute(venn).Msg;
+            if(!string.IsNullOrEmpty(message) && message != "sucesso!\n") { }
+            else
             HttpContext.Session.SetObjectAsJson(devil, null);
+            venn = HttpContext.Session.GetObjectFromJson<Venda>(devil);
+            if (venn != null)
+                ven = venn;
         }
         public void OnPostWay3(string data)
         {

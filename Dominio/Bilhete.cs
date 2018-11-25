@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Dominio
 {
-    public class Bilhete:EntidadeDominio
+    public class Bilhete:Pessoa_Fisica
     {
         private bool _sexo;
 
@@ -15,21 +15,6 @@ namespace Dominio
         }
 
 
-        private string _RG;
-
-        public string RG
-        {
-            get { return _RG; }
-            set { _RG = value; }
-        }
-
-        private string _cpf;
-
-        public string cpf
-        {
-            get { return _cpf; }
-            set { _cpf = value; }
-        }
         private string _passaporte;
 
         public string passaporte
@@ -55,20 +40,11 @@ namespace Dominio
             get { return _passagem; }
             set { _passagem = value; }
         }
-        private string _nome;
 
-        public string Nome
-        {
-            get { return _nome; }
-            set { _nome = value; }
-        }
 
 
         public Bilhete() : base()
         {
-            _nome = "";
-            _RG = "";
-            _cpf = "";
             _passaporte = "";
             _sexo = true;
             _email = "";

@@ -13,6 +13,11 @@ namespace Core.Negocio
         public string processar(EntidadeDominio entidade)
         {
             Cliente Classe = (Cliente)entidade;
+            string result = "";
+            ValidarPessoa_Fisica vd = new ValidarPessoa_Fisica();
+            string vdv = vd.processar(entidade);
+            if (!string.IsNullOrEmpty(vdv))
+                result += vdv;
             GerarBandeira gb = new GerarBandeira();
             EnderecoDAO vgDAO = new EnderecoDAO() { };
             vgDAO.salvar(Classe.Endereco);
@@ -28,7 +33,10 @@ namespace Core.Negocio
             cliDAO.salvar(Classe);
             Car_CliDAO cart_cliDAO = new Car_CliDAO();
             cart_cliDAO.salvar(Classe);
-            return "sucesso!";
+            if (result == "")
+                return "sucesso!";
+            else
+                return result;
             //return null;
 
         }

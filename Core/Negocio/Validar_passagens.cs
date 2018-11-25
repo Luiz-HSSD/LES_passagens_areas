@@ -18,6 +18,8 @@ namespace Core.Negocio
                 resposta += "aeroporto de chegada inválido\n";
             if (pass.LO_partida.ID==0)
                 resposta += "aeroporto de partida inválido\n";
+            if (pass.LO_chegada.ID == pass.LO_partida.ID)
+                resposta += "aeroporto de partida e chegada iguais\n";
             if (pass.DT_partida <= DateTime.Now)
                 resposta += "partida não pode ser antes do cadastro\n";
             if (pass.DT_chegada <= DateTime.Now)

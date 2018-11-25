@@ -12,7 +12,14 @@ namespace Core.Negocio
         public string processar(EntidadeDominio entidade)
         {
             Venda Classe = (Venda)entidade;
+            string result="";
+            ValidarCompra vd =new ValidarCompra();
+            string vdv = vd.processar(entidade);
+            if (!string.IsNullOrEmpty(vdv))
+                result += vdv;
             Classe.Total = 0;
+            if (result != "")
+                return result;
             foreach (Viagem vg in Classe.Viagems)
             {
                 Classe.Total += (decimal)(vg.qtd*vg.Valor_Unidade);
@@ -31,9 +38,11 @@ namespace Core.Negocio
                     biDAO.salvar(b);
                 }
             }
+
             
+                return "sucesso!";
+
             
-            return "sucesso!";
         }
     }
 }

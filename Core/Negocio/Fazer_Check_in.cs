@@ -34,7 +34,7 @@ namespace Core.Negocio
             List<EntidadeDominio> go = new List<EntidadeDominio>();
             Departamento dep = new Departamento();
             DepartamentoDAO depDAO = new DepartamentoDAO();
-            go = depDAO.consultar(chk_in.Passagem.Voo);
+            go = depDAO.consultar(new Departamento() { Pass= chk_in.Passagem.Voo });
             if (go.Count > 0)
                 dep = (Departamento)go.ElementAt(0);
             StatusDAO stDAO = new StatusDAO();

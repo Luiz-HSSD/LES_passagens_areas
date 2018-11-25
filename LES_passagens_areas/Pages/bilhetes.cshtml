@@ -82,13 +82,11 @@
         $('#dt_partida').mask('00/00/0000');
         $('#hr_partida').mask('00:00');
         $('#dt_destino').mask('00/00/0000');
-        if ($("#destino").val()!=0) {
+        if ($("#destino").val() != 0)
+        {
             $("#destino").prop('selectedIndex', $("#che").val() - 1);
             $("#partida").prop('selectedIndex', $("#par").val() - 1);
-
         }
-
-
     });
 </script>
 <div id="table">

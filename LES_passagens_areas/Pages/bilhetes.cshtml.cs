@@ -123,13 +123,14 @@ namespace LES_passagens_areas.Pages
                 roles.RemoveAt(int.Parse( del));
                 HttpContext.Session.SetObjectAsJson(devil, ven);
             }
+            devill = GetRoles3();
             listItems = GetRoles();
-                listItems1 = GetRoles1();
-                message = "";
-                TagBuilder td = new TagBuilder("div");
-                TagBuilder tdt = new TagBuilder("table");
-                var write = new StringWriter();
-                td.InnerHtml.Append(tdt.ToString());
+            listItems1 = GetRoles1();
+            message = "";
+            TagBuilder td = new TagBuilder("div");
+            TagBuilder tdt = new TagBuilder("table");
+            var write = new StringWriter();
+            td.InnerHtml.Append(tdt.ToString());
             }
             Venda ven = new Venda();
         public const string devil = "cart";
@@ -149,18 +150,26 @@ namespace LES_passagens_areas.Pages
                     ven = venn;
                 string cod = HttpContext.Session.GetString("cod");
                 if (!string.IsNullOrEmpty(cod))
-                ven.Viagems.Find(x => x.Voo.ID == int.Parse(cod)).Passageiros.Add(a);
+                {
+                    var go = ven.Viagems.Find(x => x.Voo.ID == int.Parse(cod));
+                    go.Passageiros.Add(a);
+                    if (go.qtd < go.Passageiros.Count)
+                        go.qtd = go.Passageiros.Count;
+                }
                 HttpContext.Session.SetObjectAsJson(devil, ven);
                 var bora=    ven.Viagems.Find(x => x.Voo.ID == int.Parse(cod));
-                devill = GetRoles3();
+                
                 if (bora.qtd<=bora.Passageiros.Count )
                     Response.Redirect("./cart");
-            
+            listItems = GetRoles();
+            listItems1 = GetRoles1();
+            devill = GetRoles3();
         }
             public void OnPostWay4(string data)
             {
                 classe = (SelectList)GetRoles();
                 aviao = (SelectList)GetRoles1();
+                devill = GetRoles3();
                 id = "";
                 name = "";
                 partida = "";

@@ -154,7 +154,7 @@ namespace LES_passagens_areas.Pages
             else
                 bg.Sexo = 'F';
             bg.Cpf = Request.Form["cpf"];
-            bg.Rg = Request.Form["rg"];
+            bg.RG = Request.Form["rg"];
             bg.Dt_Nas = DateTime.ParseExact(Request.Form["dt_nas"],"dd/mm/yyyy",CultureInfo.GetCultureInfo("pt-BR"));
             bg.usuario.Login = Request.Form["email"];
             bg.Endereco.Cep = Request.Form["cep"];
@@ -219,9 +219,9 @@ namespace LES_passagens_areas.Pages
             nome = Request.Form["nome"];
             password = Request.Form["password"];
             com_password = Request.Form["com_password"];
+            dt_nas = Request.Form["dt_nas"];
             cpf = Request.Form["cpf"];
             rg = Request.Form["rg"];
-            dt_nas = Request.Form["dt"];
             email = Request.Form["email"];
             cep = Request.Form["cep"];
             rua = Request.Form["rua"];

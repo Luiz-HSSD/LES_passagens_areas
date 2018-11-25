@@ -45,13 +45,32 @@ namespace Dominio
             set { aero = value; }
         }
 
+        private Passagens voo;
+
+
+        public Passagens Voo
+        {
+            get { return voo; }
+            set { voo = value; }
+        }
+
+        private bool isDesembarque;
+
+        public bool IsDesembarque
+        {
+            get { return isDesembarque; }
+            set { isDesembarque = value; }
+        }
+
         public Sumario()
         {
+            IsDesembarque = false;
             qtd_passaram = 0;
             qtd_nao_passaram = 0;
             qtd = 0;
             dep = new Departamento();
             aero = new Aeroporto();
+            voo = new Passagens();
         }
     }
 }

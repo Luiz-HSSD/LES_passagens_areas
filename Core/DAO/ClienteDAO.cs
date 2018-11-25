@@ -70,7 +70,7 @@ namespace Core.DAO
                     p = new Cliente();
                     p.ID = Convert.ToInt32(vai["id_cli"]);
                     p.Nome = (vai["nome_cli"].ToString());
-                    p.Rg = (vai["rg"].ToString());
+                    p.RG = (vai["rg"].ToString());
                     p.Cpf = (vai["cpf"].ToString());
                     p.Sexo = Convert.ToChar(vai["sexo"]);
                     p.Dt_Nas = Convert.ToDateTime(vai["dt_nas"]);
@@ -116,7 +116,7 @@ namespace Core.DAO
                 new NpgsqlParameter("nome" , Classe.Nome),
                 new NpgsqlParameter("nom" , Classe.Sexo),
                 new NpgsqlParameter("cpf" , Classe.Cpf),
-                new NpgsqlParameter("rg" , Classe.Rg),
+                new NpgsqlParameter("rg" , Classe.RG),
                 new NpgsqlParameter("dt" , Classe.Dt_Nas)
             };
             pst.Parameters.Clear();

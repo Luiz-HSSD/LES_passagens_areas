@@ -11,12 +11,33 @@ namespace LES_passagens_areas.Pages
 {
     public class sumarioModel : viewgenerico
     {
+        public bool getantes_ou_dps(List<EntidadeDominio> go, Sumario a, Status ago)
+        {
+            int at = 0, att = 0 ,i = 0;
+            for( i =0;i<go.Count;i++)
+            {
+                if (a.Dep.ID == go[i].ID)
+                    at = i;
+            }
+            i = 0;
+            for ( i = 0; i < go.Count; i++)
+            {
+                if (ago.Atual.ID == go[i].ID)
+                    att = i;
+            }
+            if (((at >= att) && ago.IsDesembarque == a.IsDesembarque) || (a.IsDesembarque == true &&  ago.IsDesembarque==false))
+                return true;
+            return false;
+        }
         public IEnumerable<EntidadeDominio> GetRoles()
         {
             int b=0;
             int.TryParse(codd, out b);
             List<EntidadeDominio> ld = new List<EntidadeDominio>();
             List<EntidadeDominio> ldd = commands["CONSULTAR"].execute(new Status()).Entidades;
+            if(b!=0)
+               ldd=ldd.Where(x => ((Status)x).Passageiro.passagem.Voo.ID == b).ToList();
+            List<EntidadeDominio> lldd = commands["CONSULTAR"].execute(new Departamento() {Pass=new Passagens() {ID=b } }).Entidades;
             foreach (Status s in  ldd)
             {
                 Sumario su = new Sumario();
@@ -24,7 +45,9 @@ namespace LES_passagens_areas.Pages
                 {
                     su.Qtd = 1;
                     su.Dep.ID = s.Atual.ID;
+                    su.Voo = s.Passageiro.passagem.Voo;
                     su.Dep.Nome = s.Atual.Nome;
+                    su.IsDesembarque = s.IsDesembarque;
                     if (s.IsDesembarque)
                     {
                         su.Aero.ID = s.Passageiro.passagem.Voo.LO_chegada.ID;
@@ -37,7 +60,7 @@ namespace LES_passagens_areas.Pages
                         su.Aero.Nome = s.Passageiro.passagem.Voo.LO_partida.Nome;
                         su.Aero.sigla = s.Passageiro.passagem.Voo.LO_partida.sigla;
                     }
-                    if( b == 0 || (b == su.Aero.ID))
+                    if( b == 0 || (b == su.Voo.ID))
                     ld.Add(su);
                 }
                 else
@@ -45,18 +68,20 @@ namespace LES_passagens_areas.Pages
                     bool exists = false;
                     foreach(Sumario sum in ld)
                     {
-                        if (s.Atual.ID == sum.Dep.ID)
+                        if (s.Atual.ID == sum.Dep.ID && s.IsDesembarque==sum.IsDesembarque)
                         {
                             if (b == 0 || (b == su.Aero.ID))
-                                sum.Qtd++;
-                            exists = true;
+                                exists = true;
                         }
+                        
                     }
                     if (!exists)
                     {
                         su.Qtd = 1;
                         su.Dep.ID = s.Atual.ID;
+                        su.Voo = s.Passageiro.passagem.Voo;
                         su.Dep.Nome = s.Atual.Nome;
+                        su.IsDesembarque = s.IsDesembarque;
                         if (s.IsDesembarque)
                         {
                             su.Aero.ID = s.Passageiro.passagem.Voo.LO_chegada.ID;
@@ -69,21 +94,34 @@ namespace LES_passagens_areas.Pages
                             su.Aero.Nome = s.Passageiro.passagem.Voo.LO_partida.Nome;
                             su.Aero.sigla = s.Passageiro.passagem.Voo.LO_partida.sigla;
                         }
-                        if (b == 0 || b == su.Aero.ID)
-                            ld.Add(su);
+                        if (b == 0 || b == su.Voo.ID)
+                        
+                             ld.Add(su);
+                        
                     }
+                    foreach (Sumario sum in ld)
+                    {
+                        if (s.Atual.ID == sum.Dep.ID)
+                        {
+                            if (((b == 0) || (b == su.Aero.ID)) && s.IsDesembarque == sum.IsDesembarque && exists == true)
+                                sum.Qtd++;
 
+                        }
+
+
+                    }
                 }
             }
-            for (int a = 0; a < ld.Count; a++)
+            for (int q=0;q< ld.Count;q++ )
             {
-                for (int bb = 0; bb < ld.Count; bb++)
+                for (int s=0;s<ldd.Count;s++)
                 {
-                    if (bb == a)
-                        continue;
-                    else
-                    {
 
+                    {
+                        if (getantes_ou_dps(lldd, ((Sumario)ld[q]), ((Status)ldd[s])))
+                            ((Sumario)ld[q]).Qtd_nao_passaram++;
+                        else
+                            ((Sumario)ld[q]).Qtd_passaram++;                        
                     }
                 }
             }
