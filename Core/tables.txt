@@ -2,6 +2,9 @@
 drop table assento;
 drop table check_in;
 DROP TABLE Dep_pass;
+DROP TABLE dep_mot;
+DROP TABLE barrado;
+DROP TABLE motivo;
 DROP TABLE status; 
 DROP TABLE Departamento;
 drop table bilhete;
@@ -21,6 +24,7 @@ drop table funcionalidade;
 drop table perfil;
 DROP TABLE usuarios;
 DROP TABLE papel;
+
 
 
 CREATE TABLE aeroporto(
@@ -240,3 +244,28 @@ CREATE TABLE status
     CONSTRAINT fk_st_at FOREIGN KEY (atual) REFERENCES Departamento(id_dep)  on delete cascade on update cascade,
     CONSTRAINT fk_st_bilhete FOREIGN KEY (bilhete_id) REFERENCES bilhete(bilhete_id)  on delete cascade on update cascade  
 );
+
+CREATE TABLE motivo
+(
+    id_mot   serial primary key,   
+    nome   varchar(60)
+);
+ 
+CREATE TABLE dep_mot
+(
+    id_dep     int,   
+    id_mot   int,
+    CONSTRAINT fk_dep_mot FOREIGN KEY(id_dep) REFERENCES Departamento(id_dep)  on delete cascade on update cascade,
+    CONSTRAINT fk_mot_dep FOREIGN KEY(id_mot) REFERENCES motivo(id_mot)  on delete cascade on update cascade,
+    constraint PK_dp_mot primary key (id_dep, id_mot)
+);
+
+CREATE TABLE barrado
+(
+    id_bar   serial primary key,
+    id_mot int,
+    id_status int,
+    causa text,   
+    CONSTRAINT fk_mot_bar FOREIGN KEY (id_mot) REFERENCES motivo(id_mot)  on delete cascade on update cascade,
+    CONSTRAINT fk_st_bar FOREIGN KEY (id_status) REFERENCES status(id_status)  on delete cascade on update cascade
+); 

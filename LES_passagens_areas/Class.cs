@@ -9,6 +9,17 @@ namespace LES_passagens_areas
 {
     public static class SessionExtensions
     {
+        public static void Setstring(this ISession session, string key, string value)
+        {
+            session.SetString(key, value);
+        }
+
+        public static string Getstring(this ISession session, string key)
+        {
+            var value = session.GetString(key);
+
+            return value;
+        }
         public static void SetObjectAsJson(this ISession session, string key, object value)
         {
             session.SetString(key, JsonConvert.SerializeObject(value, Formatting.Indented, new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects }));

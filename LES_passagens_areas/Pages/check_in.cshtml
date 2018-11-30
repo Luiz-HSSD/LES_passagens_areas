@@ -29,7 +29,7 @@
 <form method="POST">
     ID: @Html.TextBox("id", (Model.id), new { @readonly = "readonly" })<br />
     aeroporto: @Html.DropDownList("aeroporto", Model.aeroporto) <br />
-    voo: @Html.DropDownList("voo", Model.voo) id: <input id="queen" oninput="under_pressure(document.getElementById('queen').value , 'a');" />  nome: <input id="aerosmith" oninput="under_pressure('0' , document.getElementById('aerosmith').value);" />  <br />
+    @Html.TextBox("voo", (Model.id), new { type = "hidden" })   voo: @Html.DropDownList("voodd", Model.voo,new { onchange= "document.getElementById('voo').value = document.getElementById('voodd').value;" }) id: <input id="queen" oninput="under_pressure(document.getElementById('queen').value , 'a');" />  nome: <input id="aerosmith" oninput="under_pressure('0' , document.getElementById('aerosmith').value);" />  <br />
     Bilhete: @Html.DropDownList("bilhete", Model.bilhete) (nome rg) ou ((nome id) caso busca id ou nome)<br />
     <table id="tb_vieww">
         <thead>
@@ -52,7 +52,7 @@
     Dimensões: @Html.TextBox("qtd", (Model.name))   Peso: @Html.TextBox("partida", (Model.name))      <button type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way5">Incluir</button> <br />
     classe: @Html.DropDownList("go", Model.classe)<br />
     asento: @Html.DropDownList("goo", Model.assento)<br />
-    <button type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way2">cadastrar</button>
+    <button id="gordo" type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way2">cadastrar</button>
     <button type="submit" class="btn btn-warning" asp-route-data="foo" asp-page-handler="Way3">alterar</button>
     <button type="submit" class="btn btn-light" asp-route-data="foo" asp-page-handler="Way4">cancelar</button>
 </form>
@@ -82,6 +82,7 @@
         if (item.id == korn) {
             korn = item.class_id;
             metallica = item.pass_id;
+            document.getElementById('voo').value = item.pass_id;
             return;
         }
     }
@@ -96,7 +97,7 @@
     var korn = 0;
     var metallica = 0;
     function go() {
-        $('#voo').children('option:not(:first)').remove();
+        $('#voodd').children('option:not(:first)').remove();
         $.ajax({
             type: "GET",
             url: '/api/devil/voo/' + korn,
@@ -107,14 +108,14 @@
                 var ii = 1;
                 $.each(JSON.parse(devil), function (i, cliente) {
 
-                    $("#voo").append(new Option(cliente.LO_chegada.Nome + " " + cliente.DT_partida, cliente.ID.toString()));
+                    $("#voodd").append(new Option(cliente.LO_chegada.Nome + " " + cliente.DT_partida, cliente.ID.toString()));
                     var o = 10;
                     var a = (Math.round(lat * o) / o);
                     var b = (Math.round(cliente.lat * o) / o);
                     if (a == b) {
                         //alert(ii);
                         //$("#aeroporto").selectedIndex = i;
-                        $("#voo").prop('selectedIndex', ii);
+                        $("#voodd").prop('selectedIndex', ii);
                     }
                     ii++;
                 });
@@ -152,7 +153,7 @@
         $('#bilhete').children('option:not(:first)').remove();
         $.ajax({
             type: "GET",
-            url: '/api/devil/bilhete/' + boerap + '/' + another,
+            url: encodeURI('/api/devil/bilhete/' + boerap + '/' + another),
             timeout: 30000,
             contentType: "application/json; charset=utf-8",
             cache: false,
@@ -195,7 +196,7 @@
         });
     }
     $("#aeroporto").append(new Option('Selecione aeroporto:', 0));
-    $("#voo").append(new Option('Selecione voo:', 0));
+    $("#voodd").append(new Option('Selecione voo:', 0));
     $("#bilhete").append(new Option('Selecione bilhete:', 0));
     $("#goo").append(new Option('Selecione assento:', 0));
     var lat = 0.5;
@@ -262,8 +263,8 @@
             korn = $("#aeroporto").find(":selected").val();
             return go();
         });
-        $("#voo").change(function (e) {
-            korn = $("#voo").find(":selected").val();
+        $("#voodd").change(function (e) {
+            korn = $("#voodd").find(":selected").val();
             console.log("asdfasdf");
             return gohell();
         });

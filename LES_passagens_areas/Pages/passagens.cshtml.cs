@@ -163,11 +163,11 @@ namespace LES_passagens_areas.Pages
             DateTime.TryParseExact(Request.Form["dt_destino"].ToString() + " " + Request.Form["hr_destino"].ToString(), "dd/MM/yyyy HH:mm", new CultureInfo("pt-BR"), DateTimeStyles.None, out f);
             List<Departamento> ld;
             if (Request.Form["dii"] == "0")
-                ld = new List<Departamento>() { new Departamento() { ID = 2 }, new Departamento() { ID = 3 } };
+                ld = new List<Departamento>() { new Departamento() { ID = 2 }, new Departamento() { ID = 4 } };
             else if (Request.Form["dii"] == "1")
-                ld = new List<Departamento>() { new Departamento() { ID = 2 }, new Departamento() { ID = 3 }, new Departamento() { ID = 4 } };
+                ld = new List<Departamento>() { new Departamento() { ID = 2 }, new Departamento() { ID = 3 }, new Departamento() { ID = 4 } , new Departamento() { ID = 6 } };
             else
-                ld = new List<Departamento>() { new Departamento() { ID = 2 }, new Departamento() { ID = 3 }, new Departamento() { ID = 4 }, new Departamento() { ID = 5 } };
+                ld = new List<Departamento>() { new Departamento() { ID = 2 }, new Departamento() { ID = 3 }, new Departamento() { ID = 4 }, new Departamento() { ID = 5 } , new Departamento() { ID = 6 } };
             message = commands["ALTERAR"].execute(new Dominio.Passagens() { Departamentos = ld, ID = a,DT_partida=e,DT_chegada=f, QTD = b, LO_partida = new Aeroporto() { ID = Convert.ToInt32(Request.Form["partida"]) }, LO_chegada = new Aeroporto() { ID = Convert.ToInt32(Request.Form["destino"]) }, Tipo = new Classe() { ID = c }, Aviao_v = new Aviao() { ID = d } }).Msg;
         }
         public void OnPostWay4(string data)

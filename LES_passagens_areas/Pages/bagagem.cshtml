@@ -5,23 +5,54 @@
 }
 
 <h2>bagagem</h2>
-<table id="tb_vieww">
-    <thead>
-        <tr><th></th><th>id ou indice caso não cadastrado</th><th>dimensões</th><th>peso</th></tr>
-    </thead>
-    <tbody>
-        @foreach (Dominio.Bagagem objUser in Model.GetRoles3())
-        {
-            <tr>
-                <td>
-                    <a class="btn btn-danger" href='check_in?dele=@objUser.ID.ToString()'>apagar</a>
-                </td>
-                <td>@objUser.ID.ToString()</td>
-                <td>C @objUser.comprimento.ToString() X L @objUser.largura.ToString() X A @objUser.altura.ToString()</td>
-                <td>@objUser.peso</td>
-            </tr>
+id: <input id="queen" oninput="under_pressure(document.getElementById('queen').value , 'a');" />  nome: <input id="aerosmith" oninput="under_pressure('0' , document.getElementById('aerosmith').value);" />  <br />
+    Bilhete: @Html.DropDownList("bilhete", Model.bilhete) (nome rg) ou ((nome id) caso busca id ou nome)<br />
+    <table id="tb_vieww">
+        <thead>
+            <tr><th></th><th>id ou indice caso não cadastrado</th><th>dimensões</th><th>peso</th></tr>
+        </thead>
+        <tbody>
+            @foreach (Dominio.Bagagem objUser in Model.GetRoles3())
+            {
+                <tr>
+                    <td>
+                        <a class="btn btn-danger" href='check_in?dele=@objUser.ID.ToString()'>apagar</a>
+                    </td>
+                    <td>@objUser.ID.ToString()</td>
+                    <td>C @objUser.comprimento.ToString() X L @objUser.largura.ToString() X A @objUser.altura.ToString()</td>
+                    <td>@objUser.peso</td>
+                </tr>
+            }
+        </tbody>
+    </table><br />
+    Dimensões: @Html.TextBox("qtd", (Model.name))   Peso: @Html.TextBox("partida", (Model.name))      <button type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way5">Incluir</button><br />
+    <button type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way2">Cadastrar</button>
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/lib/datatables.min.css">
+    <script type="text/javascript" src="~/lib/datatables.min.js"></script><!---->
+    <script src="~/js/jquery.mask.min.js"></script>
+    <script type="text/javascript">
+        function under_pressure(boerap, another) {
+            $('#bilhete').children('option:not(:first)').remove();
+            $.ajax({
+                type: "GET",
+                url: '/api/devil/bilhete/' + boerap + '/' + another,
+                timeout: 30000,
+                contentType: "application/json; charset=utf-8",
+                cache: false,
+                error: function () {
+                    console.log("erro");
+                },
+                success: function (devil) {
+                    console.log(" asdfasdfasdfasdf");
+                    adidas = [];
+                    $.each(JSON.parse(devil), function (i, cliente) {
+                        $("#bilhete").append(new Option(cliente.Nome + " | ID=" + cliente.ID, cliente.ID.toString()));
+                        adidas.push(new bilhete(cliente.ID, cliente.passagem.Tipo.ID, cliente.passagem.Voo.ID));
+                    });
+                }
+            });
         }
-    </tbody>
-</table>
-<button type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way5">Incluir</button><br />
-<button type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way2">Cadastrar</button>
+
+        $('#tb_vieww').DataTable({ searching: false, paging: false, info: false, ordering: false });
+    </script>

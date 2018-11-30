@@ -11,78 +11,93 @@ else
 {
     <h2>@Model.nome_dep</h2>
 }
+<form method="post">
+@Html.TextBox("id_dep", Model.dep, new { type = "hidden" })  PARTIDA: @Html.DropDownList("partida", (Model.GetRoles4()),new {onchange= "tdii();" })<br />
 
-
-<TABLE class='display' onload="bora()" id='tb_view'>
-    <THEAD>
-        <tr><th></th><th>nome</th><th>voo</th><th>aeroporto</th><th>Departamento</th></tr>
-    </THEAD>
-    <TBODY>
-        @foreach (Dominio.Status objUser in Model.resposta)
-        {
-            <tr>
-                <td>
-                    <input value="comfirmar" class="btn btn-success"  type="button" onclick="window.location.href='@Model.mount_url(objUser.ID)'" />
-                    <button type="button" onclick="document.getElementById('id_mt').value=@objUser.ID" class="btn btn-danger" data-toggle="modal" data-target="#cat_finesh">
-                        Barrar
-                    </button>
-                </td>
-                <td>@objUser.Passageiro.Nome </td>
-                <td>@objUser.Passageiro.passagem.Voo.LO_partida.sigla to @objUser.Passageiro.passagem.Voo.LO_chegada.sigla</td>
-
-                @if (objUser.IsDesembarque)
+        <TABLE class='display' onload="bora()" id='tb_view'>
+            <THEAD>
+                <tr><th></th><th>nome</th><th>voo</th><th>aeroporto</th><th>Departamento</th></tr>
+            </THEAD>
+            <TBODY>
+                @foreach (Dominio.Status objUser in Model.resposta)
                 {
-                    <td>
-                        @objUser.Passageiro.passagem.Voo.LO_chegada.sigla
-                    </td>
-                    <!--<td>desembarcando</td>-->
-                }
-                else
-                {
-                    <td>
-                        @objUser.Passageiro.passagem.Voo.LO_partida.sigla
-                    </td>
-                    <!--<td>embarcando</td>-->
-                }
-                <td>@objUser.Atual.Nome</td>
+                    <tr>
+                        <td>
+                            <input value="comfirmar" class="btn btn-success" type="button" onclick="window.location.href='@Model.mount_url(objUser.ID)'" />
+                            <button type="button" onclick="bora(@objUser.ID,'@objUser.Passageiro.Nome')" class="btn btn-danger" data-toggle="modal" data-target="#cat_finesh">
+                                Barrar
+                            </button>
+                        </td>
+                        <td>@objUser.Passageiro.Nome </td>
+                        <td>@objUser.Passageiro.passagem.Voo.LO_partida.sigla to @objUser.Passageiro.passagem.Voo.LO_chegada.sigla</td>
 
-            </tr>
-        }
-    </TBODY>
-</TABLE>
-<br />
+                        @if (objUser.IsDesembarque)
+                        {
+                            <td>
+                                @objUser.Passageiro.passagem.Voo.LO_chegada.sigla
+                            </td>
+                            <!--<td>desembarcando</td>-->
+                        }
+                        else
+                        {
+                            <td>
+                                @objUser.Passageiro.passagem.Voo.LO_partida.sigla
+                            </td>
+                            <!--<td>embarcando</td>-->
+                        }
+                        <td>@objUser.Atual.Nome</td>
 
+                    </tr>
+                }
+            </TBODY>
+        </TABLE>
+        <br />
+
+        <script type="text/javascript">
+            function tdii() {
+                var a = document.getElementById('id_dep').value
+                var b = document.getElementsByName('partida')[0].value;
+                window.location="./status?dep="+a+"&voo="+b;
+            }
+            function bora(a, b) {
+                document.getElementById('id_mt').value = a;
+                document.getElementsByTagName('label')[2].innerHTML = b;
+
+            }
+        </script>
 
         <!-- Modal -->
         <div class="modal fade" id="cat_finesh" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">tem certeza?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    @Html.TextBox("id_mt","",new { type="hidden" })
-                    categoria: @Html.TextBox("categoria")<br />
-                    causa @Html.TextArea("causa")<br />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-danger">barrar</button>
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">tem certeza?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @Html.TextBox("id_mt", "", new { type = "hidden" })  nome: @Html.Label("nome") <br />
+                        categoria: @Html.DropDownList("categoria", Model.go)<br />
+                        causa @Html.TextArea("causa")<br />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-danger" asp-route-data="foo" asp-page-handler="Devil">barrar</button>
+                    </div>
                 </div>
             </div>
         </div>
-        </div>
-<script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="~/lib/datatables.min.css">
-<script type="text/javascript" src="~/lib/datatables.min.js"></script><!---->
-<script src="~/js/jquery.mask.min.js"></script>
-<script type="text/javascript">
-    //code C#
-    //new List<Dominio.Status>() { new Dominio.Status() { IsDesembarque = true, Passageiro = new Dominio.Bilhete() { Nome = "luiz" } }, new Dominio.Status() { Passageiro = new Dominio.Bilhete() { Nome = "rodrigo" } } }
-    $(document).ready(function () {
-        $('#tb_view').DataTable();
-    });
-</script>
+
+        <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="~/lib/datatables.min.css">
+        <script type="text/javascript" src="~/lib/datatables.min.js"></script><!---->
+        <script src="~/js/jquery.mask.min.js"></script>
+        <script type="text/javascript">
+            //code C#
+            //new List<Dominio.Status>() { new Dominio.Status() { IsDesembarque = true, Passageiro = new Dominio.Bilhete() { Nome = "luiz" } }, new Dominio.Status() { Passageiro = new Dominio.Bilhete() { Nome = "rodrigo" } } }
+            $(document).ready(function () {
+                $('#tb_view').DataTable();
+            });
+        </script>
+    </form>

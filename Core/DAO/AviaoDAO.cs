@@ -122,6 +122,8 @@ namespace Core.DAO
             }
             catch(NpgsqlException ora)
             {
+                vai.Close();
+                connection.Close();
                 throw ora;
             }
             

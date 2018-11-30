@@ -30,7 +30,7 @@ namespace Core.DAO
                 
 
 
-                if (Classe.ID == 0)
+                if (Classe.Pass.ID == 0)
                 {
                     sql = "select * from Departamento join dep_pass using(id_dep)  ";
                 }
@@ -40,7 +40,7 @@ namespace Core.DAO
                 }
                 pst = new NpgsqlCommand();
                 pst.CommandText = sql;
-                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID) };
+                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.Pass.ID) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;

@@ -15,7 +15,7 @@ namespace Core.Negocio
             Check_in chk_in = (Check_in)entidade; 
             Viagem vg = new Viagem() {Passageiros=new List<Bilhete>() {chk_in.Entrada } };
             ViagemDAO vgDAO = new ViagemDAO() { };
-            chk_in.Passagem=(Viagem)vgDAO.consultar(vg).ElementAt(0);
+            chk_in.Passagem.ID=((Viagem)vgDAO.consultar(vg).ElementAt(0)).ID;
             Check_inDAO chkdao = new Check_inDAO();
             chkdao.salvar(chk_in);
             BagagemDAO bagagemDAO = new BagagemDAO();

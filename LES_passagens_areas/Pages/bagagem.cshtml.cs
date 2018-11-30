@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Dominio;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LES_passagens_areas.Pages
 {
@@ -19,7 +20,9 @@ namespace LES_passagens_areas.Pages
 
             return lb;
         }
+        public SelectList bilhete = new SelectList(new List<SelectListItem>());
         public string message { get; set; }
+        public string name { get; set; }
         public void OnGet()
         {
 

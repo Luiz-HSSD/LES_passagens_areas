@@ -296,9 +296,12 @@ namespace Core.Utils
             rnsStatus.Add("CONSULTAR", rnsConsultarStatus);
             rns.Add(typeof(Status).Name, rnsStatus);
 
+            Fazer_Barrado f_bar = new Fazer_Barrado();
+
             BarradoDAO BarradoDAO = new BarradoDAO();
             daos.Add(typeof(Barrado).Name, BarradoDAO);
             List<IStrategy> rnsSalvarBarrado = new List<IStrategy>();
+            rnsSalvarBarrado.Add(f_bar);
             List<IStrategy> rnsAlterarBarrado = new List<IStrategy>();
             List<IStrategy> rnsExcluirBarrado = new List<IStrategy>();
             rnsExcluirBarrado.Add(para_ex);
@@ -309,6 +312,20 @@ namespace Core.Utils
             rnsBarrado.Add("EXCLUIR", rnsExcluirBarrado);
             rnsBarrado.Add("CONSULTAR", rnsConsultarBarrado);
             rns.Add(typeof(Barrado).Name, rnsBarrado);
+
+            MotivoDAO MotivoDAO = new MotivoDAO();
+            daos.Add(typeof(Motivo).Name, MotivoDAO);
+            List<IStrategy> rnsSalvarMotivo = new List<IStrategy>();
+            List<IStrategy> rnsAlterarMotivo = new List<IStrategy>();
+            List<IStrategy> rnsExcluirMotivo = new List<IStrategy>();
+            rnsExcluirMotivo.Add(para_ex);
+            List<IStrategy> rnsConsultarMotivo = new List<IStrategy>();
+            Dictionary<string, List<IStrategy>> rnsMotivo = new Dictionary<string, List<IStrategy>>();
+            rnsMotivo.Add("SALVAR", rnsSalvarMotivo);
+            rnsMotivo.Add("ALTERAR", rnsAlterarMotivo);
+            rnsMotivo.Add("EXCLUIR", rnsExcluirMotivo);
+            rnsMotivo.Add("CONSULTAR", rnsConsultarMotivo);
+            rns.Add(typeof(Motivo).Name, rnsMotivo);
         }
 
         public void Pega(out Dictionary<string, Dictionary<string, List<IStrategy>>> rns,out Dictionary<string, IDAO> daos)

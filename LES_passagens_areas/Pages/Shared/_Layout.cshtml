@@ -54,9 +54,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    
-                    <li><a asp-page="/About">About</a></li>
-                    <li><a asp-page="/Contact">Contact</a></li>
+
                     @{
                         var usu = Context.Session.GetObjectFromJson<Usuarios>("login");
                     }
@@ -71,8 +69,10 @@
                         @if (usu.Permisao > 1)
                         {
                             <li><a asp-page="/passagens">Passagens</a></li>
+                            <li><a asp-page="/bagagem">bagagem</a></li>
                             <li><a asp-page="/check_in">check-in</a></li>
                             <li><a asp-page="/sumario">sumario</a></li>
+                            <li><a asp-page="/status">status</a></li>
                             @if (usu.Permisao > 2)
                             {
                                 <li><a asp-page="/analise">analise</a></li>
