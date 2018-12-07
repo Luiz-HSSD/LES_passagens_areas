@@ -10,8 +10,9 @@
 origem: <input type="text" id="txt" placeholder="cidade,aeroporto ou sigla" />  destino: <input type="text" id="txtEndereco" placeholder="cidade,aeroporto ou sigla" /><br />
 periodo: <input id="letsgo" type="text" />  <br />
 <input value="procurar" id="procurar" type="button" onclick="pass()" />
-
-
+<form method="post">
+    <button type="submit" style="visibility:hidden;" class="btn btn-success" asp-route-data="1" >cadastrar</button>
+</form>
 <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="~/lib/datatables.min.css">
 <script type="text/javascript" src="~/lib/datatables.min.js"></script><!---->

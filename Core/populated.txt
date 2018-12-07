@@ -704,7 +704,7 @@ insert into viagem (preco_unit,pass_id,class_id ) VALUES (15000,1,1),
 			  
 insert into bilhete ( nome, rg, cpf , email ,sexo, passaporte, viagem_id  ) VALUES ('Luiz HSSD','45.291.587-9','406.982.998-92','lhenrique_diniz@hotmail.com',true,'',19),
 										   ('amadeu alvares','45.291.587-9','406.982.998-92','amadeu_a@hotmail.com',true,'',20),
-										   ('severina joana solva','45.291.587-9','406.982.998-92','severina_joh@gmail.com',true,'',21);
+										   ('severina joana silva','45.291.587-9','406.982.998-92','severina_joh@gmail.com',true,'',21);
 
 
 insert into Departamento (id_dep,nome) VALUES (0 , 'Barrado');

@@ -44,7 +44,7 @@ namespace LES_passagens_areas
         {
             res = commands["CONSULTAR"].execute(new Dominio.Aeroporto() { ID = cod });
             
-            return JsonConvert.SerializeObject(res.Entidades) ;
+            return JsonConvert.SerializeObject(res.Entidades, Formatting.None, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore}) ;
         }
         [Route("voo/{codd}")]
         [HttpGet]
@@ -52,7 +52,7 @@ namespace LES_passagens_areas
         {
             res = commands["CONSULTAR"].execute(new Dominio.Passagens() { LO_partida = new Dominio.Aeroporto() { ID = codd } });
 
-            return JsonConvert.SerializeObject(res.Entidades);
+            return JsonConvert.SerializeObject(res.Entidades, Formatting.None, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
         }
 
         [Route("bilhete/{codd}")]
@@ -61,7 +61,7 @@ namespace LES_passagens_areas
         {
             res = commands["CONSULTAR"].execute(new Dominio.Bilhete() { passagem=new Dominio.Viagem() { Voo= new Dominio.Passagens() { ID=codd } } });
 
-            return JsonConvert.SerializeObject(res.Entidades);
+            return JsonConvert.SerializeObject(res.Entidades, Formatting.None, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
         }
         [Route("bilhete/{codd}/{cod}")]
         [HttpGet]

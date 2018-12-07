@@ -18,6 +18,7 @@ namespace Core.Negocio
             if (develop.Count > 0)
                 Classe = (Status)develop.ElementAt(0);
             DepartamentoDAO depDAO = new DepartamentoDAO();
+            BarradoDAO barDAO = new BarradoDAO();
             var devil = Classe.Atual.ID;
             bool go = false;
             Agradecimento agra = new Agradecimento();
@@ -40,17 +41,27 @@ namespace Core.Negocio
                 {
                     if (Classe.IsDesembarque)
                     {
-                        Classe.Atual.ID = 1;
-                        agra.processar(Classe.Passageiro);
+                        
+                            Classe.Atual.ID = 1;
+                            agra.processar(Classe.Passageiro);
+                         
                     }
                     else
                     {
-                        Classe.Atual.ID = ld.ElementAt(0).ID;
-                        Classe.IsDesembarque = true;
+                        if(Classe.Passageiro.passagem.Voo.DT_partida>=DateTime.Now)
+                        { 
+                            Classe.Atual.ID = ld.ElementAt(0).ID;
+                            Classe.IsDesembarque = true;
+                        }
+                        else
+                        {
+                            Classe.Atual.ID = 0;
+                            barDAO.salvar(new Barrado() {Categoria =new Motivo() {ID=2 },Passageiro=new Status() {ID=Classe.ID },Causa="passageiro atrasado gerado automaticamente (LES_Passagens_aereas)"  });
+                        }
                     }
                 }
             }
-             entidade.ID = Classe.ID;
+            entidade.ID = Classe.ID;
             ((Status)entidade).IsDesembarque = Classe.IsDesembarque;
             ((Status)entidade).Atual.ID = Classe.Atual.ID;
             ((Status)entidade).Passageiro.ID = Classe.Passageiro.ID;

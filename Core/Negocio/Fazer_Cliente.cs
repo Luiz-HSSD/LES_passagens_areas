@@ -18,6 +18,10 @@ namespace Core.Negocio
             string vdv = vd.processar(entidade);
             if (!string.IsNullOrEmpty(vdv))
                 result += vdv;
+            Validar_senha vdd = new Validar_senha();
+             vdv = vdd.processar(entidade);
+            if (!string.IsNullOrEmpty(vdv))
+                result += vdv;
             GerarBandeira gb = new GerarBandeira();
             EnderecoDAO vgDAO = new EnderecoDAO() { };
             vgDAO.salvar(Classe.Endereco);

@@ -326,6 +326,22 @@ namespace Core.Utils
             rnsMotivo.Add("EXCLUIR", rnsExcluirMotivo);
             rnsMotivo.Add("CONSULTAR", rnsConsultarMotivo);
             rns.Add(typeof(Motivo).Name, rnsMotivo);
+
+            PegarSumario ps = new PegarSumario();
+            SumarioVooDAO SumarioVooDAO = new SumarioVooDAO();
+            daos.Add(typeof(SumarioVoo).Name, SumarioVooDAO);
+            List<IStrategy> rnsSalvarSumarioVoo = new List<IStrategy>();
+            List<IStrategy> rnsAlterarSumarioVoo = new List<IStrategy>();
+            List<IStrategy> rnsExcluirSumarioVoo = new List<IStrategy>();
+            rnsExcluirSumarioVoo.Add(para_ex);
+            List<IStrategy> rnsConsultarSumarioVoo = new List<IStrategy>();
+            rnsConsultarSumarioVoo.Add(ps);
+            Dictionary<string, List<IStrategy>> rnsSumarioVoo = new Dictionary<string, List<IStrategy>>();
+            rnsSumarioVoo.Add("SALVAR", rnsSalvarSumarioVoo);
+            rnsSumarioVoo.Add("ALTERAR", rnsAlterarSumarioVoo);
+            rnsSumarioVoo.Add("EXCLUIR", rnsExcluirSumarioVoo);
+            rnsSumarioVoo.Add("CONSULTAR", rnsConsultarSumarioVoo);
+            rns.Add(typeof(SumarioVoo).Name, rnsSumarioVoo);
         }
 
         public void Pega(out Dictionary<string, Dictionary<string, List<IStrategy>>> rns,out Dictionary<string, IDAO> daos)

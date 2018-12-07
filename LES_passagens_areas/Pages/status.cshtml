@@ -28,7 +28,7 @@ else
                                 Barrar
                             </button>
                         </td>
-                        <td>@objUser.Passageiro.Nome </td>
+                        <td name="nome">@objUser.Passageiro.Nome</td>
                         <td>@objUser.Passageiro.passagem.Voo.LO_partida.sigla to @objUser.Passageiro.passagem.Voo.LO_chegada.sigla</td>
 
                         @if (objUser.IsDesembarque)
@@ -36,14 +36,12 @@ else
                             <td>
                                 @objUser.Passageiro.passagem.Voo.LO_chegada.sigla
                             </td>
-                            <!--<td>desembarcando</td>-->
                         }
                         else
                         {
                             <td>
                                 @objUser.Passageiro.passagem.Voo.LO_partida.sigla
                             </td>
-                            <!--<td>embarcando</td>-->
                         }
                         <td>@objUser.Atual.Nome</td>
 

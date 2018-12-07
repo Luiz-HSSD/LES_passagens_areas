@@ -5,39 +5,40 @@
 }
 
 <h2>sumario</h2>
-    aeroporto: <select id="aeroporto" name="aeroporto" onchange=""></select>
+<h3>digite o codigo do voo e tecle enter</h3>
+<!--aeroporto: --><select id="aeroporto" name="aeroporto" onchange="" style="visibility:hidden"></select>
     voo:       <input id="queen" onchange="go()" />
 <br />
 <br />
 <TABLE class='display' onload="bora()" id='tb_view'>
     <THEAD>
-        <tr><th>nome</th><th>local</th><th>qtd passaram </th><th>qtd fazendo</th><th>qtd não passaram</th></tr>
+        <tr><th>nome</th><th>aeroporto</th><th>qtd passaram </th><th>qtd fazendo</th><th>qtd não passaram</th></tr>
     </THEAD>
     <TBODY>
         @foreach (Dominio.Sumario objUser in Model.lt)
         {
-        <tr>
-            <td>@objUser.Dep.Nome</td>
-            @if (@objUser.IsDesembarque)
-            {
-                <td>Desembarque</td>
-            }
-            else
-            {
-                <td>Embarque</td>
-            }
+            <tr>
+                <td>@objUser.Dep.Nome</td>
+                @if (@objUser.IsDesembarque)
+                {
+                    <td>chegada</td>
+                }
+                else
+                {
+                    <td>partida</td>
+                }
 
-            <td>@objUser.Qtd_passaram</td>
-            @if (string.IsNullOrEmpty(Model.codd))
-            {
-                <td><input type="button" value="@objUser.Qtd" onclick="window.location.href='./status?dep=@objUser.Dep.ID';" /> </td>
-            }
-            else
-            {
-                <td><input type="button" value="@objUser.Qtd" onclick="window.location.href='./status?dep=@objUser.Dep.ID&voo=@Model.codd';" /> </td>
-            }
-            <td>@objUser.Qtd_nao_passaram</td>
-        </tr>
+                <td>@objUser.Qtd_passaram</td>
+                @if (string.IsNullOrEmpty(Model.codd))
+                {
+                    <td><input type="button" value="@objUser.Qtd" onclick="window.location.href='./status?dep=@objUser.Dep.ID';" /> </td>
+                }
+                else
+                {
+                    <td><input type="button" value="@objUser.Qtd" onclick="window.location.href='./status?dep=@objUser.Dep.ID&voo=@Model.codd';" /> </td>
+                }
+                <td>@objUser.Qtd_nao_passaram</td>
+            </tr>
         }
 </TABLE>
 <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>

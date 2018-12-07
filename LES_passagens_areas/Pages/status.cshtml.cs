@@ -83,7 +83,7 @@ namespace LES_passagens_areas.Pages
                     HttpContext.Session.Setstring("voo", voo);
                     int b;
                     int.TryParse(voo, out b);
-                    resposta = commands["CONSULTAR"].execute(new Status() { Atual = new Departamento() { ID = a }, Passageiro = new Bilhete() { passagem = new Viagem() { Voo = new Passagens() { LO_chegada = new Aeroporto() { ID = b } } } } }).Entidades;
+                    resposta = commands["CONSULTAR"].execute(new Status() { Atual = new Departamento() { ID = a }, Passageiro = new Bilhete() { passagem = new Viagem() { Voo = new Passagens() {  ID = b  } } } }).Entidades;
                 }
                 else
                     resposta = commands["CONSULTAR"].execute(new Status() { Atual = new Departamento() { ID = a } }).Entidades;
@@ -99,7 +99,7 @@ namespace LES_passagens_areas.Pages
                 HttpContext.Session.Setstring("voo", voo);
                 int a;
                 int.TryParse(voo, out a);
-                resposta = commands["CONSULTAR"].execute(new Status() { Passageiro = new Bilhete() { passagem = new Viagem() { Voo = new Passagens() { LO_chegada = new Aeroporto() { ID = a } } } } }).Entidades;
+                resposta = commands["CONSULTAR"].execute(new Status() { Passageiro = new Bilhete() { passagem = new Viagem() { Voo = new Passagens() {  ID = a  } } } }).Entidades;
             }
             else
                 resposta = getStatus();

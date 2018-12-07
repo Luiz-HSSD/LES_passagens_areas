@@ -72,9 +72,21 @@ namespace Core.DAO
                 }
                 else
                 {
-                    if (Classe.Atual.ID == 0 && Classe.Passageiro.passagem.Voo.LO_chegada.ID == 0 && Classe.ID == 0)
+                    if (Classe.Atual.ID == 0 && Classe.Passageiro.passagem.Voo.LO_chegada.ID == 0 && Classe.ID == 0 && Classe.Passageiro.passagem.Voo.ID == 0)
                     {
                         sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE id_dep!=0 and id_dep!=1";
+                    }
+                    else if (Classe.Atual.ID == 0 && Classe.Passageiro.passagem.Voo.ID != 0)
+                    {
+                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE pass_id=:code and id_dep!=0 and id_dep!=1";
+                    }
+                    else if (Classe.Atual.ID != 0 && Classe.Passageiro.passagem.Voo.ID == 0)
+                    {
+                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE atual=:cod and id_dep!=0 and id_dep!=1";
+                    }
+                    else if (Classe.Atual.ID != 0 && Classe.Passageiro.passagem.Voo.ID != 0)
+                    {
+                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE pass_id=:code and  atual=:cod and id_dep!=0 and id_dep!=1";
                     }
                     else if (Classe.Atual.ID == 0 && Classe.Passageiro.passagem.Voo.LO_chegada.ID != 0)
                     {
@@ -95,7 +107,12 @@ namespace Core.DAO
                 }
                 pst = new NpgsqlCommand();
                 pst.CommandText = sql;
-                parameters = new NpgsqlParameter[] { new NpgsqlParameter("dev", Classe.ID),  new NpgsqlParameter("cod",Classe.Atual.ID), new NpgsqlParameter("codd", Classe.Passageiro.passagem.Voo.LO_chegada.ID) };
+                parameters = new NpgsqlParameter[] {
+                    new NpgsqlParameter("dev", Classe.ID),
+                    new NpgsqlParameter("cod",Classe.Atual.ID),
+                    new NpgsqlParameter("codd", Classe.Passageiro.passagem.Voo.LO_chegada.ID),
+                    new NpgsqlParameter("code", Classe.Passageiro.passagem.Voo.ID)
+                };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
