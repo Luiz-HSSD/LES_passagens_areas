@@ -14,7 +14,14 @@ namespace Dominio
             set { codd = value; }
         }
 
-        public List<Sumario> ls;
+        private List<Sumario> _ls;
+
+        public List<Sumario> ls
+        {
+            get { return _ls; }
+            set { _ls = value; }
+        }
+
 
         public SumarioVoo():base()
         {
