@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Dominio;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Globalization;
+using iTextSharp.text;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Hosting;
 
 namespace LES_passagens_areas.Pages
 {
@@ -16,7 +19,11 @@ namespace LES_passagens_areas.Pages
         private Passagens liv = new Passagens();
         string devil = "cart";
         //private static Gerar_produtos gp = new Gerar_produtos();
-
+        IHostingEnvironment _host;
+        public cartModel(IHostingEnvironment _host)
+        {
+            this._host = _host;
+        } 
         public IEnumerable<SelectListItem> listItems;
         public IEnumerable<SelectListItem> GetRoles()
         {
@@ -107,7 +114,7 @@ namespace LES_passagens_areas.Pages
             HttpContext.Session.SetObjectAsJson(devil, ven);
             //*/
         }
-        public void OnPostWay2(string data)
+        public IActionResult OnPostWay2(string data)
         {
             var venn = HttpContext.Session.GetObjectFromJson<Venda>(devil);            
             int b = 0;
@@ -123,7 +130,10 @@ namespace LES_passagens_areas.Pages
             venn.Forma_pagamento.Numero = Request.Form["num_card"];
             venn.Forma_pagamento.Validade = Request.Form["validade"];
             message = commands["SALVAR"].execute(venn).Msg;
-            if(!string.IsNullOrEmpty(message) && message != "sucesso!\n") { }
+            if(!string.IsNullOrEmpty(message) && message != "sucesso!\n")
+            {
+               return OnPostWay4(venn);
+            }
             else
             HttpContext.Session.SetObjectAsJson(devil, null);
             venn = HttpContext.Session.GetObjectFromJson<Venda>(devil);
@@ -132,16 +142,60 @@ namespace LES_passagens_areas.Pages
             var usu = HttpContext.Session.GetObjectFromJson<Usuarios>("login");
             if (usu == null)
             {
+                
                 Response.Redirect(("./"));
-                return;
+                return this.File(new byte[1], "application/pdf");
             }
+            
             res = commands["CONSULTAR"].execute(new Cliente() { usuario = usu }); //usu
             if (res.Entidades.Count > 0)
                 id_cli = res.Entidades.ElementAt(0).ID.ToString();
+            return this.File(new byte[1], "application/pdf");
         }
         public void OnPostWay3(string data)
         {
             Response.Redirect(("./"));
+        }
+        public IActionResult OnPostWay4(Venda data)
+        {
+            byte[] result;
+            using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
+            {
+                //creating a sample Document
+                iTextSharp.text.Document doc = new iTextSharp.text.Document(iTextSharp.text.PageSize.A4, 30f, 30f, 30f, 30f);
+                iTextSharp.text.pdf.PdfWriter writer = iTextSharp.text.pdf.PdfWriter.GetInstance(doc, ms);
+                doc.Open();
+                
+                doc.Add(Image.GetInstance(new Uri(_host.WebRootPath+"/images/les_logo.jpg")));
+
+                doc.Add(new Chunk("\n"));
+                var b = new iTextSharp.text.Chunk("LES_passagens_aereas");
+                b.Font.Color = BaseColor.Red;
+                doc.Add(b);
+                var bb = new Table(3);
+                var bh=new Cell("partida");
+                bh.Header = true;
+                bb.AddCell(bh);
+                bh = new Cell("chegada");
+                bh.Header = true;
+                bb.AddCell(bh);
+                bh = new Cell("tempo partida");
+                bh.Header = true;
+                bb.AddCell(bh);
+                for (int i=0; i<data.Viagems.Count;i++)
+                {
+                    bb.AddCell(new Cell(data.Viagems.ElementAt(i).Voo.LO_partida.Nome), i+1, 0);
+                    bb.AddCell(new Cell(data.Viagems.ElementAt(i).Voo.LO_chegada.Nome), i+1, 1);
+                    bb.AddCell(new Cell(data.Viagems.ElementAt(i).Voo.DT_partida.ToString("dd/MM/yyyy HH:mm")), i+1, 2);
+                    
+                }
+                doc.Add(bb);
+                doc.Close();
+                result = ms.ToArray();
+                   
+            }
+            
+            return this.File(result, "application/pdf");
         }
 
     }

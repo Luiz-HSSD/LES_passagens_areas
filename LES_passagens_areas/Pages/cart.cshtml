@@ -9,49 +9,50 @@
     <p id="dii" style="display:none; visibility:hidden;">@Html.Raw(Model.message)</p>
     <script>alert(document.getElementById("dii").innerHTML);</script>
 }
-<form method="post">
-    @{
-        if (Model.listItems == null)
-        {
-            Model.listItems = Model.GetRoles();
-        }
-    }
-    <h2>carrinho</h2>
-    <table id="tb_view">
-        <thead><tr><tr><th>Código</th><th>Nome</th><th>preço unitario</th><th>qtd</th><th>preço</th><th>comfimar bilhetes</th></tr></thead>
-        <tbody>
-            @foreach (Dominio.Viagem objUser in Model.ven.Viagems)
+    <form method="post">
+        @{
+            if (Model.listItems == null)
             {
-                <tr>
-                    <td>@objUser.ID</td>
-                    <td>@objUser.Voo.LO_partida.Nome <b>to</b> @objUser.Voo.LO_chegada.Nome</td>
-                    <td>@objUser.Valor_Unidade</td>
-                    <td><a href='cart?code=@objUser.Voo.ID'>-</a>@objUser.qtd<a id="queen" href='cart?cod=@objUser.Voo.ID'>+</a></td>
-                    <td>@objUser.Valor</td>
-                    <td><a class="cfm-blt" href='bilhetes?cod=@objUser.Voo.ID'>confirmar bilhetes</a></td>
-                </tr>
+                Model.listItems = Model.GetRoles();
             }
-        </tbody>
-    </table>
-    <br />
-    @Html.TextBox("adf", Model.id_cli, new { type = "hidden" })
-    <!--Cliente Html.DropDownList("adf", Model.listItems, new { onchange = "go(document.getElementById('adf').options[document.getElementById('adf').selectedIndex].value)" })
+        }
+        <h2>carrinho</h2>
+        <table id="tb_view">
+            <thead><tr><tr><th>Código</th><th>Nome</th><th>preço unitario</th><th>qtd</th><th>preço</th><th>comfimar bilhetes</th></tr></thead>
+            <tbody>
+                @foreach (Dominio.Viagem objUser in Model.ven.Viagems)
+                {
+                    <tr>
+                        <td>@objUser.ID</td>
+                        <td>@objUser.Voo.LO_partida.Nome <b>to</b> @objUser.Voo.LO_chegada.Nome</td>
+                        <td>@objUser.Valor_Unidade</td>
+                        <td><a href='cart?code=@objUser.Voo.ID'>-</a>@objUser.qtd<a id="queen" href='cart?cod=@objUser.Voo.ID'>+</a></td>
+                        <td>@objUser.Valor</td>
+                        <td><a class="cfm-blt" href='bilhetes?cod=@objUser.Voo.ID'>confirmar bilhetes</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+        @Html.TextBox("adf", Model.id_cli, new { type = "hidden" })
+        <!--Cliente Html.DropDownList("adf", Model.listItems, new { onchange = "go(document.getElementById('adf').options[document.getElementById('adf').selectedIndex].value)" })
     <br />-->
-    Cartão de credito @Html.DropDownList("goasdf", new SelectList(new List<SelectListItem>(), "Value", "Text"), new { oninput = "mrSatan()", onchange = "mrSatan()" })
-    <br />
-    <b>nome do titular</b>@Html.TextBox("nome_card") @Html.TextBox("id_card", null, new { type = "hidden" })
-    <b>numero cartão</b> @Html.TextBox("num_card")
-    <br />
-    <b>validade</b> @Html.TextBox("validade")
-    <b>ccv</b> @Html.TextBox("ccv")
-    <br />
-    <button type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way2">comprar</button>
-    <button type="submit" class="btn btn-default" asp-route-data="foo" asp-page-handler="Way3">continuar comprando</button>
-    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="~/lib/datatables.min.css">
-    <script type="text/javascript" src="~/lib/datatables.min.js"></script><!---->
-    <script src="~/js/jquery.mask.min.js"></script>
-    <script type="text/javascript">
+        Cartão de credito @Html.DropDownList("goasdf", new SelectList(new List<SelectListItem>(), "Value", "Text"), new { oninput = "mrSatan()", onchange = "mrSatan()" })
+        <br />
+        <b>nome do titular</b>@Html.TextBox("nome_card") @Html.TextBox("id_card", null, new { type = "hidden" })
+        <b>numero cartão</b> @Html.TextBox("num_card")
+        <br />
+        <b>validade</b> @Html.TextBox("validade")
+        <b>ccv</b> @Html.TextBox("ccv")
+        <br />
+        <button type="submit" class="btn btn-success" asp-route-data="foo" asp-page-handler="Way2" formtarget="_blank">comprar</button>
+        <button type="submit" class="btn btn-default" asp-route-data="foo" asp-page-handler="Way3">continuar comprando</button>
+        <button type="submit" class="btn btn-default" asp-route-data="foo" asp-page-handler="Way4" formtarget="_blank">pdf</button>
+        <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="~/lib/datatables.min.css">
+        <script type="text/javascript" src="~/lib/datatables.min.js"></script><!---->
+        <script src="~/js/jquery.mask.min.js"></script>
+        <script type="text/javascript">
         class cartao {
             constructor(id, nome_card, num_card, validade, ccv) {
                 this.id = id;
@@ -106,5 +107,5 @@
             });
         }
         go( @Model.id_cli );
-    </script>
-</form>
+        </script>
+    </form>
