@@ -132,7 +132,6 @@ namespace LES_passagens_areas.Pages
             message = commands["SALVAR"].execute(venn).Msg;
             if(!string.IsNullOrEmpty(message) && message != "sucesso!\n")
             {
-               return OnPostWay4(venn);
             }
             else
             HttpContext.Session.SetObjectAsJson(devil, null);
@@ -143,8 +142,8 @@ namespace LES_passagens_areas.Pages
             if (usu == null)
             {
                 
-                Response.Redirect(("./"));
-                return this.File(new byte[1], "application/pdf");
+                return Redirect(("./"));
+
             }
             
             res = commands["CONSULTAR"].execute(new Cliente() { usuario = usu }); //usu
