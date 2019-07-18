@@ -40,7 +40,7 @@ namespace Core.DAO
                 }
                 else
                 {
-                    sql = "SELECT * FROM motivo join dep_mot using(id_mot) WHERE id_dep = :co";
+                    sql = "SELECT * FROM motivo join dep_mot using(id_mot) WHERE id_dep = @co";
                 }
                 pst = new MySqlCommand();
 

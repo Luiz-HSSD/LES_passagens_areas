@@ -35,11 +35,11 @@ namespace Core.DAO
                 }
                 else if (Classe.Passageiros.Count > 0)
                 {
-                    sql = "SELECT * FROM Viagem join bilhete using(viagem_id) where bilhete_id= :cod";
+                    sql = "SELECT * FROM Viagem join bilhete using(viagem_id) where bilhete_id= @cod";
                 }
                 else
                 {
-                    sql = "SELECT * FROM Viagem WHERE viagem_id= :co";
+                    sql = "SELECT * FROM Viagem WHERE viagem_id= @co";
                 }
                 pst = new MySqlCommand();
                 pst.CommandText = sql;
@@ -88,7 +88,7 @@ namespace Core.DAO
             Viagem Classe = (Viagem)entidade;
             pst.Dispose();
             pst = new MySqlCommand();
-            pst.CommandText = "insert into viagem ( qtd ,preco_unit,pass_id,class_id ) values (  :no,:nomm,:nome,:noo ) returning viagem_id";
+            pst.CommandText = "insert into viagem ( qtd ,preco_unit,pass_id,class_id ) values (  @no,@nomm,@nome,@noo ) returning viagem_id";
             parameters = new MySqlParameter[]
                     {
                         new MySqlParameter("no",Classe.qtd),

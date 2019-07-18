@@ -20,7 +20,7 @@ namespace Core.DAO
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
                 Assento Classe = (Assento)entidade;
-                pst.CommandText = "UPDATE assento SET tag = :nome , pass_id=:nom, class_id =:no , chck_in_id = :dev WHERE assento_id=:co";
+                pst.CommandText = "UPDATE assento SET tag = @nome , pass_id=@nom, class_id =@no , chck_in_id = @dev WHERE assento_id=@co";
                 parameters = new MySqlParameter[]
                     {
                         new MySqlParameter("nome",Classe.Tag),
@@ -67,11 +67,11 @@ namespace Core.DAO
                 }
                 else if (Classe.ID != 0)
                 {
-                    sql = "SELECT * FROM Assento where assento_id = :code";
+                    sql = "SELECT * FROM Assento where assento_id = @code";
                 }
                 else
                 {
-                    sql = "SELECT * FROM Assento WHERE pass_id= :co and class_id= :cod and chck_in_id is null";
+                    sql = "SELECT * FROM Assento WHERE pass_id= @co and class_id= @cod and chck_in_id is null";
                 }
                 pst = new MySqlCommand();
 
@@ -113,7 +113,7 @@ namespace Core.DAO
             Assento Classe = (Assento)entidade;
             pst.Dispose();
             pst = new MySqlCommand();
-            pst.CommandText = "insert into assento ( tag ,class_id,pass_id ) values (  :no,:nomm,:nom )";
+            pst.CommandText = "insert into assento ( tag ,class_id,pass_id ) values (  @no,@nomm,@nom )";
             parameters = new MySqlParameter[]
             {
                 new MySqlParameter("no",Classe.Tag),

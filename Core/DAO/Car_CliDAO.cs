@@ -30,7 +30,7 @@ namespace Core.DAO
             Cliente Classe = (Cliente)entidade;
             foreach(Cartao_Credito a in Classe.Cartoes)
             {
-                pst.CommandText = "insert into car_cli ( id_cli , id_car   )   values ( :nomee, :nome  )";
+                pst.CommandText = "insert into car_cli ( id_cli , id_car   )   values ( @nomee, @nome  )";
                 parameters = new MySqlParameter[]
                 {
                         new MySqlParameter("nomee" , Classe.ID),

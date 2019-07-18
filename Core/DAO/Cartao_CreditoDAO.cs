@@ -28,7 +28,7 @@ namespace Core.DAO
             if (connection.State == ConnectionState.Closed)
                 connection.Open();
             Cartao_Credito Classe = (Cartao_Credito)entidade;
-            pst.CommandText = "insert into cartao_credito ( numero , ccv  , nome_car ,validade , id_band  )   values ( :nomee, :nome, :nom , :cpf, :rg  ) returning id_car";
+            pst.CommandText = "insert into cartao_credito ( numero , ccv  , nome_car ,validade , id_band  )   values ( @nomee, @nome, @nom , @cpf, @rg  ) returning id_car";
             parameters = new MySqlParameter[]
             {
                 new MySqlParameter("nomee" , Classe.Numero),

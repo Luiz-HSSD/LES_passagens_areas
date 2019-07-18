@@ -40,15 +40,15 @@ namespace Core.DAO
                 }
                 else if (Classe.ID == 0 && string.IsNullOrEmpty(Classe.Nome))
                 {
-                    sql = "SELECT * FROM bilhete join viagem using(viagem_id ) join passagens using(pass_id) WHERE pass_id= :cod";
+                    sql = "SELECT * FROM bilhete join viagem using(viagem_id ) join passagens using(pass_id) WHERE pass_id= @cod";
                 }
                 else  if(string.IsNullOrEmpty(Classe.Nome))
                 {
-                    sql = "SELECT * FROM bilhete join viagem using(viagem_id ) join passagens using(pass_id) WHERE bilhete_id = :co";
+                    sql = "SELECT * FROM bilhete join viagem using(viagem_id ) join passagens using(pass_id) WHERE bilhete_id = @co";
                 }
                 else
                 {
-                    sql = "SELECT * FROM bilhete join viagem using(viagem_id ) join passagens using(pass_id) where nome ilike :codd ||'%'";
+                    sql = "SELECT * FROM bilhete join viagem using(viagem_id ) join passagens using(pass_id) where nome ilike @codd ||'%'";
                 }
                 pst = new MySqlCommand();
 
@@ -99,7 +99,7 @@ namespace Core.DAO
             Bilhete Classe = (Bilhete)entidade;
             pst.Dispose();
             pst = new MySqlCommand();
-            pst.CommandText = "insert into bilhete (  nome , rg , cpf ,email , sexo , passaporte , viagem_id    ) values (  :no,:nome,:nomm,:nom,:sex,:passpor,:via ) returning bilhete_id";
+            pst.CommandText = "insert into bilhete (  nome , rg , cpf ,email , sexo , passaporte , viagem_id    ) values (  @no,@nome,@nomm,@nom,@sex,@passpor,@via ) returning bilhete_id";
             parameters = new MySqlParameter[]
                     {
                         new MySqlParameter("no",Classe.Nome),

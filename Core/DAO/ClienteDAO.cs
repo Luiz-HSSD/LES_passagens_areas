@@ -41,11 +41,11 @@ namespace Core.DAO
                 }
                 else if (!string.IsNullOrEmpty(Classe.usuario.Login))
                 {
-                    sql = "SELECT * FROM clientes join usuarios using(id_user) WHERE login = :lo and password_user = :pas ";
+                    sql = "SELECT * FROM clientes join usuarios using(id_user) WHERE login = @lo and password_user = @pas ";
                 }
                 else
                 {
-                    sql = "SELECT * FROM clientes join car_cli using(id_cli) join cartao_credito using(id_car) WHERE id_cli = :co";
+                    sql = "SELECT * FROM clientes join car_cli using(id_cli) join cartao_credito using(id_car) WHERE id_cli = @co";
                 }
                 pst = new MySqlCommand();
 
@@ -108,7 +108,7 @@ namespace Core.DAO
             Cliente Classe = (Cliente)entidade;
             
 
-            pst.CommandText = "insert into clientes ( id_user, id_end ,nome_cli , sexo , cpf ,  rg ,  dt_nas ) values ( :nomee , :nomeee , :nome, :nom , :cpf, :rg ,:dt  ) returning id_cli";
+            pst.CommandText = "insert into clientes ( id_user, id_end ,nome_cli , sexo , cpf ,  rg ,  dt_nas ) values ( @nomee , @nomeee , @nome, @nom , @cpf, @rg ,@dt  ) returning id_cli";
             parameters = new MySqlParameter[]
             {
                 new MySqlParameter("nomee" , Classe.usuario.ID),

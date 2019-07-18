@@ -94,7 +94,7 @@ namespace Core.DAO
             Bagagem Classe = (Bagagem)entidade;
             pst.Dispose();
             pst = new MySqlCommand();
-            pst.CommandText = "insert into Bagagem ( comprimento, largura,altura,peso,chck_in_id ) values (  :nome,:nom,:no,:nod,:node )";
+            pst.CommandText = "insert into Bagagem ( comprimento, largura,altura,peso,chck_in_id ) values (  @nome,@nom,@no,@nod,@node )";
             parameters = new MySqlParameter[]
                     {
                         new MySqlParameter("nome",Classe.comprimento),

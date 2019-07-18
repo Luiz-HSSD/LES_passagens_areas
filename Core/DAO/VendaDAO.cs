@@ -40,7 +40,7 @@ namespace Core.DAO
                 }
                 else
                 {
-                    sql = "SELECT * FROM vendas WHERE id_cli= :co";
+                    sql = "SELECT * FROM vendas WHERE id_cli= @co";
                 }
                 pst = new MySqlCommand();
 
@@ -80,7 +80,7 @@ namespace Core.DAO
             Venda Classe = (Venda)entidade;
             pst.Dispose();
             pst = new MySqlCommand();
-            pst.CommandText = "insert into vendas (   id_cli  , preco     ,    id_car   ) values (  :no,:nomm,:nom ) returning id_ven";
+            pst.CommandText = "insert into vendas (   id_cli  , preco     ,    id_car   ) values (  @no,@nomm,@nom ) returning id_ven";
             parameters = new MySqlParameter[]
                     {
                         new MySqlParameter("no",Classe.Cliente_prop.ID),

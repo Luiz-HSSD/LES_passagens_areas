@@ -28,7 +28,7 @@ namespace Core.DAO
             Passagens Classe = (Passagens)entidade;
             pst.Dispose();
             pst = new MySqlCommand();
-            pst.CommandText = "insert into passagens ( class_id, avi_id,data_chegada,data_partida,pass_lo_chegada,pass_lo_partida,qtd ) values (  :nome,:nom,:no,:nod,:node,:nodei,:dev ) returning pass_id";
+            pst.CommandText = "insert into passagens ( class_id, avi_id,data_chegada,data_partida,pass_lo_chegada,pass_lo_partida,qtd ) values (  @nome,@nom,@no,@nod,@node,@nodei,@dev ) returning pass_id";
             parameters = new MySqlParameter[]
                     {
                         new MySqlParameter("nome",Classe.Tipo.ID),
@@ -62,7 +62,7 @@ namespace Core.DAO
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
                 Passagens Classe = (Passagens)entidade;
-                pst.CommandText = "UPDATE passagens SET class_id=:nome, avi_id=:nom ,data_chegada=:no ,data_partida=:nod ,pass_lo_chegada=:node,pass_lo_partida=:nodei,qtd=:dev WHERE pass_id=:co";
+                pst.CommandText = "UPDATE passagens SET class_id=@nome, avi_id=@nom ,data_chegada=@no ,data_partida=@nod ,pass_lo_chegada=@node,pass_lo_partida=@nodei,qtd=@dev WHERE pass_id=@co";
                 parameters = new MySqlParameter[]
                     {
                         new MySqlParameter("nome",Classe.Tipo.ID),

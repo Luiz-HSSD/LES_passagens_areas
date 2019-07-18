@@ -19,7 +19,7 @@ namespace Core.DAO
             if (connection.State == ConnectionState.Closed)
                 connection.Open();
             Usuarios Classe = (Usuarios)entidade;
-            pst.CommandText = "update usuarios set  login = :nome , password_user = :nom , permisao = :nomm WHERE id_user = :co ";
+            pst.CommandText = "update usuarios set  login = @nome , password_user = @nom , permisao = @nomm WHERE id_user = @co ";
             parameters = new MySqlParameter[]
                     {
                         new MySqlParameter("nome" , Classe.Login),
@@ -110,7 +110,7 @@ namespace Core.DAO
             if (connection.State == ConnectionState.Closed)
                 connection.Open();
             Usuarios Classe = (Usuarios)entidade;
-            pst.CommandText = "insert into usuarios ( login , password_user, permisao  )   values ( :nome, :nom , :nomm ) returning id_user";
+            pst.CommandText = "insert into usuarios ( login , password_user, permisao  )   values ( @nome, @nom , @nomm ) returning id_user";
             parameters = new MySqlParameter[]
                     {
                         new MySqlParameter("nome" , Classe.Login),

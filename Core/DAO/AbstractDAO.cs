@@ -50,7 +50,7 @@ namespace Core.DAO
             {
                 connection=Conexao.getconnection();
                 connection.Open();
-                pst.CommandText = "DELETE FROM "+ table +" WHERE "+id_table +" =:dh ";
+                pst.CommandText = "DELETE FROM "+ table +" WHERE "+id_table +" =@dh ";
                 parameters = new MySqlParameter[]
                     {
                         new MySqlParameter("dh",entidade.ID)

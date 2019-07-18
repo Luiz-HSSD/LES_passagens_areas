@@ -30,7 +30,7 @@ namespace Core.DAO
             Barrado Classe = (Barrado)entidade;
             pst.Dispose();
             pst = new MySqlCommand();
-            pst.CommandText = "insert into barrado (  id_mot , id_status , causa ) values (  :no, :nome, :nomm )";
+            pst.CommandText = "insert into barrado (  id_mot , id_status , causa ) values (  @no, @nome, @nomm )";
             parameters = new MySqlParameter[]
             {
                 new MySqlParameter("no",Classe.Categoria.ID),

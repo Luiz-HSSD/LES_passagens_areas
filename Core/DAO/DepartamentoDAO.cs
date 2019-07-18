@@ -36,7 +36,7 @@ namespace Core.DAO
                 }
                 else
                 {
-                    sql = "select * from Departamento join dep_pass using(id_dep) WHERE pass_id = :co ";
+                    sql = "select * from Departamento join dep_pass using(id_dep) WHERE pass_id = @co ";
                 }
                 pst = new MySqlCommand();
                 pst.CommandText = sql;
@@ -75,7 +75,7 @@ namespace Core.DAO
             { 
                 pst.Dispose();
                 pst = new MySqlCommand();
-                pst.CommandText = "insert into dep_pass ( pass_id, id_dep ) values (  :no,:nomm )";
+                pst.CommandText = "insert into dep_pass ( pass_id, id_dep ) values (  @no,@nomm )";
                 parameters = new MySqlParameter[]
                 {
                     new MySqlParameter("no",Classe.ID),

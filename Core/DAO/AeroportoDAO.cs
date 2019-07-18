@@ -40,7 +40,7 @@ namespace Core.DAO
                 }
                 else
                 {
-                    sql = "SELECT * FROM aeroporto WHERE aero_id= :co";
+                    sql = "SELECT * FROM aeroporto WHERE aero_id= @co";
                 }
                 pst = new MySqlCommand();
 

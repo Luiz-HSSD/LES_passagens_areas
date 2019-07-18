@@ -28,7 +28,7 @@ namespace Core.DAO
             if (connection.State == ConnectionState.Closed)
                 connection.Open();
             Endereco endereco = (Endereco)entidade;
-            pst.CommandText = "insert into endereco ( numero , logradouro , bairro , cidade ,  complemento , cep , uf )   values ( :nomee, :nome, :nom , :cpf, :rg , :dt , :dtt ) returning id_end";
+            pst.CommandText = "insert into endereco ( numero , logradouro , bairro , cidade ,  complemento , cep , uf )   values ( @nomee, @nome, @nom , @cpf, @rg , @dt , @dtt ) returning id_end";
             parameters = new MySqlParameter[]
             {
                 new MySqlParameter("nomee" , endereco.Numero),

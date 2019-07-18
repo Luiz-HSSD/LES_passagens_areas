@@ -25,7 +25,7 @@ namespace Core.DAO
             if (connection.State == ConnectionState.Closed)
                 connection.Open();
             Aviao Classe = (Aviao)entidade;
-            pst.CommandText = "insert into aviao ( avi_nome ) values (  :nome )";
+            pst.CommandText = "insert into aviao ( avi_nome ) values (  @nome )";
             parameters = new MySqlParameter[]
                     {
                         new MySqlParameter("nome",Classe.Nome)
@@ -48,7 +48,7 @@ namespace Core.DAO
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
                 Aviao Classe = (Aviao)entidade;
-                pst.CommandText = "UPDATE aviao SET avi_nome=:nome WHERE avi_id=:co";
+                pst.CommandText = "UPDATE aviao SET avi_nome=@nome WHERE avi_id=@co";
                 parameters = new MySqlParameter[]
                     {
                         new MySqlParameter("nome",Classe.Nome),
@@ -92,7 +92,7 @@ namespace Core.DAO
                 }
                 else
                 {
-                    sql = "SELECT * FROM aviao WHERE avi_id= :co";
+                    sql = "SELECT * FROM aviao WHERE avi_id= @co";
                 }
                 pst = new MySqlCommand();
 
