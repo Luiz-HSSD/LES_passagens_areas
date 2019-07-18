@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using Dominio;
-using Npgsql;
+using MySql.Data.MySqlClient;
 
 namespace Core.DAO
 {
@@ -21,13 +21,13 @@ namespace Core.DAO
                     connection.Open();
                 Assento Classe = (Assento)entidade;
                 pst.CommandText = "UPDATE assento SET tag = :nome , pass_id=:nom, class_id =:no , chck_in_id = :dev WHERE assento_id=:co";
-                parameters = new NpgsqlParameter[]
+                parameters = new MySqlParameter[]
                     {
-                        new NpgsqlParameter("nome",Classe.Tag),
-                        new NpgsqlParameter("nom",Classe.viagem.ID),
-                        new NpgsqlParameter("no",Classe.tipo.ID),
-                        new NpgsqlParameter("dev",Classe.ocupante.ID),
-                        new NpgsqlParameter("co",Classe.ID)
+                        new MySqlParameter("nome",Classe.Tag),
+                        new MySqlParameter("nom",Classe.viagem.ID),
+                        new MySqlParameter("no",Classe.tipo.ID),
+                        new MySqlParameter("dev",Classe.ocupante.ID),
+                        new MySqlParameter("co",Classe.ID)
                     };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
@@ -73,10 +73,10 @@ namespace Core.DAO
                 {
                     sql = "SELECT * FROM Assento WHERE pass_id= :co and class_id= :cod and chck_in_id is null";
                 }
-                pst = new NpgsqlCommand();
+                pst = new MySqlCommand();
 
                 pst.CommandText = sql;
-                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.viagem.ID), new NpgsqlParameter("cod", Classe.tipo.ID), new NpgsqlParameter("code", Classe.ID) };
+                parameters = new MySqlParameter[] { new MySqlParameter("co", Classe.viagem.ID), new MySqlParameter("cod", Classe.tipo.ID), new MySqlParameter("code", Classe.ID) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -100,7 +100,7 @@ namespace Core.DAO
                 connection.Close();
                 return Classes;
             }
-            catch (NpgsqlException ora)
+            catch (MySqlException ora)
             {
                 throw ora;
             }
@@ -112,13 +112,13 @@ namespace Core.DAO
                 connection.Open();
             Assento Classe = (Assento)entidade;
             pst.Dispose();
-            pst = new NpgsqlCommand();
+            pst = new MySqlCommand();
             pst.CommandText = "insert into assento ( tag ,class_id,pass_id ) values (  :no,:nomm,:nom )";
-            parameters = new NpgsqlParameter[]
+            parameters = new MySqlParameter[]
             {
-                new NpgsqlParameter("no",Classe.Tag),
-                new NpgsqlParameter("nomm",Classe.tipo.ID),
-                new NpgsqlParameter("nom",Classe.viagem.ID)
+                new MySqlParameter("no",Classe.Tag),
+                new MySqlParameter("nomm",Classe.tipo.ID),
+                new MySqlParameter("nom",Classe.viagem.ID)
             }; 
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);

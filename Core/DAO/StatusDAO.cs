@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using Dominio;
-using Npgsql;
+using MySql.Data.MySqlClient;
 
 namespace Core.DAO
 {
@@ -19,14 +19,14 @@ namespace Core.DAO
                 connection.Open();
             Status Classe = (Status)entidade;
             pst.Dispose();
-            pst = new NpgsqlCommand();
+            pst = new MySqlCommand();
             pst.CommandText = "UPDATE Status SET bilhete_id = :nome , atual = :nom ,  IsDesembarque =:no  where id_status = :co ";
-            parameters = new NpgsqlParameter[]
+            parameters = new MySqlParameter[]
             {
-                new NpgsqlParameter("nome",Classe.Passageiro.ID),
-                new NpgsqlParameter("nom",Classe.Atual.ID),
-                new NpgsqlParameter("no",Classe.IsDesembarque),
-                new NpgsqlParameter("co",Classe.ID)
+                new MySqlParameter("nome",Classe.Passageiro.ID),
+                new MySqlParameter("nom",Classe.Atual.ID),
+                new MySqlParameter("no",Classe.IsDesembarque),
+                new MySqlParameter("co",Classe.ID)
             };
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);
@@ -105,13 +105,13 @@ namespace Core.DAO
                         sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE ((IsDesembarque=false AND pass_lo_partida=:codd) OR (IsDesembarque=true AND pass_lo_chegada= :codd))and atual=:cod and id_dep!=0 and id_dep!=1";
                     }
                 }
-                pst = new NpgsqlCommand();
+                pst = new MySqlCommand();
                 pst.CommandText = sql;
-                parameters = new NpgsqlParameter[] {
-                    new NpgsqlParameter("dev", Classe.ID),
-                    new NpgsqlParameter("cod",Classe.Atual.ID),
-                    new NpgsqlParameter("codd", Classe.Passageiro.passagem.Voo.LO_chegada.ID),
-                    new NpgsqlParameter("code", Classe.Passageiro.passagem.Voo.ID)
+                parameters = new MySqlParameter[] {
+                    new MySqlParameter("dev", Classe.ID),
+                    new MySqlParameter("cod",Classe.Atual.ID),
+                    new MySqlParameter("codd", Classe.Passageiro.passagem.Voo.LO_chegada.ID),
+                    new MySqlParameter("code", Classe.Passageiro.passagem.Voo.ID)
                 };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
@@ -150,7 +150,7 @@ namespace Core.DAO
                 connection.Close();
                 return Classes;
             }
-            catch (NpgsqlException ora)
+            catch (MySqlException ora)
             {
                 vai.Close();
                 connection.Close();
@@ -165,13 +165,13 @@ namespace Core.DAO
                 connection.Open();
             Status Classe = (Status)entidade;
             pst.Dispose();
-            pst = new NpgsqlCommand();
+            pst = new MySqlCommand();
             pst.CommandText = "insert into Status ( bilhete_id , atual  ,  IsDesembarque ) values (  :nome , :nom, :no )";
-            parameters = new NpgsqlParameter[]
+            parameters = new MySqlParameter[]
                     {
-                        new NpgsqlParameter("nome",Classe.Passageiro.ID),
-                        new NpgsqlParameter("nom",Classe.Atual.ID),
-                        new NpgsqlParameter("no",Classe.IsDesembarque)
+                        new MySqlParameter("nome",Classe.Passageiro.ID),
+                        new MySqlParameter("nom",Classe.Atual.ID),
+                        new MySqlParameter("no",Classe.IsDesembarque)
                     };
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);

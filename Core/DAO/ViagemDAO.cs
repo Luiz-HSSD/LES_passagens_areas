@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using Dominio;
-using Npgsql;
+using MySql.Data.MySqlClient;
 
 namespace Core.DAO
 {
@@ -41,12 +41,12 @@ namespace Core.DAO
                 {
                     sql = "SELECT * FROM Viagem WHERE viagem_id= :co";
                 }
-                pst = new NpgsqlCommand();
+                pst = new MySqlCommand();
                 pst.CommandText = sql;
                 if(Classe.Passageiros.Count>0)
-                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID), new NpgsqlParameter("cod", Classe.Passageiros.ElementAt(0).ID) };
+                parameters = new MySqlParameter[] { new MySqlParameter("co", Classe.ID), new MySqlParameter("cod", Classe.Passageiros.ElementAt(0).ID) };
                 else
-                    parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID) };
+                    parameters = new MySqlParameter[] { new MySqlParameter("co", Classe.ID) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -75,7 +75,7 @@ namespace Core.DAO
                 connection.Close();
                 return Classes;
             }
-            catch (NpgsqlException ora)
+            catch (MySqlException ora)
             {
                 throw ora;
             }
@@ -87,14 +87,14 @@ namespace Core.DAO
                 connection.Open();
             Viagem Classe = (Viagem)entidade;
             pst.Dispose();
-            pst = new NpgsqlCommand();
+            pst = new MySqlCommand();
             pst.CommandText = "insert into viagem ( qtd ,preco_unit,pass_id,class_id ) values (  :no,:nomm,:nome,:noo ) returning viagem_id";
-            parameters = new NpgsqlParameter[]
+            parameters = new MySqlParameter[]
                     {
-                        new NpgsqlParameter("no",Classe.qtd),
-                        new NpgsqlParameter("nomm",Classe.Valor_Unidade),
-                        new NpgsqlParameter("nome",Classe.Voo.ID),
-                        new NpgsqlParameter("noo",Classe.Tipo.ID)
+                        new MySqlParameter("no",Classe.qtd),
+                        new MySqlParameter("nomm",Classe.Valor_Unidade),
+                        new MySqlParameter("nome",Classe.Voo.ID),
+                        new MySqlParameter("noo",Classe.Tipo.ID)
                     };
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);

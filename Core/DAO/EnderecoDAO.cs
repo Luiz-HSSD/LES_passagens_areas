@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using Dominio;
-using Npgsql;
+using MySql.Data.MySqlClient;
 
 namespace Core.DAO
 {
@@ -29,15 +29,15 @@ namespace Core.DAO
                 connection.Open();
             Endereco endereco = (Endereco)entidade;
             pst.CommandText = "insert into endereco ( numero , logradouro , bairro , cidade ,  complemento , cep , uf )   values ( :nomee, :nome, :nom , :cpf, :rg , :dt , :dtt ) returning id_end";
-            parameters = new NpgsqlParameter[]
+            parameters = new MySqlParameter[]
             {
-                new NpgsqlParameter("nomee" , endereco.Numero),
-                new NpgsqlParameter("nome" ,  endereco.Logradouro),
-                new NpgsqlParameter("nom"  ,  endereco.Bairro),
-                new NpgsqlParameter("cpf"  ,  endereco.Cidade),
-                new NpgsqlParameter("rg"  ,   endereco.Complemento),
-                new NpgsqlParameter("dt"  ,   endereco.Cep),
-                new NpgsqlParameter("dtt" ,   endereco.UF)
+                new MySqlParameter("nomee" , endereco.Numero),
+                new MySqlParameter("nome" ,  endereco.Logradouro),
+                new MySqlParameter("nom"  ,  endereco.Bairro),
+                new MySqlParameter("cpf"  ,  endereco.Cidade),
+                new MySqlParameter("rg"  ,   endereco.Complemento),
+                new MySqlParameter("dt"  ,   endereco.Cep),
+                new MySqlParameter("dtt" ,   endereco.UF)
             };
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);

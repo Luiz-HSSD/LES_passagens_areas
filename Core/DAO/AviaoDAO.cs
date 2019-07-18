@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Npgsql;
+using MySql.Data.MySqlClient;
 using Dominio;
 using Core.Utils;
 using System.Data;
@@ -26,9 +26,9 @@ namespace Core.DAO
                 connection.Open();
             Aviao Classe = (Aviao)entidade;
             pst.CommandText = "insert into aviao ( avi_nome ) values (  :nome )";
-            parameters = new NpgsqlParameter[]
+            parameters = new MySqlParameter[]
                     {
-                        new NpgsqlParameter("nome",Classe.Nome)
+                        new MySqlParameter("nome",Classe.Nome)
                     };
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);
@@ -49,10 +49,10 @@ namespace Core.DAO
                     connection.Open();
                 Aviao Classe = (Aviao)entidade;
                 pst.CommandText = "UPDATE aviao SET avi_nome=:nome WHERE avi_id=:co";
-                parameters = new NpgsqlParameter[]
+                parameters = new MySqlParameter[]
                     {
-                        new NpgsqlParameter("nome",Classe.Nome),
-                        new NpgsqlParameter("co",Classe.ID)
+                        new MySqlParameter("nome",Classe.Nome),
+                        new MySqlParameter("co",Classe.ID)
                     };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
@@ -94,10 +94,10 @@ namespace Core.DAO
                 {
                     sql = "SELECT * FROM aviao WHERE avi_id= :co";
                 }
-                pst = new NpgsqlCommand();
+                pst = new MySqlCommand();
 
                 pst.CommandText = sql;
-                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID) };
+                parameters = new MySqlParameter[] { new MySqlParameter("co", Classe.ID) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -120,7 +120,7 @@ namespace Core.DAO
                 connection.Close();
                 return Classes;
             }
-            catch(NpgsqlException ora)
+            catch(MySqlException ora)
             {
                 vai.Close();
                 connection.Close();

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using Npgsql;
+using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,10 +10,10 @@ namespace Core.Utils
 {
     public class Conexao
     {
-        public static string conx = "Server=127.0.0.1;Port=5432;User Id = postgres; Password=123;Database=lab;";
-        public static NpgsqlConnection getconnection()
+        public static string conx = "Server=localhost;Database=lab;Uid=root;Pwd=1234;";
+        public static MySqlConnection getconnection()
         {
-            NpgsqlConnection go = new NpgsqlConnection(conx);
+            MySqlConnection go = new MySqlConnection(conx);
             return go;
         }  
     }

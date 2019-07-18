@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Core.Core;
 using Dominio;
-using Npgsql;
+using MySql.Data;
 using Core.Utils;
 using System.Data;
-using NpgsqlTypes;
+using MySql.Data.MySqlClient;
 
 namespace Core.DAO
 {
@@ -16,10 +16,10 @@ namespace Core.DAO
     {
         protected string table;
         protected string id_table;
-        protected NpgsqlConnection connection = Conexao.getconnection();
-        protected NpgsqlCommand pst = new NpgsqlCommand();
-        protected NpgsqlParameter[] parameters;
-        protected NpgsqlDataReader vai;
+        protected MySqlConnection connection = Conexao.getconnection();
+        protected MySqlCommand pst = new MySqlCommand();
+        protected MySqlParameter[] parameters;
+        protected MySqlDataReader vai;
         protected bool ctrlTransaction = true;
         public AbstractDAO(string table, string id_table)
         {
@@ -27,7 +27,7 @@ namespace Core.DAO
             this.id_table = id_table;
         }
 
-        public AbstractDAO(NpgsqlConnection connection, string table, string id_table)
+        public AbstractDAO(MySqlConnection connection, string table, string id_table)
         {
             this.table = table;
             this.id_table = id_table;
@@ -51,9 +51,9 @@ namespace Core.DAO
                 connection=Conexao.getconnection();
                 connection.Open();
                 pst.CommandText = "DELETE FROM "+ table +" WHERE "+id_table +" =:dh ";
-                parameters = new NpgsqlParameter[]
+                parameters = new MySqlParameter[]
                     {
-                        new NpgsqlParameter("dh",entidade.ID)
+                        new MySqlParameter("dh",entidade.ID)
                     };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);

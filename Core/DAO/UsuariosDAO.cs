@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using Dominio;
-using Npgsql;
+using MySql.Data.MySqlClient;
 
 namespace Core.DAO
 {
@@ -20,12 +20,12 @@ namespace Core.DAO
                 connection.Open();
             Usuarios Classe = (Usuarios)entidade;
             pst.CommandText = "update usuarios set  login = :nome , password_user = :nom , permisao = :nomm WHERE id_user = :co ";
-            parameters = new NpgsqlParameter[]
+            parameters = new MySqlParameter[]
                     {
-                        new NpgsqlParameter("nome" , Classe.Login),
-                        new NpgsqlParameter("nom"  , Classe.Password),
-                        new NpgsqlParameter("nomm"  , Classe.Permisao),
-                        new NpgsqlParameter("co"  , Classe.ID)
+                        new MySqlParameter("nome" , Classe.Login),
+                        new MySqlParameter("nom"  , Classe.Password),
+                        new MySqlParameter("nomm"  , Classe.Permisao),
+                        new MySqlParameter("co"  , Classe.ID)
                     };
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);
@@ -58,25 +58,25 @@ namespace Core.DAO
                 }
                 else if(!string.IsNullOrEmpty(Classe.Login))
                 {
-                    sql = "SELECT * FROM usuarios WHERE login = :lo and password_user = :pas ";
+                    sql = "SELECT * FROM usuarios WHERE login = @lo and password_user = @pas ";
                 }
                 else if (Classe.Permisao != 0)
                 {
-                    sql = "SELECT * FROM usuarios WHERE permisao >= :per ";
+                    sql = "SELECT * FROM usuarios WHERE permisao >= @per ";
                 }
                 else
                 {
-                    sql = "SELECT * FROM usuarios WHERE id_user = :co";
+                    sql = "SELECT * FROM usuarios WHERE id_user = @co";
                 }
-                pst = new NpgsqlCommand();
+                pst = new MySqlCommand();
 
                 pst.CommandText = sql;
-                parameters = new NpgsqlParameter[] 
+                parameters = new MySqlParameter[] 
                 {
-                    new NpgsqlParameter("co", Classe.ID),
-                    new NpgsqlParameter("lo", Classe.Login),
-                    new NpgsqlParameter("pas", Classe.Password),
-                    new NpgsqlParameter("per", Classe.Permisao)
+                    new MySqlParameter("co", Classe.ID),
+                    new MySqlParameter("lo", Classe.Login),
+                    new MySqlParameter("pas", Classe.Password),
+                    new MySqlParameter("per", Classe.Permisao)
                 };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
@@ -99,7 +99,7 @@ namespace Core.DAO
                 connection.Close();
                 return Classes;
             }
-            catch (NpgsqlException ora)
+            catch (MySqlException ora)
             {
                 throw ora;
             }
@@ -111,11 +111,11 @@ namespace Core.DAO
                 connection.Open();
             Usuarios Classe = (Usuarios)entidade;
             pst.CommandText = "insert into usuarios ( login , password_user, permisao  )   values ( :nome, :nom , :nomm ) returning id_user";
-            parameters = new NpgsqlParameter[]
+            parameters = new MySqlParameter[]
                     {
-                        new NpgsqlParameter("nome" , Classe.Login),
-                        new NpgsqlParameter("nom"  , Classe.Password),
-                        new NpgsqlParameter("nomm"  , Classe.Permisao)
+                        new MySqlParameter("nome" , Classe.Login),
+                        new MySqlParameter("nom"  , Classe.Password),
+                        new MySqlParameter("nomm"  , Classe.Permisao)
                     };
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);

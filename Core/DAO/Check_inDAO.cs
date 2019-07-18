@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using Dominio;
-using Npgsql;
+using MySql.Data.MySqlClient;
 
 namespace Core.DAO
 {
@@ -36,16 +36,16 @@ namespace Core.DAO
                 }
                 else if (Classe.Flg)
                 {
-                    sql = "select  passagens.data_partida , c.sigla as c_sigla  ,b.sigla as p_sigla   from  check_in inner join viagem using (viagem_id) inner join passagens using (pass_id) join aeroporto b on(b.aero_id= pass_lo_partida) join aeroporto c on(c.aero_id= pass_lo_chegada) where passagens.data_partida >= :dat AND passagens.data_partida < :datt order by passagens.data_partida asc";
+                    sql = "select  passagens.data_partida , c.sigla as c_sigla  ,b.sigla as p_sigla   from  check_in inner join viagem using (viagem_id) inner join passagens using (pass_id) join aeroporto b on(b.aero_id= pass_lo_partida) join aeroporto c on(c.aero_id= pass_lo_chegada) where passagens.data_partida >= @dat AND passagens.data_partida < @datt order by passagens.data_partida asc";
                 }
                 else
                 {
-                    sql = "SELECT * FROM check_in WHERE chck_in_id= :co";
+                    sql = "SELECT * FROM check_in WHERE chck_in_id= @co";
                 }
-                pst = new NpgsqlCommand();
+                pst = new MySqlCommand();
 
                 pst.CommandText = sql;
-                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID), new NpgsqlParameter("dat", Classe.Passagem.Voo.DT_partida), new NpgsqlParameter("datt", Classe.Passagem.Voo.DT_chegada) };
+                parameters = new MySqlParameter[] { new MySqlParameter("co", Classe.ID), new MySqlParameter("dat", Classe.Passagem.Voo.DT_partida), new MySqlParameter("datt", Classe.Passagem.Voo.DT_chegada) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -76,7 +76,7 @@ namespace Core.DAO
                 connection.Close();
                 return Classes;
             }
-            catch (NpgsqlException ora)
+            catch (MySqlException ora)
             {
                 throw ora;
             }
@@ -87,16 +87,16 @@ namespace Core.DAO
             if (connection.State == ConnectionState.Closed)
                 connection.Open();
             Check_in Classe = (Check_in)entidade;
-            pst.CommandText = "insert into check_in ( viagem_id ,bilhete_id ) values (  :nome , :nom ) ";
-            parameters = new NpgsqlParameter[]
+            pst.CommandText = "insert into check_in ( viagem_id ,bilhete_id ) values (  @nome , @nom ) ";
+            parameters = new MySqlParameter[]
                     {
-                        new NpgsqlParameter("nome",Classe.Passagem.ID),
-                        new NpgsqlParameter("nom",Classe.Entrada.ID),
+                        new MySqlParameter("nome",Classe.Passagem.ID),
+                        new MySqlParameter("nom",Classe.Entrada.ID),
 
                     };
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);
-            NpgsqlParameter Out = new NpgsqlParameter("cod", Classe.ID);
+            MySqlParameter Out = new MySqlParameter("cod", Classe.ID);
             Out.Direction = ParameterDirection.ReturnValue;
             pst.Connection = connection;
             pst.CommandType = CommandType.Text;

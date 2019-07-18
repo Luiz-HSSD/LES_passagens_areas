@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using Dominio;
-using Npgsql;
+using MySql.Data.MySqlClient;
 
 namespace Core.DAO
 {
@@ -50,10 +50,10 @@ namespace Core.DAO
                 {
                     sql = "SELECT * FROM bilhete join viagem using(viagem_id ) join passagens using(pass_id) where nome ilike :codd ||'%'";
                 }
-                pst = new NpgsqlCommand();
+                pst = new MySqlCommand();
 
                 pst.CommandText = sql;
-                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID), new NpgsqlParameter("cod", Classe.passagem.Voo.ID), new NpgsqlParameter("codd", Classe.Nome) };
+                parameters = new MySqlParameter[] { new MySqlParameter("co", Classe.ID), new MySqlParameter("cod", Classe.passagem.Voo.ID), new MySqlParameter("codd", Classe.Nome) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -82,7 +82,7 @@ namespace Core.DAO
                 connection.Close();
                 return Classes;
             }
-            catch(NpgsqlException ora)
+            catch(MySqlException ora)
             {
                 vai.Close();
                 connection.Close();
@@ -98,17 +98,17 @@ namespace Core.DAO
                 connection.Open();
             Bilhete Classe = (Bilhete)entidade;
             pst.Dispose();
-            pst = new NpgsqlCommand();
+            pst = new MySqlCommand();
             pst.CommandText = "insert into bilhete (  nome , rg , cpf ,email , sexo , passaporte , viagem_id    ) values (  :no,:nome,:nomm,:nom,:sex,:passpor,:via ) returning bilhete_id";
-            parameters = new NpgsqlParameter[]
+            parameters = new MySqlParameter[]
                     {
-                        new NpgsqlParameter("no",Classe.Nome),
-                        new NpgsqlParameter("nome",Classe.RG),
-                        new NpgsqlParameter("nomm",Classe.cpf),
-                        new NpgsqlParameter("nom",Classe.Email),
-                        new NpgsqlParameter("sex",Classe.Sexo),
-                        new NpgsqlParameter("passpor",Classe.passaporte),
-                        new NpgsqlParameter("via",Classe.passagem.ID),
+                        new MySqlParameter("no",Classe.Nome),
+                        new MySqlParameter("nome",Classe.RG),
+                        new MySqlParameter("nomm",Classe.cpf),
+                        new MySqlParameter("nom",Classe.Email),
+                        new MySqlParameter("sex",Classe.Sexo),
+                        new MySqlParameter("passpor",Classe.passaporte),
+                        new MySqlParameter("via",Classe.passagem.ID),
                     };
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);
