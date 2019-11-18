@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using Dominio;
-using MySql.Data.MySqlClient;
+using Npgsql;
 using System.Linq;
 
 namespace Core.DAO
@@ -41,20 +41,20 @@ namespace Core.DAO
                 }
                 else if (!string.IsNullOrEmpty(Classe.usuario.Login))
                 {
-                    sql = "SELECT * FROM clientes join usuarios using(id_user) WHERE login = @lo and password_user = @pas ";
+                    sql = "SELECT * FROM clientes join usuarios using(id_user) WHERE login = :lo and password_user = :pas ";
                 }
                 else
                 {
-                    sql = "SELECT * FROM clientes join car_cli using(id_cli) join cartao_credito using(id_car) WHERE id_cli = @co";
+                    sql = "SELECT * FROM clientes join car_cli using(id_cli) join cartao_credito using(id_car) WHERE id_cli = :co";
                 }
-                pst = new MySqlCommand();
+                pst = new NpgsqlCommand();
 
                 pst.CommandText = sql;
-                parameters = new MySqlParameter[] 
+                parameters = new NpgsqlParameter[]
                 {
-                    new MySqlParameter("co", Classe.ID),
-                    new MySqlParameter("lo", Classe.usuario.Login),
-                    new MySqlParameter("pas", Classe.usuario.Password)
+                    new NpgsqlParameter("co", Classe.ID),
+                    new NpgsqlParameter("lo", Classe.usuario.Login),
+                    new NpgsqlParameter("pas", Classe.usuario.Password)
                 };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
@@ -63,11 +63,11 @@ namespace Core.DAO
                 //pst.ExecuteNonQuery();
                 vai = pst.ExecuteReader();
                 List<EntidadeDominio> Classes = new List<EntidadeDominio>();
-                Cliente p =new Cliente();
+                Cliente p = new Cliente();
                 while (vai.Read())
-                {     
-                    if(Classe.ID ==0)
-                    p = new Cliente();
+                {
+                    if (Classe.ID == 0)
+                        p = new Cliente();
                     p.ID = Convert.ToInt32(vai["id_cli"]);
                     p.Nome = (vai["nome_cli"].ToString());
                     p.RG = (vai["rg"].ToString());
@@ -86,16 +86,16 @@ namespace Core.DAO
                         c.Nome_Titular = (vai["nome_car"].ToString());
                         c.Validade = (vai["validade"].ToString());
                         c.Bandeira.ID = Convert.ToInt32(vai["id_band"].ToString());
-                        
+
                     }
-                    if (Classe.ID == 0 || Classes.Count==0)
+                    if (Classe.ID == 0 || Classes.Count == 0)
                         Classes.Add(p);
                 }
                 vai.Close();
                 connection.Close();
                 return Classes;
             }
-            catch (MySqlException ora)
+            catch (NpgsqlException ora)
             {
                 throw ora;
             }
@@ -106,18 +106,18 @@ namespace Core.DAO
             if (connection.State == ConnectionState.Closed)
                 connection.Open();
             Cliente Classe = (Cliente)entidade;
-            
 
-            pst.CommandText = "insert into clientes ( id_user, id_end ,nome_cli , sexo , cpf ,  rg ,  dt_nas ) values ( @nomee , @nomeee , @nome, @nom , @cpf, @rg ,@dt  ) returning id_cli";
-            parameters = new MySqlParameter[]
+
+            pst.CommandText = "insert into clientes ( id_user, id_end ,nome_cli , sexo , cpf ,  rg ,  dt_nas ) values ( :nomee , :nomeee , :nome, :nom , :cpf, :rg ,:dt  ) returning id_cli";
+            parameters = new NpgsqlParameter[]
             {
-                new MySqlParameter("nomee" , Classe.usuario.ID),
-                new MySqlParameter("nomeee" , Classe.Endereco.ID),
-                new MySqlParameter("nome" , Classe.Nome),
-                new MySqlParameter("nom" , Classe.Sexo),
-                new MySqlParameter("cpf" , Classe.Cpf),
-                new MySqlParameter("rg" , Classe.RG),
-                new MySqlParameter("dt" , Classe.Dt_Nas)
+                new NpgsqlParameter("nomee" , Classe.usuario.ID),
+                new NpgsqlParameter("nomeee" , Classe.Endereco.ID),
+                new NpgsqlParameter("nome" , Classe.Nome),
+                new NpgsqlParameter("nom" , Classe.Sexo),
+                new NpgsqlParameter("cpf" , Classe.Cpf),
+                new NpgsqlParameter("rg" , Classe.RG),
+                new NpgsqlParameter("dt" , Classe.Dt_Nas)
             };
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);

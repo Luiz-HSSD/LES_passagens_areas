@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using Dominio;
-using MySql.Data.MySqlClient;
+using Npgsql;
 
 namespace Core.DAO
 {
@@ -40,12 +40,12 @@ namespace Core.DAO
                 }
                 else
                 {
-                    sql = "SELECT * FROM aeroporto WHERE aero_id= @co";
+                    sql = "SELECT * FROM aeroporto WHERE aero_id= :co";
                 }
-                pst = new MySqlCommand();
+                pst = new NpgsqlCommand();
 
                 pst.CommandText = sql;
-                parameters = new MySqlParameter[] { new MySqlParameter("co", Classe.ID) };
+                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -60,7 +60,7 @@ namespace Core.DAO
                     p.ID = Convert.ToInt32(vai["aero_id"]);
                     p.Nome = (vai["nome"].ToString());
                     p.sigla = (vai["sigla"].ToString());
-                    p.lat =Convert.ToDouble(vai["lat"]);
+                    p.lat = Convert.ToDouble(vai["lat"]);
                     p.lng = Convert.ToDouble(vai["lng"]);
                     Classes.Add(p);
                 }
@@ -68,7 +68,7 @@ namespace Core.DAO
                 connection.Close();
                 return Classes;
             }
-            catch (MySqlException ora)
+            catch (NpgsqlException ora)
             {
                 throw ora;
             }

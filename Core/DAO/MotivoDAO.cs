@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using Dominio;
-using MySql.Data.MySqlClient;
+using Npgsql;
 
 namespace Core.DAO
 {
     public class MotivoDAO : AbstractDAO
     {
-        public MotivoDAO() : base("motivo","id_mot")
+        public MotivoDAO() : base("motivo", "id_mot")
         {
         }
 
@@ -40,12 +40,12 @@ namespace Core.DAO
                 }
                 else
                 {
-                    sql = "SELECT * FROM motivo join dep_mot using(id_mot) WHERE id_dep = @co";
+                    sql = "SELECT * FROM motivo join dep_mot using(id_mot) WHERE id_dep = :co";
                 }
-                pst = new MySqlCommand();
+                pst = new NpgsqlCommand();
 
                 pst.CommandText = sql;
-                parameters = new MySqlParameter[] { new MySqlParameter("co", Classe.Dep.ID) };
+                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.Dep.ID) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -59,15 +59,15 @@ namespace Core.DAO
                     p = new Motivo();
                     p.ID = Convert.ToInt32(vai["id_mot"]);
                     p.Nome = (vai["nome"].ToString());
-                    if(Classe.Dep.ID != 0)
-                    p.Dep.ID = Convert.ToInt32(vai["id_dep"]);
+                    if (Classe.Dep.ID != 0)
+                        p.Dep.ID = Convert.ToInt32(vai["id_dep"]);
                     Classes.Add(p);
                 }
                 vai.Close();
                 connection.Close();
                 return Classes;
             }
-            catch (MySqlException ora)
+            catch (NpgsqlException ora)
             {
                 vai.Close();
                 connection.Close();
@@ -76,7 +76,7 @@ namespace Core.DAO
 
 
         }
-    
+
 
         public override void salvar(EntidadeDominio entidade)
         {

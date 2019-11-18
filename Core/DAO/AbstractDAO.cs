@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Core.Core;
 using Dominio;
-using MySql.Data;
+using Npgsql;
 using Core.Utils;
 using System.Data;
-using MySql.Data.MySqlClient;
+using NpgsqlTypes;
 
 namespace Core.DAO
 {
@@ -16,10 +16,10 @@ namespace Core.DAO
     {
         protected string table;
         protected string id_table;
-        protected MySqlConnection connection = Conexao.getconnection();
-        protected MySqlCommand pst = new MySqlCommand();
-        protected MySqlParameter[] parameters;
-        protected MySqlDataReader vai;
+        protected NpgsqlConnection connection = Conexao.getconnection();
+        protected NpgsqlCommand pst = new NpgsqlCommand();
+        protected NpgsqlParameter[] parameters;
+        protected NpgsqlDataReader vai;
         protected bool ctrlTransaction = true;
         public AbstractDAO(string table, string id_table)
         {
@@ -27,14 +27,14 @@ namespace Core.DAO
             this.id_table = id_table;
         }
 
-        public AbstractDAO(MySqlConnection connection, string table, string id_table)
+        public AbstractDAO(NpgsqlConnection connection, string table, string id_table)
         {
             this.table = table;
             this.id_table = id_table;
             this.connection = connection;
         }
 
-        
+
 
         public abstract void salvar(EntidadeDominio entidade);
 
@@ -45,15 +45,15 @@ namespace Core.DAO
 
         public virtual void excluir(EntidadeDominio entidade)
         {
-            
+
             try
             {
-                connection=Conexao.getconnection();
+                connection = Conexao.getconnection();
                 connection.Open();
-                pst.CommandText = "DELETE FROM "+ table +" WHERE "+id_table +" =@dh ";
-                parameters = new MySqlParameter[]
+                pst.CommandText = "DELETE FROM " + table + " WHERE " + id_table + " =:dh ";
+                parameters = new NpgsqlParameter[]
                     {
-                        new MySqlParameter("dh",entidade.ID)
+                        new NpgsqlParameter("dh",entidade.ID)
                     };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);

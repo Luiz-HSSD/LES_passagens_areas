@@ -28,7 +28,7 @@ DROP TABLE papel;
 
 
 CREATE TABLE aeroporto(
-aero_id bigint AUTO_INCREMENT PRIMARY KEY,
+aero_id SERIAL PRIMARY KEY,
 sigla VARCHAR(50),
 nome VARCHAR(50),
 lat numeric(10,6),
@@ -37,20 +37,20 @@ lng numeric(10,6)
 
 create table papel
 (
-id_papel bigint AUTO_INCREMENT PRIMARY key,
+id_papel Serial PRIMARY key,
 descricao varchar(30)
 );
 
 create table funcionalidade
 (
-id_func bigint AUTO_INCREMENT PRIMARY key,
+id_func Serial PRIMARY key,
 descricao varchar(30)
 );
 
 create table papel_func
 (
-id_func bigint ,
-id_papel bigint,
+id_func int ,
+id_papel int,
 CONSTRAINT funcionalidade FOREIGN KEY(id_func) REFERENCES funcionalidade(id_func)on delete cascade,
 CONSTRAINT fk_papel FOREIGN KEY(id_papel) REFERENCES papel(id_papel)on delete cascade,
 CONSTRAINT pk_papel_func PRIMARY KEY(id_papel,id_func)
@@ -58,40 +58,40 @@ CONSTRAINT pk_papel_func PRIMARY KEY(id_papel,id_func)
 
 create table usuarios
 (
-id_user bigint AUTO_INCREMENT PRIMARY KEY, 
+id_user serial PRIMARY KEY, 
 login varchar(100) unique,
 password_user varchar(80),
-permisao bigint
+permisao int
 );
 
 create table perfil(
-id_perfil bigint AUTO_INCREMENT PRIMARY KEY,
-id_papel bigint,
-id_user bigint,
+id_perfil serial PRIMARY KEY,
+id_papel int,
+id_user int,
 CONSTRAINT usuario FOREIGN KEY(id_user) REFERENCES usuarios(id_user),
 CONSTRAINT papel FOREIGN KEY(id_papel) REFERENCES papel(id_papel)
 );
 
 CREATE TABLE bandeira
 (
-    id_band     bigint AUTO_INCREMENT PRIMARY KEY,
+    id_band     serial PRIMARY KEY,
     nome_band VARCHAR(50)
 );
 
 CREATE TABLE cartao_credito
 (
-    id_car bigint AUTO_INCREMENT PRIMARY KEY,
+    id_car serial PRIMARY KEY,
     numero VARCHAR(20),
-    ccv bigint ,    
+    ccv int ,    
     nome_car VARCHAR(50),
     validade  VARCHAR(9),
-    id_band bigint,
+    id_band int,
     CONSTRAINT fk_bandeira FOREIGN KEY (id_band) REFERENCES bandeira(id_band)
 );
 
 CREATE TABLE endereco
 (   
-    id_end bigint AUTO_INCREMENT primary key,
+    id_end serial primary key,
     numero VARCHAR(4),
     logradouro VARCHAR(200),
     bairro   VARCHAR(50),
@@ -102,26 +102,26 @@ CREATE TABLE endereco
 ); 
 
 CREATE TABLE classe(
-class_id bigint AUTO_INCREMENT PRIMARY KEY,
+class_id SERIAL PRIMARY KEY,
 peso numeric(10,5),
 class_nome VARCHAR(50)
 );
 
 create table aviao(
-avi_id bigint AUTO_INCREMENT PRIMARY KEY,
+avi_id SERIAL PRIMARY KEY,
 avi_nome VARCHAR(50),
 marca VARCHAR(50),
 serie VARCHAR(50),
-lugares bigint
+lugares int
 );
 
 CREATE TABLE passagens(
-pass_id bigint AUTO_INCREMENT PRIMARY KEY,
-pass_lo_chegada bigint,
-pass_lo_partida bigint,
-qtd bigint,
-avi_id bigint,
-class_id bigint,
+pass_id SERIAL PRIMARY KEY,
+pass_lo_chegada int,
+pass_lo_partida int,
+qtd int,
+avi_id int,
+class_id int,
 data_partida timestamp,
 data_chegada timestamp,
 CONSTRAINT FK_aviao FOREIGN KEY (avi_id) REFERENCES aviao(avi_id),
@@ -132,9 +132,10 @@ CONSTRAINT FK_aero_par FOREIGN KEY (pass_lo_partida) REFERENCES aeroporto(aero_i
 
 CREATE TABLE clientes
 (
-    id_cli     bigint AUTO_INCREMENT PRIMARY KEY,
-    id_user bigint,
-    id_end bigint,    
+    id_cli     Serial PRIMARY KEY,
+    --ative     CHAR(1),
+    id_user int,
+    id_end int,    
     nome_cli VARCHAR(50),
     sexo     CHAR(1),
     cpf      CHAR(11),
@@ -146,99 +147,99 @@ CREATE TABLE clientes
 
 CREATE TABLE vendas
 (
-    id_ven     	bigint AUTO_INCREMENT PRIMARY KEY,
-    id_cli 	bigint,
+    id_ven     	serial PRIMARY KEY,
+    id_cli 	int,
     preco   	NUMeric(10,2),
-    id_car 	bigint,
+    id_car 	int,
     CONSTRAINT fk_cli FOREIGN KEY(id_cli) REFERENCES clientes(id_cli),
     CONSTRAINT fk_car FOREIGN KEY (id_car) REFERENCES cartao_credito(id_car)
 );
 
 CREATE TABLE viagem
 (
-viagem_id bigint AUTO_INCREMENT PRIMARY KEY,
-qtd bigint,
+viagem_id SERIAL PRIMARY KEY,
+qtd int,
 preco_unit numeric(10,5),
-pass_id bigint,
-class_id bigint,
-id_ven bigint,
+pass_id int,
+class_id int,
+id_ven int,
 CONSTRAINT FK_voo FOREIGN KEY (pass_id) REFERENCES passagens(pass_id),
 CONSTRAINT FK_ven FOREIGN KEY (id_ven) REFERENCES vendas(id_ven),
-CONSTRAINT FK_classe_viagem FOREIGN KEY (class_id) REFERENCES Classe(class_id)
+CONSTRAINT FK_class FOREIGN KEY (class_id) REFERENCES Classe(class_id)
 );
 
 
 CREATE TABLE bilhete
 (
-bilhete_id bigint AUTO_INCREMENT PRIMARY KEY,
+bilhete_id SERIAL PRIMARY KEY,
 nome varchar(50),
 rg varchar(50),
 cpf varchar(50),
 email varchar(50),
 sexo boolean,
 passaporte varchar(50),
-viagem_id bigint,
-CONSTRAINT FK_classe_bilhete FOREIGN KEY (viagem_id) REFERENCES viagem(viagem_id)
+viagem_id int,
+CONSTRAINT FK_class FOREIGN KEY (viagem_id) REFERENCES viagem(viagem_id)
 );
 CREATE TABLE check_in(
-chck_in_id bigint AUTO_INCREMENT PRIMARY KEY,
-viagem_id bigint,
-bilhete_id  bigint,
-CONSTRAINT FK_aviao_checkin FOREIGN KEY (viagem_id) REFERENCES viagem(viagem_id),
+chck_in_id SERIAL PRIMARY KEY,
+viagem_id int,
+bilhete_id  int,
+CONSTRAINT FK_aviao FOREIGN KEY (viagem_id) REFERENCES viagem(viagem_id),
 CONSTRAINT FK_bilhete FOREIGN KEY (bilhete_id) REFERENCES bilhete(bilhete_id)
 );
 
 CREATE TABLE bagagem
 (
-bagagem_id bigint AUTO_INCREMENT PRIMARY KEY,
+bagagem_id SERIAL PRIMARY KEY,
 comprimento numeric(10,5),
 largura numeric(10,5),
 altura numeric(10,5),
 peso numeric(10,5),
-chck_in_id bigint,
+chck_in_id int,
 CONSTRAINT FK_Dono FOREIGN KEY (chck_in_id) REFERENCES check_in(chck_in_id) on delete cascade on update cascade
 );
 
 CREATE TABLE assento(
-assento_id bigint AUTO_INCREMENT PRIMARY KEY,
+assento_id SERIAL PRIMARY KEY,
 tag varchar(40),
-chck_in_id bigint,
-pass_id bigint,
-class_id bigint,
+chck_in_id int,
+pass_id int,
+class_id int,
 CONSTRAINT FK_ocupante FOREIGN KEY (chck_in_id) REFERENCES check_in(chck_in_id) on delete cascade on update cascade,
 CONSTRAINT FK_classe FOREIGN KEY (class_id) REFERENCES classe(class_id),
-CONSTRAINT FK_voo_asento FOREIGN KEY (pass_id) REFERENCES passagens(pass_id)
+CONSTRAINT FK_voo FOREIGN KEY (pass_id) REFERENCES passagens(pass_id)
 );
 
 CREATE TABLE car_cli
 (
-    id_cli     bigint,   
-    id_car   bigint,
+    id_cli     int,   
+    id_car   int,
     CONSTRAINT fk_car_cli FOREIGN KEY(id_cli) REFERENCES clientes(id_cli)  on delete cascade on update cascade,
     CONSTRAINT fk_cli_car FOREIGN KEY(id_car) REFERENCES cartao_credito(id_car)  on delete cascade on update cascade,
-    CONSTRAINT PK_CC primary key (id_cli, id_car)
+    constraint PK_CC primary key (id_cli, id_car)
 );
 
 CREATE TABLE Departamento
 (
-    id_dep   bigint AUTO_INCREMENT primary key,   
+    id_dep   serial primary key,   
     nome   varchar(60)
 ); 
 
 CREATE TABLE dep_pass
 (
-    id_dep     bigint,   
-    pass_id   bigint,
+    id_dep     int,   
+    pass_id   int,
     CONSTRAINT fk_dep_pass FOREIGN KEY(id_dep) REFERENCES Departamento(id_dep)  on delete cascade on update cascade,
     CONSTRAINT fk_pass_dep FOREIGN KEY(pass_id) REFERENCES passagens(pass_id)  on delete cascade on update cascade,
-    CONSTRAINT PK_DP primary key (id_dep, pass_id)
+    constraint PK_DP primary key (id_dep, pass_id)
 );
 
 CREATE TABLE status
 (
-    id_status   bigint AUTO_INCREMENT primary key,
-    bilhete_id     bigint,   
-    atual   bigint,
+    id_status   serial primary key,
+    bilhete_id     int,   
+    atual   int,
     IsDesembarque   Boolean,
     CONSTRAINT fk_st_at FOREIGN KEY (atual) REFERENCES Departamento(id_dep)  on delete cascade on update cascade,
     CONSTRAINT fk_st_bilhete FOREIGN KEY (bilhete_id) REFERENCES bilhete(bilhete_id)  on delete cascade on update cascade  
@@ -246,24 +247,24 @@ CREATE TABLE status
 
 CREATE TABLE motivo
 (
-    id_mot   bigint AUTO_INCREMENT primary key,   
+    id_mot   serial primary key,   
     nome   varchar(60)
 );
  
 CREATE TABLE dep_mot
 (
-    id_dep     bigint,   
-    id_mot   bigint,
+    id_dep     int,   
+    id_mot   int,
     CONSTRAINT fk_dep_mot FOREIGN KEY(id_dep) REFERENCES Departamento(id_dep)  on delete cascade on update cascade,
     CONSTRAINT fk_mot_dep FOREIGN KEY(id_mot) REFERENCES motivo(id_mot)  on delete cascade on update cascade,
-    CONSTRAINT PK_dp_mot primary key (id_dep, id_mot)
+    constraint PK_dp_mot primary key (id_dep, id_mot)
 );
 
 CREATE TABLE barrado
 (
-    id_bar   bigint AUTO_INCREMENT primary key,
-    id_mot bigint,
-    id_status bigint,
+    id_bar   serial primary key,
+    id_mot int,
+    id_status int,
     causa text,   
     CONSTRAINT fk_mot_bar FOREIGN KEY (id_mot) REFERENCES motivo(id_mot)  on delete cascade on update cascade,
     CONSTRAINT fk_st_bar FOREIGN KEY (id_status) REFERENCES status(id_status)  on delete cascade on update cascade

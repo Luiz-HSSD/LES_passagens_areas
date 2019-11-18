@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
+using Npgsql;
 using Dominio;
 using Core.Utils;
 using System.Data;
@@ -12,12 +12,12 @@ namespace Core.DAO
 {
     public class ClasseDAO : AbstractDAO
     {
-        
-        public  ClasseDAO() : base( "Classe", "class_id")
+
+        public ClasseDAO() : base("Classe", "class_id")
         {
 
         }
-        
+
 
 
         public override void salvar(EntidadeDominio entidade)
@@ -25,11 +25,11 @@ namespace Core.DAO
             if (connection.State == ConnectionState.Closed)
                 connection.Open();
             Classe Classe = (Classe)entidade;
-            pst.CommandText = "insert into Classe ( class_nome,peso ) values (  @nome ,@nom )";
-            parameters = new MySqlParameter[]
+            pst.CommandText = "insert into Classe ( class_nome,peso ) values (  :nome ,:nom )";
+            parameters = new NpgsqlParameter[]
                     {
-                        new MySqlParameter("nome",Classe.Nome),
-                        new MySqlParameter("nom",Classe.Peso)
+                        new NpgsqlParameter("nome",Classe.Nome),
+                        new NpgsqlParameter("nom",Classe.Peso)
                     };
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);
@@ -49,12 +49,12 @@ namespace Core.DAO
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
                 Classe Classe = (Classe)entidade;
-                pst.CommandText = "UPDATE Classe SET class_nome=@nome , peso=@nom  WHERE class_id=@co";
-                parameters = new MySqlParameter[]
+                pst.CommandText = "UPDATE Classe SET class_nome=:nome , peso=:nom  WHERE class_id=:co";
+                parameters = new NpgsqlParameter[]
                     {
-                        new MySqlParameter("nome",Classe.Nome),
-                        new MySqlParameter("nom",Classe.Peso),
-                        new MySqlParameter("co",Classe.ID)
+                        new NpgsqlParameter("nome",Classe.Nome),
+                        new NpgsqlParameter("nom",Classe.Peso),
+                        new NpgsqlParameter("co",Classe.ID)
                     };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
@@ -84,9 +84,9 @@ namespace Core.DAO
 
                 if (Classe.Nome == null)
                 {
-                    Classe.Nome="";
+                    Classe.Nome = "";
                 }
-                
+
 
                 if (Classe.ID == 0)
                 {
@@ -94,12 +94,12 @@ namespace Core.DAO
                 }
                 else
                 {
-                    sql = "SELECT * FROM Classe WHERE class_id= @co";
+                    sql = "SELECT * FROM Classe WHERE class_id= :co";
                 }
-                pst = new MySqlCommand();
+                pst = new NpgsqlCommand();
 
                 pst.CommandText = sql;
-                parameters = new MySqlParameter[] { new MySqlParameter("co", Classe.ID) };
+                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -113,14 +113,14 @@ namespace Core.DAO
                     p = new Classe();
                     p.ID = Convert.ToInt32(vai["class_id"]);
                     p.Peso = Convert.ToDouble(vai["peso"]);
-                    p.Nome=(vai["class_nome"].ToString());
+                    p.Nome = (vai["class_nome"].ToString());
                     Classes.Add(p);
                 }
                 vai.Close();
                 connection.Close();
                 return Classes;
             }
-            catch(MySqlException ora)
+            catch (NpgsqlException ora)
             {
                 throw ora;
             }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using Dominio;
-using MySql.Data.MySqlClient;
+using Npgsql;
 
 namespace Core.DAO
 {
@@ -27,7 +27,7 @@ namespace Core.DAO
                 pst.Dispose();
                 Departamento Classe = (Departamento)entidade;
                 string sql = null;
-                
+
 
 
                 if (Classe.Pass.ID == 0)
@@ -36,11 +36,11 @@ namespace Core.DAO
                 }
                 else
                 {
-                    sql = "select * from Departamento join dep_pass using(id_dep) WHERE pass_id = @co ";
+                    sql = "select * from Departamento join dep_pass using(id_dep) WHERE pass_id = :co ";
                 }
-                pst = new MySqlCommand();
+                pst = new NpgsqlCommand();
                 pst.CommandText = sql;
-                parameters = new MySqlParameter[] { new MySqlParameter("co", Classe.Pass.ID) };
+                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.Pass.ID) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -53,14 +53,14 @@ namespace Core.DAO
                 {
                     p = new Departamento();
                     p.ID = Convert.ToInt32(vai["id_dep"]);
-                    p.Nome= (vai["nome"].ToString());
+                    p.Nome = (vai["nome"].ToString());
                     Classes.Add(p);
                 }
                 vai.Close();
                 connection.Close();
                 return Classes;
             }
-            catch (MySqlException ora)
+            catch (NpgsqlException ora)
             {
                 throw ora;
             }
@@ -71,15 +71,15 @@ namespace Core.DAO
             if (connection.State == ConnectionState.Closed)
                 connection.Open();
             Passagens Classe = (Passagens)entidade;
-            foreach (Departamento d  in Classe.Departamentos)
-            { 
+            foreach (Departamento d in Classe.Departamentos)
+            {
                 pst.Dispose();
-                pst = new MySqlCommand();
-                pst.CommandText = "insert into dep_pass ( pass_id, id_dep ) values (  @no,@nomm )";
-                parameters = new MySqlParameter[]
+                pst = new NpgsqlCommand();
+                pst.CommandText = "insert into dep_pass ( pass_id, id_dep ) values (  :no,:nomm )";
+                parameters = new NpgsqlParameter[]
                 {
-                    new MySqlParameter("no",Classe.ID),
-                    new MySqlParameter("nomm",d.ID)
+                    new NpgsqlParameter("no",Classe.ID),
+                    new NpgsqlParameter("nomm",d.ID)
                 };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);

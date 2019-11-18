@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using Dominio;
-using MySql.Data.MySqlClient;
+using Npgsql;
 
 namespace Core.DAO
 {
@@ -28,14 +28,14 @@ namespace Core.DAO
             if (connection.State == ConnectionState.Closed)
                 connection.Open();
             Cartao_Credito Classe = (Cartao_Credito)entidade;
-            pst.CommandText = "insert into cartao_credito ( numero , ccv  , nome_car ,validade , id_band  )   values ( @nomee, @nome, @nom , @cpf, @rg  ) returning id_car";
-            parameters = new MySqlParameter[]
+            pst.CommandText = "insert into cartao_credito ( numero , ccv  , nome_car ,validade , id_band  )   values ( :nomee, :nome, :nom , :cpf, :rg  ) returning id_car";
+            parameters = new NpgsqlParameter[]
             {
-                new MySqlParameter("nomee" , Classe.Numero),
-                new MySqlParameter("nome" ,  Classe.CCV),
-                new MySqlParameter("nom"  ,  Classe.Nome_Titular),
-                new MySqlParameter("cpf"  ,  Classe.Validade),
-                new MySqlParameter("rg"  ,   Classe.Bandeira.ID)
+                new NpgsqlParameter("nomee" , Classe.Numero),
+                new NpgsqlParameter("nome" ,  Classe.CCV),
+                new NpgsqlParameter("nom"  ,  Classe.Nome_Titular),
+                new NpgsqlParameter("cpf"  ,  Classe.Validade),
+                new NpgsqlParameter("rg"  ,   Classe.Bandeira.ID)
             };
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);

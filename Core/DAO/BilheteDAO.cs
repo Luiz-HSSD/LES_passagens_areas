@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using Dominio;
-using MySql.Data.MySqlClient;
+using Npgsql;
 
 namespace Core.DAO
 {
@@ -30,30 +30,30 @@ namespace Core.DAO
 
                 if (Classe.Nome == null)
                 {
-                    Classe.Nome="";
+                    Classe.Nome = "";
                 }
-                
 
-                if (Classe.ID == 0 && Classe.passagem.Voo.ID==0 && string.IsNullOrEmpty(Classe.Nome)) 
+
+                if (Classe.ID == 0 && Classe.passagem.Voo.ID == 0 && string.IsNullOrEmpty(Classe.Nome))
                 {
                     sql = "SELECT * FROM bilhete ";
                 }
                 else if (Classe.ID == 0 && string.IsNullOrEmpty(Classe.Nome))
                 {
-                    sql = "SELECT * FROM bilhete join viagem using(viagem_id ) join passagens using(pass_id) WHERE pass_id= @cod";
+                    sql = "SELECT * FROM bilhete join viagem using(viagem_id ) join passagens using(pass_id) WHERE pass_id= :cod";
                 }
-                else  if(string.IsNullOrEmpty(Classe.Nome))
+                else if (string.IsNullOrEmpty(Classe.Nome))
                 {
-                    sql = "SELECT * FROM bilhete join viagem using(viagem_id ) join passagens using(pass_id) WHERE bilhete_id = @co";
+                    sql = "SELECT * FROM bilhete join viagem using(viagem_id ) join passagens using(pass_id) WHERE bilhete_id = :co";
                 }
                 else
                 {
-                    sql = "SELECT * FROM bilhete join viagem using(viagem_id ) join passagens using(pass_id) where nome ilike @codd ||'%'";
+                    sql = "SELECT * FROM bilhete join viagem using(viagem_id ) join passagens using(pass_id) where nome ilike :codd ||'%'";
                 }
-                pst = new MySqlCommand();
+                pst = new NpgsqlCommand();
 
                 pst.CommandText = sql;
-                parameters = new MySqlParameter[] { new MySqlParameter("co", Classe.ID), new MySqlParameter("cod", Classe.passagem.Voo.ID), new MySqlParameter("codd", Classe.Nome) };
+                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID), new NpgsqlParameter("cod", Classe.passagem.Voo.ID), new NpgsqlParameter("codd", Classe.Nome) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -66,14 +66,14 @@ namespace Core.DAO
                 {
                     p = new Bilhete();
                     p.ID = Convert.ToInt32(vai["bilhete_id"]);
-                    p.Nome=(vai["nome"].ToString());
-                    p.cpf= (vai["cpf"].ToString());
+                    p.Nome = (vai["nome"].ToString());
+                    p.cpf = (vai["cpf"].ToString());
                     p.RG = (vai["rg"].ToString());
-                    p.Sexo =Convert.ToBoolean(vai["sexo"]);
+                    p.Sexo = Convert.ToBoolean(vai["sexo"]);
                     p.passagem.ID = Convert.ToInt32(vai["viagem_id"]);
                     if (Classe.ID != 0 || (Classe.passagem.Voo.ID != 0 || !string.IsNullOrEmpty(Classe.Nome)))
                     {
-                        p.passagem.Tipo.ID= Convert.ToInt32(vai["class_id"]);
+                        p.passagem.Tipo.ID = Convert.ToInt32(vai["class_id"]);
                         p.passagem.Voo.ID = Convert.ToInt32(vai["pass_id"]);
                     }
                     Classes.Add(p);
@@ -82,13 +82,13 @@ namespace Core.DAO
                 connection.Close();
                 return Classes;
             }
-            catch(MySqlException ora)
+            catch (NpgsqlException ora)
             {
                 vai.Close();
                 connection.Close();
                 throw ora;
             }
-            
+
 
         }
 
@@ -98,17 +98,17 @@ namespace Core.DAO
                 connection.Open();
             Bilhete Classe = (Bilhete)entidade;
             pst.Dispose();
-            pst = new MySqlCommand();
-            pst.CommandText = "insert into bilhete (  nome , rg , cpf ,email , sexo , passaporte , viagem_id    ) values (  @no,@nome,@nomm,@nom,@sex,@passpor,@via ) returning bilhete_id";
-            parameters = new MySqlParameter[]
+            pst = new NpgsqlCommand();
+            pst.CommandText = "insert into bilhete (  nome , rg , cpf ,email , sexo , passaporte , viagem_id    ) values (  :no,:nome,:nomm,:nom,:sex,:passpor,:via ) returning bilhete_id";
+            parameters = new NpgsqlParameter[]
                     {
-                        new MySqlParameter("no",Classe.Nome),
-                        new MySqlParameter("nome",Classe.RG),
-                        new MySqlParameter("nomm",Classe.cpf),
-                        new MySqlParameter("nom",Classe.Email),
-                        new MySqlParameter("sex",Classe.Sexo),
-                        new MySqlParameter("passpor",Classe.passaporte),
-                        new MySqlParameter("via",Classe.passagem.ID),
+                        new NpgsqlParameter("no",Classe.Nome),
+                        new NpgsqlParameter("nome",Classe.RG),
+                        new NpgsqlParameter("nomm",Classe.cpf),
+                        new NpgsqlParameter("nom",Classe.Email),
+                        new NpgsqlParameter("sex",Classe.Sexo),
+                        new NpgsqlParameter("passpor",Classe.passaporte),
+                        new NpgsqlParameter("via",Classe.passagem.ID),
                     };
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using Dominio;
-using MySql.Data.MySqlClient;
+using Npgsql;
 
 namespace Core.DAO
 {
@@ -28,13 +28,13 @@ namespace Core.DAO
             if (connection.State == ConnectionState.Closed)
                 connection.Open();
             Cliente Classe = (Cliente)entidade;
-            foreach(Cartao_Credito a in Classe.Cartoes)
+            foreach (Cartao_Credito a in Classe.Cartoes)
             {
-                pst.CommandText = "insert into car_cli ( id_cli , id_car   )   values ( @nomee, @nome  )";
-                parameters = new MySqlParameter[]
+                pst.CommandText = "insert into car_cli ( id_cli , id_car   )   values ( :nomee, :nome  )";
+                parameters = new NpgsqlParameter[]
                 {
-                        new MySqlParameter("nomee" , Classe.ID),
-                        new MySqlParameter("nome" ,  a.ID)
+                        new NpgsqlParameter("nomee" , Classe.ID),
+                        new NpgsqlParameter("nome" ,  a.ID)
                 };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);

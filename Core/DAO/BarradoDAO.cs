@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using Dominio;
-using MySql.Data.MySqlClient;
+using Npgsql;
 
 namespace Core.DAO
 {
@@ -29,13 +29,13 @@ namespace Core.DAO
                 connection.Open();
             Barrado Classe = (Barrado)entidade;
             pst.Dispose();
-            pst = new MySqlCommand();
-            pst.CommandText = "insert into barrado (  id_mot , id_status , causa ) values (  @no, @nome, @nomm )";
-            parameters = new MySqlParameter[]
+            pst = new NpgsqlCommand();
+            pst.CommandText = "insert into barrado (  id_mot , id_status , causa ) values (  :no, :nome, :nomm )";
+            parameters = new NpgsqlParameter[]
             {
-                new MySqlParameter("no",Classe.Categoria.ID),
-                new MySqlParameter("nome",Classe.Passageiro.ID),
-                new MySqlParameter("nomm",Classe.Causa)
+                new NpgsqlParameter("no",Classe.Categoria.ID),
+                new NpgsqlParameter("nome",Classe.Passageiro.ID),
+                new NpgsqlParameter("nomm",Classe.Causa)
             };
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);

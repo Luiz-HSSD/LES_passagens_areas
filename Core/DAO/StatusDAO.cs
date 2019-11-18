@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using Dominio;
-using MySql.Data.MySqlClient;
+using Npgsql;
 
 namespace Core.DAO
 {
@@ -19,14 +19,14 @@ namespace Core.DAO
                 connection.Open();
             Status Classe = (Status)entidade;
             pst.Dispose();
-            pst = new MySqlCommand();
-            pst.CommandText = "UPDATE Status SET bilhete_id = @nome , atual = @nom ,  IsDesembarque =@no  where id_status = @co ";
-            parameters = new MySqlParameter[]
+            pst = new NpgsqlCommand();
+            pst.CommandText = "UPDATE Status SET bilhete_id = :nome , atual = :nom ,  IsDesembarque =:no  where id_status = :co ";
+            parameters = new NpgsqlParameter[]
             {
-                new MySqlParameter("nome",Classe.Passageiro.ID),
-                new MySqlParameter("nom",Classe.Atual.ID),
-                new MySqlParameter("no",Classe.IsDesembarque),
-                new MySqlParameter("co",Classe.ID)
+                new NpgsqlParameter("nome",Classe.Passageiro.ID),
+                new NpgsqlParameter("nom",Classe.Atual.ID),
+                new NpgsqlParameter("no",Classe.IsDesembarque),
+                new NpgsqlParameter("co",Classe.ID)
             };
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);
@@ -55,19 +55,19 @@ namespace Core.DAO
                     }
                     else if (Classe.Atual.ID == 0 && Classe.Passageiro.passagem.Voo.LO_chegada.ID != 0)
                     {
-                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE (IsDesembarque=false AND pass_lo_partida=@codd) OR (IsDesembarque=true AND pass_lo_chegada= @codd)";
+                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE (IsDesembarque=false AND pass_lo_partida=:codd) OR (IsDesembarque=true AND pass_lo_chegada= :codd)";
                     }
                     else if (Classe.Atual.ID != 0 && Classe.Passageiro.passagem.Voo.LO_chegada.ID == 0)
                     {
-                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE atual=@cod";
+                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE atual=:cod";
                     }
                     else if (Classe.ID != 0)
                     {
-                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE id_status = @dev";
+                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE id_status = :dev";
                     }
                     else
                     {
-                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE ((IsDesembarque=false AND pass_lo_partida=@codd) OR (IsDesembarque=true AND pass_lo_chegada= @codd))and atual=@cod";
+                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE ((IsDesembarque=false AND pass_lo_partida=:codd) OR (IsDesembarque=true AND pass_lo_chegada= :codd))and atual=:cod";
                     }
                 }
                 else
@@ -78,40 +78,40 @@ namespace Core.DAO
                     }
                     else if (Classe.Atual.ID == 0 && Classe.Passageiro.passagem.Voo.ID != 0)
                     {
-                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE pass_id=@code and id_dep!=0 and id_dep!=1";
+                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE pass_id=:code and id_dep!=0 and id_dep!=1";
                     }
                     else if (Classe.Atual.ID != 0 && Classe.Passageiro.passagem.Voo.ID == 0)
                     {
-                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE atual=@cod and id_dep!=0 and id_dep!=1";
+                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE atual=:cod and id_dep!=0 and id_dep!=1";
                     }
                     else if (Classe.Atual.ID != 0 && Classe.Passageiro.passagem.Voo.ID != 0)
                     {
-                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE pass_id=@code and  atual=@cod and id_dep!=0 and id_dep!=1";
+                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE pass_id=:code and  atual=:cod and id_dep!=0 and id_dep!=1";
                     }
                     else if (Classe.Atual.ID == 0 && Classe.Passageiro.passagem.Voo.LO_chegada.ID != 0)
                     {
-                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE (IsDesembarque=false AND pass_lo_partida=@codd) OR (IsDesembarque=true AND pass_lo_chegada= @codd) and id_dep!=0 and id_dep!=1";
+                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE (IsDesembarque=false AND pass_lo_partida=:codd) OR (IsDesembarque=true AND pass_lo_chegada= :codd) and id_dep!=0 and id_dep!=1";
                     }
                     else if (Classe.Atual.ID != 0 && Classe.Passageiro.passagem.Voo.LO_chegada.ID == 0)
                     {
-                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE atual=@cod and id_dep!=0 and id_dep!=1";
+                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE atual=:cod and id_dep!=0 and id_dep!=1";
                     }
                     else if (Classe.ID != 0)
                     {
-                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE id_status = @dev";
+                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE id_status = :dev";
                     }
                     else
                     {
-                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE ((IsDesembarque=false AND pass_lo_partida=@codd) OR (IsDesembarque=true AND pass_lo_chegada= @codd))and atual=@cod and id_dep!=0 and id_dep!=1";
+                        sql = "SELECT bilhete.email , bilhete.bilhete_id , IsDesembarque, id_status, bilhete.nome , atual , Departamento.nome as dep_nome,atual, pass_id,pass_lo_chegada ,pass_lo_partida  ,avi_id  ,data_partida ,data_chegada, b.nome p_nome,c.nome c_nome, b.sigla p_sigla,c.sigla c_sigla FROM status join bilhete using(bilhete_id) join viagem using(viagem_id) join passagens using(pass_id) join aeroporto b on(b.aero_id=pass_lo_partida) join aeroporto c on(c.aero_id=pass_lo_chegada) join Departamento on(atual=id_dep) WHERE ((IsDesembarque=false AND pass_lo_partida=:codd) OR (IsDesembarque=true AND pass_lo_chegada= :codd))and atual=:cod and id_dep!=0 and id_dep!=1";
                     }
                 }
-                pst = new MySqlCommand();
+                pst = new NpgsqlCommand();
                 pst.CommandText = sql;
-                parameters = new MySqlParameter[] {
-                    new MySqlParameter("dev", Classe.ID),
-                    new MySqlParameter("cod",Classe.Atual.ID),
-                    new MySqlParameter("codd", Classe.Passageiro.passagem.Voo.LO_chegada.ID),
-                    new MySqlParameter("code", Classe.Passageiro.passagem.Voo.ID)
+                parameters = new NpgsqlParameter[] {
+                    new NpgsqlParameter("dev", Classe.ID),
+                    new NpgsqlParameter("cod",Classe.Atual.ID),
+                    new NpgsqlParameter("codd", Classe.Passageiro.passagem.Voo.LO_chegada.ID),
+                    new NpgsqlParameter("code", Classe.Passageiro.passagem.Voo.ID)
                 };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
@@ -128,7 +128,7 @@ namespace Core.DAO
                     p.IsDesembarque = Convert.ToBoolean(vai["IsDesembarque"]);
                     p.Atual.ID = Convert.ToInt32(vai["atual"]);
                     p.Atual.Nome = (vai["dep_nome"].ToString());
-                    p.Passageiro.ID = Convert.ToInt32(vai["bilhete_id"]);  
+                    p.Passageiro.ID = Convert.ToInt32(vai["bilhete_id"]);
                     p.Passageiro.Nome = (vai["nome"].ToString());
                     p.Passageiro.Email = (vai["email"].ToString());
                     p.Passageiro.passagem.Voo.ID = Convert.ToInt32(vai["pass_id"]);
@@ -150,7 +150,7 @@ namespace Core.DAO
                 connection.Close();
                 return Classes;
             }
-            catch (MySqlException ora)
+            catch (NpgsqlException ora)
             {
                 vai.Close();
                 connection.Close();
@@ -165,13 +165,13 @@ namespace Core.DAO
                 connection.Open();
             Status Classe = (Status)entidade;
             pst.Dispose();
-            pst = new MySqlCommand();
-            pst.CommandText = "insert into Status ( bilhete_id , atual  ,  IsDesembarque ) values (  @nome , @nom, @no )";
-            parameters = new MySqlParameter[]
+            pst = new NpgsqlCommand();
+            pst.CommandText = "insert into Status ( bilhete_id , atual  ,  IsDesembarque ) values (  :nome , :nom, :no )";
+            parameters = new NpgsqlParameter[]
                     {
-                        new MySqlParameter("nome",Classe.Passageiro.ID),
-                        new MySqlParameter("nom",Classe.Atual.ID),
-                        new MySqlParameter("no",Classe.IsDesembarque)
+                        new NpgsqlParameter("nome",Classe.Passageiro.ID),
+                        new NpgsqlParameter("nom",Classe.Atual.ID),
+                        new NpgsqlParameter("no",Classe.IsDesembarque)
                     };
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);

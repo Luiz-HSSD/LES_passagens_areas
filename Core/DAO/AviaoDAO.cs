@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
+using Npgsql;
 using Dominio;
 using Core.Utils;
 using System.Data;
@@ -12,12 +12,12 @@ namespace Core.DAO
 {
     public class AviaoDAO : AbstractDAO
     {
-        
-        public AviaoDAO() : base( "aviao", "avi_id")
+
+        public AviaoDAO() : base("aviao", "avi_id")
         {
 
         }
-        
+
 
 
         public override void salvar(EntidadeDominio entidade)
@@ -25,10 +25,10 @@ namespace Core.DAO
             if (connection.State == ConnectionState.Closed)
                 connection.Open();
             Aviao Classe = (Aviao)entidade;
-            pst.CommandText = "insert into aviao ( avi_nome ) values (  @nome )";
-            parameters = new MySqlParameter[]
+            pst.CommandText = "insert into aviao ( avi_nome ) values (  :nome )";
+            parameters = new NpgsqlParameter[]
                     {
-                        new MySqlParameter("nome",Classe.Nome)
+                        new NpgsqlParameter("nome",Classe.Nome)
                     };
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);
@@ -48,11 +48,11 @@ namespace Core.DAO
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
                 Aviao Classe = (Aviao)entidade;
-                pst.CommandText = "UPDATE aviao SET avi_nome=@nome WHERE avi_id=@co";
-                parameters = new MySqlParameter[]
+                pst.CommandText = "UPDATE aviao SET avi_nome=:nome WHERE avi_id=:co";
+                parameters = new NpgsqlParameter[]
                     {
-                        new MySqlParameter("nome",Classe.Nome),
-                        new MySqlParameter("co",Classe.ID)
+                        new NpgsqlParameter("nome",Classe.Nome),
+                        new NpgsqlParameter("co",Classe.ID)
                     };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
@@ -82,9 +82,9 @@ namespace Core.DAO
 
                 if (Classe.Nome == null)
                 {
-                    Classe.Nome="";
+                    Classe.Nome = "";
                 }
-                
+
 
                 if (Classe.ID == 0)
                 {
@@ -92,12 +92,12 @@ namespace Core.DAO
                 }
                 else
                 {
-                    sql = "SELECT * FROM aviao WHERE avi_id= @co";
+                    sql = "SELECT * FROM aviao WHERE avi_id= :co";
                 }
-                pst = new MySqlCommand();
+                pst = new NpgsqlCommand();
 
                 pst.CommandText = sql;
-                parameters = new MySqlParameter[] { new MySqlParameter("co", Classe.ID) };
+                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.ID) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -110,9 +110,9 @@ namespace Core.DAO
                 {
                     p = new Aviao();
                     p.ID = Convert.ToInt32(vai["avi_id"]);
-                    p.Nome=(vai["avi_nome"].ToString());
+                    p.Nome = (vai["avi_nome"].ToString());
                     p.Serie = (vai["serie"].ToString());
-                    p.Marca= (vai["marca"].ToString());
+                    p.Marca = (vai["marca"].ToString());
                     p.Lugares = Convert.ToInt32(vai["lugares"]);
                     Classes.Add(p);
                 }
@@ -120,13 +120,13 @@ namespace Core.DAO
                 connection.Close();
                 return Classes;
             }
-            catch(MySqlException ora)
+            catch (NpgsqlException ora)
             {
                 vai.Close();
                 connection.Close();
                 throw ora;
             }
-            
+
 
         }
 

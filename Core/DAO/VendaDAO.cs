@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using Dominio;
-using MySql.Data.MySqlClient;
+using Npgsql;
 
 namespace Core.DAO
 {
@@ -25,7 +25,7 @@ namespace Core.DAO
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
                 pst.Dispose();
-               Venda Classe = (Venda)entidade;
+                Venda Classe = (Venda)entidade;
                 string sql = null;
 
                 if (Classe.Cliente_prop.Nome == null)
@@ -40,12 +40,12 @@ namespace Core.DAO
                 }
                 else
                 {
-                    sql = "SELECT * FROM vendas WHERE id_cli= @co";
+                    sql = "SELECT * FROM vendas WHERE id_cli= :co";
                 }
-                pst = new MySqlCommand();
+                pst = new NpgsqlCommand();
 
                 pst.CommandText = sql;
-                parameters = new MySqlParameter[] { new MySqlParameter("co", Classe.Cliente_prop.ID) };
+                parameters = new NpgsqlParameter[] { new NpgsqlParameter("co", Classe.Cliente_prop.ID) };
                 pst.Parameters.Clear();
                 pst.Parameters.AddRange(parameters);
                 pst.Connection = connection;
@@ -59,7 +59,7 @@ namespace Core.DAO
                     p = new Venda();
                     p.ID = Convert.ToInt32(vai["id_ven"]);
                     p.Cliente_prop.ID = Convert.ToInt32(vai["id_ven"]);
-                    p.Total    = Convert.ToDecimal(vai["id_cli"]);
+                    p.Total = Convert.ToDecimal(vai["id_cli"]);
                     p.Forma_pagamento.ID = Convert.ToInt32(vai["id_car"]);
                     Classes.Add(p);
                 }
@@ -67,7 +67,7 @@ namespace Core.DAO
                 connection.Close();
                 return Classes;
             }
-            catch (MySqlException ora)
+            catch (NpgsqlException ora)
             {
                 throw ora;
             }
@@ -79,13 +79,13 @@ namespace Core.DAO
                 connection.Open();
             Venda Classe = (Venda)entidade;
             pst.Dispose();
-            pst = new MySqlCommand();
-            pst.CommandText = "insert into vendas (   id_cli  , preco     ,    id_car   ) values (  @no,@nomm,@nom ) returning id_ven";
-            parameters = new MySqlParameter[]
+            pst = new NpgsqlCommand();
+            pst.CommandText = "insert into vendas (   id_cli  , preco     ,    id_car   ) values (  :no,:nomm,:nom ) returning id_ven";
+            parameters = new NpgsqlParameter[]
                     {
-                        new MySqlParameter("no",Classe.Cliente_prop.ID),
-                        new MySqlParameter("nomm",Classe.Total),
-                        new MySqlParameter("nom",Classe.Forma_pagamento.ID)
+                        new NpgsqlParameter("no",Classe.Cliente_prop.ID),
+                        new NpgsqlParameter("nomm",Classe.Total),
+                        new NpgsqlParameter("nom",Classe.Forma_pagamento.ID)
                     };
             pst.Parameters.Clear();
             pst.Parameters.AddRange(parameters);
