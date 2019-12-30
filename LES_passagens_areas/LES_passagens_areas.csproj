@@ -9,6 +9,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="go.pdf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include=".well-known\acme-challenge\3Sre_vwYXzRbUzTLltPEavDQWPs83VUI-c0Q4Yqo-04">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -40,12 +44,6 @@
     <Resource Include="analise.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="go.pdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
