@@ -5,12 +5,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="analise.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include=".well-known\acme-challenge\3Sre_vwYXzRbUzTLltPEavDQWPs83VUI-c0Q4Yqo-04">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include=".well-known\acme-challenge\8WshyZz4lxk1Ydj0OArpITVitU3ysjkgKX2iWRZLDw0">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="GeoCoordinate.NetCore" Version="1.0.0.1" />
     <PackageReference Include="iTextSharp.LGPLv2.Core" Version="1.4.5" />
     <PackageReference Include="jose-jwt" Version="2.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />
     <PackageReference Include="Selenium.WebDriver" Version="3.14.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="2.1.0" />
     <PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
   </ItemGroup>
 
@@ -20,9 +37,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="analise.json">
+    <Resource Include="analise.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
