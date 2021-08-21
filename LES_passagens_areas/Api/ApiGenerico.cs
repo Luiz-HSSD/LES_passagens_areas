@@ -8,6 +8,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Jose;
 using Newtonsoft.Json;
+using System.Text;
+
 namespace LES_passagens_areas.Api
 {
 
@@ -16,7 +18,7 @@ namespace LES_passagens_areas.Api
         protected Resultado res { get; set; } = new Resultado();
         protected Dictionary<string, ICommand.ICommand> commands { get; set; } = new Dictionary<string, ICommand.ICommand>();
 
-        public static new byte[] keyCrypt = new byte[] { 164, 33, 194, 12, 161, 189, 41, 38, 130, 89, 142  };
+        public static new byte[] keyCrypt = Encoding.UTF8.GetBytes("theDevilinI#666123");//new byte[] { 164, 33, 194, 12, 161, 189, 41, 38, 130, 89, 142  };
         public ApiGenerico()
         {
             commands.Add("SALVAR", new SalvarCommand());
