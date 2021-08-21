@@ -13,6 +13,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Swashbuckle.AspNetCore.Swagger;
+using Core.Utils;
+using Microsoft.Extensions.Options;
+using Swashbuckle.Swagger;
+using Microsoft.OpenApi.Models;
 
 namespace LES_passagens_areas
 {
@@ -30,7 +34,7 @@ namespace LES_passagens_areas
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -44,9 +48,11 @@ namespace LES_passagens_areas
             {
                 options.Cookie.Expiration = TimeSpan.FromHours(5);
             });
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddMvc();
             services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
+            services.Configure<ConexaoSettings>(Configuration)
+    .AddSingleton(sp => sp.GetRequiredService<IOptions<ConexaoSettings>>().Value);
             services.AddHttpsRedirection(options =>
             {
                 options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
