@@ -19,6 +19,7 @@ namespace LES_passagens_areas
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseUrls("https://localhost:443/")
                 .UseStartup<Startup>();
     }
 }
