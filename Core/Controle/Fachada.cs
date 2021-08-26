@@ -136,7 +136,7 @@ namespace Core.Controle
 
                     resultado.Entidades=dao.consultar(entidade);
                 }
-                catch
+                catch(Exception e)
                 {
 
                 }

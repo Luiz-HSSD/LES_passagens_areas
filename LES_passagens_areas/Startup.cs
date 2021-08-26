@@ -48,11 +48,9 @@ namespace LES_passagens_areas
             {
                 options.Cookie.Expiration = TimeSpan.FromHours(5);
             });
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-            services.AddMvc();
+            services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
-            services.Configure<ConexaoSettings>(Configuration)
-    .AddSingleton(sp => sp.GetRequiredService<IOptions<ConexaoSettings>>().Value);
+            ConexaoSettings.conexao= Configuration.GetSection("conexao").Value;
             services.AddHttpsRedirection(options =>
             {
                 options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;

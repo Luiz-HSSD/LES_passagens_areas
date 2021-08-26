@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Core.Utils
 {
-    public sealed class ConexaoSettings
+    public  class ConexaoSettings
     {
 
-        public string conexao { get; set; }
+        public static string conexao { get; set; }
     }
 }
