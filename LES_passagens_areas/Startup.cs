@@ -51,11 +51,11 @@ namespace LES_passagens_areas
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
             ConexaoSettings.conexao= Configuration.GetSection("conexao").Value;
-            services.AddHttpsRedirection(options =>
+            /*services.AddHttpsRedirection(options =>
             {
                 options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
                 options.HttpsPort = 443;
-            });
+            });*/
             services.AddSession();
         }
 
